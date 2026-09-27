@@ -1,0 +1,482 @@
+{
+  "process_id": "f96d6d53-8257-4d3c-86b1-279f0e3ad069",
+  "timestamp": "2026-02-20T12:02:47.293696",
+  "test_results": [
+    {
+      "query": "Get Ges.-Mittel. row values",
+      "expected_node": "Cell",
+      "description": "Row extraction - should use Cell nodes from tables",
+      "validation_notes": "Ges.-Mittel. is a row label typically found in tables",
+      "generated_cypher": "MATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(ges_cell:Cell)\nWHERE toLower(coalesce(ges_cell.text, '')) CONTAINS 'ges.-mittel.'\n  AND ges_cell.row_index = 7\n  AND ges_cell.col_index = 1\nWITH p.page_num AS page_num, t.table_id AS table_id, ges_cell.row_index AS ges_row_index\nORDER BY page_num ASC, table_id ASC\n\nMATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(value_cell:Cell)\nWHERE p.page_num = page_num\n  AND t.table_id = table_id\n  AND value_cell.row_index = ges_row_index\n  AND value_cell.col_index IN [2, 3, 4, 5, 6, 7, 8]\nWITH page_num, table_id, ges_row_index, value_cell.col_index AS col_index, value_cell.text AS value\nORDER BY col_index ASC\nWITH page_num, table_id, ges_row_index, collect({col_index: col_index, value: value}) AS values\n\nRETURN page_num AS Page,\n       table_id AS Table,\n       values[0].value AS `2.0_\u00b5m`,\n       values[1].value AS `5.0_\u00b5m`,\n       values[2].value AS `10.0_\u00b5m`,\n       values[3].value AS `15.0_\u00b5m`,\n       values[4].value AS `25.0_\u00b5m`,\n       values[5].value AS `40.0_\u00b5m`,\n       values[6].value AS `50.0_\u00b5m`\nORDER BY page_num ASC, table_id ASC",
+      "syntax_validation": {
+        "is_valid": true,
+        "errors": [],
+        "warnings": []
+      },
+      "node_type_check": {
+        "expected_node": "Cell",
+        "nodes_used": [
+          "Page",
+          "Table",
+          "Cell",
+          "Document"
+        ],
+        "is_correct": true,
+        "issues": [],
+        "recommendations": []
+      },
+      "topology_check": {
+        "is_valid": true,
+        "violations": []
+      },
+      "structural_probe": {
+        "probe_result": {
+          "found_in": {
+            "ges.-mittel.": [
+              {
+                "node_type": "Cell",
+                "count": 8,
+                "sample_pages": [
+                  4,
+                  5,
+                  9
+                ],
+                "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell"
+              },
+              {
+                "node_type": "Line",
+                "count": 8,
+                "sample_pages": [
+                  4,
+                  5,
+                  9
+                ],
+                "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+              }
+            ]
+          },
+          "node_counts": {
+            "Page": 10,
+            "Table": 39,
+            "Cell": 896,
+            "Line": 1096,
+            "Section": 0
+          },
+          "recommended_paths": [
+            "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell",
+            "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+          ],
+          "data_locations": [
+            {
+              "node_type": "Cell",
+              "count": 8,
+              "sample_pages": [
+                4,
+                5,
+                9
+              ],
+              "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell"
+            },
+            {
+              "node_type": "Line",
+              "count": 8,
+              "sample_pages": [
+                4,
+                5,
+                9
+              ],
+              "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+            }
+          ]
+        },
+        "node_counts": {
+          "Page": 10,
+          "Table": 39,
+          "Cell": 896,
+          "Line": 1096,
+          "Section": 0
+        },
+        "terms_found": [
+          "ges.-mittel."
+        ],
+        "recommended_paths": [
+          "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell",
+          "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+        ],
+        "data_locations": [
+          {
+            "node_type": "Cell",
+            "count": 8,
+            "sample_pages": [
+              4,
+              5,
+              9
+            ],
+            "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell"
+          },
+          {
+            "node_type": "Line",
+            "count": 8,
+            "sample_pages": [
+              4,
+              5,
+              9
+            ],
+            "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+          }
+        ],
+        "issues": [
+          "Document has no Cell or Line nodes"
+        ]
+      },
+      "hard_constraints": {
+        "constraints": {
+          "primary_node": "BOTH",
+          "forbidden_nodes": [],
+          "required_path": "Choose based on data quality: Line for cleaner text, Cell for table structure",
+          "reasoning": [
+            "Data in BOTH: 8 Cell matches, 8 Line matches. Check DATA SAMPLES to see which has cleaner values - Line often has cleaner OCR text."
+          ]
+        },
+        "primary_node": "BOTH",
+        "forbidden_nodes": [],
+        "required_path": "Choose based on data quality: Line for cleaner text, Cell for table structure",
+        "reasoning": [
+          "Data in BOTH: 8 Cell matches, 8 Line matches. Check DATA SAMPLES to see which has cleaner values - Line often has cleaner OCR text."
+        ],
+        "issues": []
+      },
+      "execution_result": {
+        "success": true,
+        "result_count": 8,
+        "iterations": 1,
+        "logical_plan": "# LOGICAL PLAN: Extract All \"Ges.-Mittel.\" (Average/Mean) Rows Across Measurement Tables with Particle Size Column Values\n\n## Step 1: Determine Node Type Based on Data Source Routing Rules\n\n**Decision: Use CELL nodes (PRIMARY NODE TYPE)**\n\n**Reasoning**:\n- User query asks for specific **rows** (\"Ges.-Mittel.\") from **measurement tables** with **particle size columns**\n- This is a **TABULAR/STRUCTURAL query** requiring row and column indexing to identify and extract complete rows\n- The STRUCTURAL PROBE confirms: \"ges.-mittel.\" found in **Cell nodes** (8 matches, pages [4, 5, 9])\n- Only Cell nodes have `row_index` and `col_index` properties needed to identify the correct rows and extract values across particle size columns\n- The CELL_GROUNDING data explicitly shows \"Ges.-Mittel.\" at **row_index=7, col_index=1** across all measurement tables on pages 2, 3, 4, 5, 6\n- This is NOT a metadata lookup (which would use Line nodes), but a table data extraction task requiring structural navigation\n\n## Step 2: Identify the Relationship Path\n\n**Path to use**: `Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell`\n\n**Rationale**:\n- Start from the Document node (single document in graph)\n- Traverse to all Pages (data exists on pages 2, 3, 4, 5, 6 based on CELL_GROUNDING samples showing \"Ges.-Mittel.\" rows)\n- For each Page, traverse to all Tables (multiple measurement tables per page confirmed in PAGE_STRUCTURE data: 3-4 tables per page)\n- For each Table, traverse to all Cells (where the actual \"Ges.-Mittel.\" row data resides with row_index and col_index structure)\n- This path allows filtering by row_index and col_index properties to locate the exact rows and extract values across particle size columns\n\n## Step 3: Identify the Correct Rows Using CELL_GROUNDING\n\n**Row Identification Strategy**:\n\nFrom the CELL_GROUNDING data provided, the \"Ges.-Mittel.\" row is consistently located at:\n- **row_index = 7** (confirmed across all measurement tables on pages 2, 3, 4, 5, 6)\n- **col_index = 1** contains the label \"Ges.-Mittel.\"\n\n**Particle Size Columns to Extract** (from CELL_GROUNDING header row at row_index=1):\n- **col_index = 2**: \"2,0 \u00b5m\" column (values: 133.7, 294.7, 278.7, 341.7, 458.3)\n- **col_index = 3**: \"5,0 \u00b5m\" column (values: 22.7, 46.3, 33.7, 42.0, 72.0)\n- **col_index = 4**: \"10,0 \u00b5m\" column (values: 1.7, 5.7, 1.0, 3.7, 3.0)\n- **col_index = 5**: \"15,0 \u00b5m\" column (values: 0.3, 2.3, 0.7, 2.0, 0.3)\n- **col_index = 6**: \"25,0 \u00b5m\" column (values: 0.0, 0.7, 0.3, 1.0, 0.0)\n- **col_index = 7**: \"40,0 \u00b5m\" column (values: 0.0, 0.7, 0.3, 0.3, 0.0)\n- **col_index = 8**: \"50,0 \u00b5m\" column (values: 0.0, 0.0, 0.0, 0.0, 0.0)\n\n## Step 4: Filter and Match Strategy\n\n**Step 4a: Locate all \"Ges.-Mittel.\" label cells across all measurement tables**\n1. Start from Document node\n2. Traverse to all Pages\n3. For each Page, traverse to all Tables (multiple tables per page)\n4. For each Table, find Cell nodes where:\n   - `toLower(text)` contains \"ges.-mittel.\" (case-insensitive match to handle any OCR variations)\n   - `row_index = 7` (exact row index from CELL_GROUNDING - this is the average/mean row)\n   - `col_index = 1` (label column where row identifier is stored)\n5. Capture the Table, Page, and row_index context for each match\n\n**Step 4b: For each matched \"Ges.-Mittel.\" cell, retrieve all particle size measurement values in that row**\n1. From the same Table where the \"Ges.-Mittel.\" label was found\n2. Retrieve all Cell nodes where:\n   - `row_index = 7` (same row as the label - the average/mean row)\n   - `col_index IN [2, 3, 4, 5, 6, 7, 8]` (the seven particle size measurement columns, from CELL_GROUNDING)\n3. Extract the `text` property from each cell (these are the measurement values for each particle size)\n4. Order results by `col_index` ascending to maintain the sequence: 2,0 \u00b5m \u2192 5,0 \u00b5m \u2192 10,0 \u00b5m \u2192 15,0 \u00b5m \u2192 25,0 \u00b5m \u2192 40,0 \u00b5m \u2192 50,0 \u00b5m\n\n**Step 4c: Handle multi-page extraction**\n- This query asks for \"all row values...across the measurement tables\" (plural), implying multiple tables across multiple pages\n- Do NOT use a global LIMIT - this would limit total results across all pages\n- Instead, use aggregation to collect ALL \"Ges.-Mittel.\" rows from ALL measurement tables on ALL pages\n- Group results by page_num and table_id to show which table each row came from\n\n## Step 5: Output Structure\n\n**Return Format - One result per \"Ges.-Mittel.\" row found across all measurement tables",
+        "answer": "Query executed successfully!\n\n====================================================================================================\nANSWER:\n====================================================================================================\nRetrieved 8 rows of average/mean (Ges.-Mittel.) values from measurement tables across pages 2-9, with columns for Page, Table ID, and particle size measurements from 2.0 ?m through 50.0 ?m. Values range from 0.0 to 1475.0, with the smallest particles (2.0 ?m) "
+      },
+      "passed": true,
+      "issues": []
+    },
+    {
+      "query": "What is the Batch Name?",
+      "expected_node": "Cell|Line",
+      "description": "Simple lookup - could be Line or Cell depending on document structure",
+      "validation_notes": "Batch Name might appear in paragraph text (Line) or table (Cell)",
+      "generated_cypher": "MATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(label_cell:Cell)\nWHERE toLower(coalesce(label_cell.text, '')) CONTAINS 'charge'\n  AND label_cell.col_index = 1\n  AND label_cell.row_index = 2\nMATCH (t)-[:HAS_CELL]->(value_cell:Cell)\nWHERE value_cell.row_index = label_cell.row_index\n  AND value_cell.col_index = 2\nWITH value_cell.text AS batch_name, p.page_num AS page_num, 'Cell' AS source_type, value_cell.row_index AS row_index, value_cell.col_index AS col_index, 'Charge' AS field_name\nORDER BY page_num ASC\nLIMIT 1\nRETURN batch_name, source_type, page_num, row_index, col_index, field_name",
+      "syntax_validation": {
+        "is_valid": true,
+        "errors": [],
+        "warnings": []
+      },
+      "node_type_check": {
+        "expected_node": "Cell|Line",
+        "nodes_used": [
+          "Page",
+          "Table",
+          "Cell",
+          "Document"
+        ],
+        "is_correct": true,
+        "issues": [],
+        "recommendations": []
+      },
+      "topology_check": {
+        "is_valid": true,
+        "violations": []
+      },
+      "structural_probe": {
+        "probe_result": {
+          "found_in": {
+            "is": [
+              {
+                "node_type": "Cell",
+                "count": 4,
+                "sample_pages": [
+                  4,
+                  7,
+                  6
+                ],
+                "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell"
+              },
+              {
+                "node_type": "Line",
+                "count": 13,
+                "sample_pages": [
+                  4,
+                  5,
+                  9
+                ],
+                "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+              }
+            ]
+          },
+          "node_counts": {
+            "Page": 10,
+            "Table": 39,
+            "Cell": 896,
+            "Line": 1096,
+            "Section": 0
+          },
+          "recommended_paths": [
+            "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell",
+            "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+          ],
+          "data_locations": [
+            {
+              "node_type": "Cell",
+              "count": 4,
+              "sample_pages": [
+                4,
+                7,
+                6
+              ],
+              "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell"
+            },
+            {
+              "node_type": "Line",
+              "count": 13,
+              "sample_pages": [
+                4,
+                5,
+                9
+              ],
+              "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+            }
+          ]
+        },
+        "node_counts": {
+          "Page": 10,
+          "Table": 39,
+          "Cell": 896,
+          "Line": 1096,
+          "Section": 0
+        },
+        "terms_found": [
+          "is"
+        ],
+        "recommended_paths": [
+          "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell",
+          "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+        ],
+        "data_locations": [
+          {
+            "node_type": "Cell",
+            "count": 4,
+            "sample_pages": [
+              4,
+              7,
+              6
+            ],
+            "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell"
+          },
+          {
+            "node_type": "Line",
+            "count": 13,
+            "sample_pages": [
+              4,
+              5,
+              9
+            ],
+            "path": "Document -[:HAS_PAGE]-> Page -[:CONTAINS_LINE]-> Line"
+          }
+        ],
+        "issues": [
+          "Document has no Cell or Line nodes"
+        ]
+      },
+      "hard_constraints": {
+        "constraints": {
+          "primary_node": "BOTH",
+          "forbidden_nodes": [],
+          "required_path": "Choose based on data quality: Line for cleaner text, Cell for table structure",
+          "reasoning": [
+            "Data in BOTH: 4 Cell matches, 13 Line matches. Check DATA SAMPLES to see which has cleaner values - Line often has cleaner OCR text."
+          ]
+        },
+        "primary_node": "BOTH",
+        "forbidden_nodes": [],
+        "required_path": "Choose based on data quality: Line for cleaner text, Cell for table structure",
+        "reasoning": [
+          "Data in BOTH: 4 Cell matches, 13 Line matches. Check DATA SAMPLES to see which has cleaner values - Line often has cleaner OCR text."
+        ],
+        "issues": []
+      },
+      "execution_result": {
+        "success": true,
+        "result_count": 1,
+        "iterations": 1,
+        "logical_plan": "# LOGICAL PLAN: Extract Batch Name\n\n## Step 1: Understand the User Query\nThe user is asking for a single piece of information: **\"What is the Batch Name?\"**\n\nThis is a straightforward metadata extraction query seeking the batch identifier value from the document.\n\n## Step 2: Analyze the Query Entity Validation Results\n**CRITICAL FINDING:** The QUERY ENTITY VALIDATION shows:\n- \u274c 'batch name' \u2192 NOT FOUND! REMOVED from query\n- \u26a0\ufe0f CORRECTION APPLIED: 'batch name' NOT FOUND \u2192 REMOVED from query\n\n**This means:** The exact term \"Batch Name\" does not exist as a searchable entity in this document's data structure. However, the DOCUMENT CONTEXT and CELL_GROUNDING show related metadata fields like \"Charge\" which may be the batch identifier in this particular document.\n\n## Step 3: Reconcile Data Sources\nLooking at the actual data provided:\n- **CELL_GROUNDING shows:** row=2, col=1: \"Charge\" and row=2, col=2: \"ABBV277_CMC5296\"\n- **DOCUMENT CONTEXT shows:** Multiple references to \"Charge\" field with value \"ABBV277_CMC5296\"\n- **HEADERS FOUND:** ['Operator', 'gosekmx'] - does NOT include \"Batch Name\"\n\n**Conclusion:** In this document, the batch identifier appears to be stored in the \"Charge\" field, not a \"Batch Name\" field. The \"Charge\" field contains the value \"ABBV277_CMC5296\" which serves as the batch identifier.\n\n## Step 4: Determine the Node Type and Path\nBased on STRUCTURAL PROBE and data location:\n- **Node Type:** CELL (data is in tabular format with row_index and col_index)\n- **Relationship Path:** Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell\n- **Reasoning:** The batch identifier is stored in table cells with clear row/column structure (row=2, col=2)\n\n## Step 5: Identify the Specific Data Pattern\nFrom CELL_GROUNDING (exact positions):\n- **Label cell:** row_index=2, col_index=1 contains \"Charge\"\n- **Value cell:** row_index=2, col_index=2 contains \"ABBV277_CMC5296\"\n- **Pattern:** Label and value are in adjacent columns of the same row in a metadata table\n\n## Step 6: Query Strategy (Single-Part Approach Using Cell Nodes)\n\n1. **Start:** Match the Document node (using process_id parameter)\n2. **Traverse:** Document to Page via HAS_PAGE relationship\n3. **Traverse:** Page to Table via CONTAINS_TABLE relationship\n4. **Traverse:** Table to Cell via HAS_CELL relationship\n5. **Filter for label cell:** Find Cell where:\n   - Text contains \"Charge\" (case-insensitive match using toLower())\n   - col_index = 1 (label column position)\n   - row_index = 2 (metadata row position)\n6. **Get adjacent value cell:** Match another Cell in the same table where:\n   - row_index = 2 (same row as label)\n   - col_index = 2 (value column, one position right of label)\n   - Same table_id (ensures it's in the same table)\n7. **Extract value:** Get the text property from the value cell: \"ABBV277_CMC5296\"\n\n## Step 7: Handle Multiple Occurrences Across Pages\n- **Observation:** The \"Charge\" field appears on multiple pages (pages 3, 6, 7, 10, etc.)\n- **All instances contain the SAME value:** \"ABBV277_CMC5296\"\n- **Strategy:** Return the FIRST occurrence (lowest page_num) to avoid duplicates\n- **Implementation:** Use `ORDER BY p.page_num ASC` and `LIMIT 1`\n\n## Step 8: Handle the Previous Execution Error\nThe previous attempt failed with 'non_null_columns' error. This likely occurred because:\n- The query tried to return columns that were NULL (possibly from searching for non-existent \"Batch Name\" field)\n- The fix: Only return columns that are guaranteed to have values from the actual data found\n\n## Step 9: Output Structure\nReturn a single result containing:\n- **batch_name** (or **charge_id**): The extracted batch identifier value = \"ABBV277_CMC5296\"\n- **page_num:** The page number where it was found (integer)\n- **source_type:** \"Cell\" (indicating it came from a table cell)\n- **row_index:** 2 (the row where the data was found)\n- **col_index:** 2 (the column where the value is located)\n- **field_name:** \"Charge\" (the actual field name in this document, since \"Batch Name\" doesn't exist)\n\n## Step 10: Validation Checklist\n- \u2713 Using correct NODE TYPE: Cell (data is in table format)\n- \u2713 Following REQUIRED PATH: Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell\n- \u2713 Using VALID entity: \"Charge\" (confirmed in CELL_GROUNDING and DOCUMENT CONTEXT)\n- \u2713 NOT using INVALID entity: \"Batch Name\" (marked as NOT FOUND in validation)\n- \u2713 Specific row_index identified: row_index=2 (from CELL_GROUNDING)\n- \u2713 Specific col_index identified: col_index=2 (from CELL_GROUNDING)\n- \u2713 Adjacent cell lookup: Matching on same table_id, row_index=2, col_index=2\n- \u2713 Deduplication strategy: LIMIT 1 with ORDER BY page_num ASC\n- \u2713 Safe text matching: Using toLower() for case-insensitive comparison\n- \u2713 Only returning non-null columns: All returned values are guaranteed to exist in the data",
+        "answer": "Query executed successfully!\n\n====================================================================================================\nANSWER:\n====================================================================================================\nThe Batch Name is **ABBV277_CMC5296**.\n\n(Query returned 1 row(s))"
+      },
+      "passed": true,
+      "issues": []
+    },
+    {
+      "query": "Show all table headers",
+      "expected_node": "Cell",
+      "description": "Header extraction - should use Cell with row_index=0 or 1",
+      "validation_notes": "Headers are in Cell nodes with row_index IN [0, 1]",
+      "generated_cypher": "MATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(header_cell:Cell)\nWHERE toLower(coalesce(header_cell.text, '')) IN ['methode', 'nachsp\u00fclen', 'environment-test', 'sp\u00fclmessungen pro flasche', 'operator', 'gosekmx', 'alternativmethode']\n   OR toLower(coalesce(header_cell.text, '')) CONTAINS 'methode'\n   OR toLower(coalesce(header_cell.text, '')) CONTAINS 'nachsp\u00fclen'\n   OR toLower(coalesce(header_cell.text, '')) CONTAINS 'environment'\n   OR toLower(coalesce(header_cell.text, '')) CONTAINS 'sp\u00fclmessungen'\n   OR toLower(coalesce(header_cell.text, '')) CONTAINS 'operator'\n   OR toLower(coalesce(header_cell.text, '')) CONTAINS 'gosekmx'\n   OR toLower(coalesce(header_cell.text, '')) CONTAINS 'alternativmethode'\nWITH DISTINCT p.page_num AS page_num, t.table_id AS table_id, header_cell.row_index AS header_row_index\nORDER BY page_num ASC, table_id ASC\n\nMATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(all_headers:Cell)\nWHERE p.page_num = page_num\n  AND t.table_id = table_id\n  AND all_headers.row_index = header_row_index\nWITH page_num, table_id, header_row_index, all_headers.col_index AS col_index, all_headers.text AS header_text\nORDER BY page_num ASC, table_id ASC, col_index ASC\nWITH page_num, table_id, header_row_index, collect(header_text) AS all_headers\n\nRETURN page_num AS Page,\n       table_id AS Table,\n       header_row_index AS Header_Row_Index,\n       all_headers AS Headers\nORDER BY page_num ASC, table_id ASC",
+      "syntax_validation": {
+        "is_valid": true,
+        "errors": [],
+        "warnings": []
+      },
+      "node_type_check": {
+        "expected_node": "Cell",
+        "nodes_used": [
+          "Page",
+          "Table",
+          "Cell",
+          "Document"
+        ],
+        "is_correct": true,
+        "issues": [],
+        "recommendations": []
+      },
+      "topology_check": {
+        "is_valid": true,
+        "violations": []
+      },
+      "structural_probe": {
+        "probe_result": {
+          "found_in": {},
+          "node_counts": {
+            "Page": 10,
+            "Table": 39,
+            "Cell": 896,
+            "Line": 1096,
+            "Section": 0
+          },
+          "recommended_paths": [],
+          "data_locations": []
+        },
+        "node_counts": {
+          "Page": 10,
+          "Table": 39,
+          "Cell": 896,
+          "Line": 1096,
+          "Section": 0
+        },
+        "terms_found": [],
+        "recommended_paths": [],
+        "data_locations": [],
+        "issues": [
+          "Structural probe found no matching data",
+          "Document has no Cell or Line nodes"
+        ]
+      },
+      "hard_constraints": {
+        "constraints": {
+          "primary_node": null,
+          "forbidden_nodes": [],
+          "required_path": null,
+          "reasoning": []
+        },
+        "primary_node": null,
+        "forbidden_nodes": [],
+        "required_path": null,
+        "reasoning": [],
+        "issues": [
+          "No primary node constraint determined"
+        ]
+      },
+      "execution_result": {
+        "success": true,
+        "result_count": 21,
+        "iterations": 1,
+        "logical_plan": "# LOGICAL PLAN: Extract All Table Headers\n\n## Step 1: Determine Node Type Based on Data Source Routing Rules\n\n**Decision: Use CELL nodes (PRIMARY NODE TYPE)**\n\n**Reasoning**:\n- User query asks to \"Extract all table headers\" - this is explicitly requesting HEADER ROW data from tables\n- Headers are structural elements of tables with row_index and col_index properties\n- The STRUCTURAL PROBE confirms data exists in BOTH Cell and Line nodes, but:\n  - Cell nodes (57 matches) contain the actual table header cells with row_index/col_index structure\n  - Line nodes (74 matches) may contain OCR text but lack table structure\n- The MANDATORY CONSTRAINTS specify PRIMARY NODE TYPE: BOTH, but the REQUIRED PATH guidance states \"Choose based on data quality: Line for cleaner text, Cell for table...\"\n- Since this is a **TABLE HEADER extraction task** (not free-form text), CELL nodes are appropriate\n- Only Cell nodes have the row_index and col_index properties needed to identify and extract header rows consistently across all tables\n- The headers requested (Methode, Nachsp\u00fclen, Environment-Test, Sp\u00fclmessungen pro Flasche, Operator, gosekmx, Alternativmethode) are column headers in tables, not metadata labels\n\n## Step 2: Identify the Relationship Path\n\n**Path to use**: `Document -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell`\n\n**Rationale**:\n- Start from the Document node (single document in graph)\n- Traverse to all Pages (10 pages total in document)\n- For each Page, traverse to all Tables (multiple tables per page: 3-4 tables per page confirmed in PAGE_STRUCTURE data)\n- For each Table, traverse to all Cell nodes where the header row is located\n- This path allows filtering by row_index to identify header rows and extract all header cell values\n- Headers are typically located at row_index = 0 or row_index = 1 (first or second row of each table)\n\n## Step 3: Identify Header Rows Using Cell Properties\n\n**Header Row Identification Strategy**:\n\n- **Header row location**: Headers are typically in the first row(s) of each table, likely at row_index = 0 or row_index = 1\n- **Identification method**: Search for cells containing the known header values: 'Methode', 'Nachsp\u00fclen', 'Environment-Test', 'Sp\u00fclmessungen pro Flasche', 'Operator', 'gosekmx', 'Alternativmethode'\n- **Pattern**: These header values should appear in the same row_index within each table (all headers in one row)\n- **Extraction scope**: Once a header row is identified in a table, extract ALL cells from that row_index to capture all headers (not just the seven specified - there may be additional headers)\n\n## Step 4: Data Filtering and Matching Strategy\n\n### Step 4a: Locate Header Rows Across All Tables\n1. Start from Document node\n2. Traverse to all Pages (all 10 pages)\n3. For each Page, traverse to all Tables (3-4 tables per page)\n4. For each Table, identify the header row by:\n   - Finding Cell nodes where text matches ANY of the requested headers (case-insensitive matching using toLower())\n   - Search for cells containing: 'methode', 'nachsp\u00fclen', 'environment-test', 'sp\u00fclmessungen', 'operator', 'gosekmx', 'alternativmethode'\n   - Capture the row_index of these cells (this is the header row index for that table)\n   - Note: All headers in a single table should share the same row_index value\n\n### Step 4b: Extract All Header Cells from Identified Header Rows\n1. For each Table where headers were found, retrieve ALL Cell nodes where:\n   - row_index = [the identified header row index from Step 4a]\n   - Include all col_index values (extract complete header row, not just the seven specified headers)\n2. Sort results by col_index ascending to maintain column sequence\n3. Extract the text property from each header cell\n\n### Step 4c: Handle Multi-Table Extraction\n- Multiple tables exist on each page (3-4 per page)\n- Each table may have its own header row at potentially different row_index values\n- Extract headers from ALL tables on ALL pages\n- Do NOT use a global LIMIT - return headers from all tables across all pages\n- Group results by page_num and table_id to show which table each header row came from\n\n### Step 4d: Deduplicate and Organize Results\n- Some header values may appear in multiple tables (e.g., 'Operator' might be a header in multiple tables)\n- Collect all unique header values across all tables\n- Alternatively, return headers grouped by table to show the complete header structure of each table\n\n## Step 5: Output Structure\n\n**Return Format - All table headers extracted**:\n\n### Option A: Unique Headers Across All Tables (Deduplicated)\n- Return a single list of all unique header values found across all tables in the document\n- Format: One row with all header values as separate columns or as a collected list\n- Example output: Methode, Nachsp\u00fclen, Environment-Test, Sp\u00fclmessungen pro Flasche, Operator, gosekmx, Alternativmethode, [any additional headers found]\n\n### Option B: Headers Grouped by Table (Structured)\n- Return one result per table showing:\n  - page_num (which page the table is on)\n  - table_id (which table on that page)\n  - header_row_index (the row_index of the header row in that table)\n  - all_headers (collected list of all header cell values in that row, ordered by col_index)\n  - This shows the complete header structure of each table\n\n### Option C: Headers as Individual Rows (Detailed)\n- Return one row per header cell found\n- Columns: page_num, table_id, col_index, header_text\n- This shows the exact position of each header in the table structure\n\n**Recommended approach**: Option B (Headers Grouped by Table) provides the most useful context showing which headers belong to which table, while still extracting all headers across the entire document.",
+        "answer": "Query executed successfully!\n\n====================================================================================================\nANSWER:\n====================================================================================================\nRetrieved 21 rows across 10 pages containing table metadata with columns: Page, Table, Header_Row_Index, and Headers. The headers found include \"Methode\", \"Nachsp?len\", \"Environment-Test\", \"Sp?lmessungen pro Flasche\", \"Operator\", \"gosekmx\", and \"Alternativmeth"
+      },
+      "passed": true,
+      "issues": []
+    },
+    {
+      "query": "Get data from the first table on page 2",
+      "expected_node": "Cell",
+      "description": "Table + page filter - should use Table + Cell with page constraint",
+      "validation_notes": "Requires Document->Page->Table->Cell path with page_num filter",
+      "generated_cypher": "MATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)\nWHERE p.page_num = 2\nWITH t\nORDER BY t.table_id ASC\nLIMIT 1\nMATCH (t)-[:HAS_CELL]->(c:Cell)\nRETURN c.row_index AS row_index, c.col_index AS col_index, c.text AS text, c.cell_id AS cell_id\nORDER BY c.row_index ASC, c.col_index ASC",
+      "syntax_validation": {
+        "is_valid": true,
+        "errors": [],
+        "warnings": []
+      },
+      "node_type_check": {
+        "expected_node": "Cell",
+        "nodes_used": [
+          "Page",
+          "Table",
+          "Cell",
+          "Document"
+        ],
+        "is_correct": true,
+        "issues": [],
+        "recommendations": []
+      },
+      "topology_check": {
+        "is_valid": true,
+        "violations": []
+      },
+      "structural_probe": {
+        "probe_result": {
+          "found_in": {},
+          "node_counts": {
+            "Page": 10,
+            "Table": 39,
+            "Cell": 896,
+            "Line": 1096,
+            "Section": 0
+          },
+          "recommended_paths": [],
+          "data_locations": []
+        },
+        "node_counts": {
+          "Page": 10,
+          "Table": 39,
+          "Cell": 896,
+          "Line": 1096,
+          "Section": 0
+        },
+        "terms_found": [],
+        "recommended_paths": [],
+        "data_locations": [],
+        "issues": [
+          "Structural probe found no matching data",
+          "Document has no Cell or Line nodes"
+        ]
+      },
+      "hard_constraints": {
+        "constraints": {
+          "primary_node": null,
+          "forbidden_nodes": [],
+          "required_path": null,
+          "reasoning": []
+        },
+        "primary_node": null,
+        "forbidden_nodes": [],
+        "required_path": null,
+        "reasoning": [],
+        "issues": [
+          "No primary node constraint determined"
+        ]
+      },
+      "execution_result": {
+        "success": true,
+        "result_count": 20,
+        "iterations": 1,
+        "logical_plan": "# LOGICAL PLAN: Get data from the first table on page 2\n\n## Step 1: Understand the User Query Requirements\nThe user wants:\n- Data from **the first table** on **page 2** (a specific page and specific table)\n- Return: All data/contents from that table\n- Context: This is a table content query, not a structural query about table existence\n\n## Step 2: Apply Data Source Routing Rules\n**ROUTING DECISION**: Use **CELL NODES** (not Line nodes)\n\n**REASONING**:\n- Query asks for \"data from the first table\" \u2192 This requires table CONTENTS, not just metadata\n- Tables contain structured data with rows and columns\n- Cell nodes are the primary data source for tabular data\n- Cell nodes have properties: `text`, `row_index`, `col_index` which define table structure\n- Line nodes are unnecessary (this is tabular data, not free-form text)\n- The relationship path `Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell` is the correct path for table contents\n\n**PRIMARY NODE TYPE**: Cell (accessed via Table and Page)\n\n## Step 3: Identify the Correct Relationship Path\n**REQUIRED PATH**:\n```\nDocument -[:HAS_PAGE]-> Page -[:CONTAINS_TABLE]-> Table -[:HAS_CELL]-> Cell\n```\n\n**WHY THIS PATH**:\n- Start with Document (the root node, filtered by process_id)\n- Traverse to Page (filtered to page_num = 2)\n- Traverse to Table (get the FIRST table on page 2)\n- Traverse to Cell (get all cells from that table)\n- This path gives us all cell data from the first table on page 2\n- Do NOT use Line nodes (this is tabular data, not text lines)\n\n## Step 4: Identify Data Locations from Structural Probe\nFrom STRUCTURAL PROBE RESULTS:\n- **Page nodes**: 10 total pages in the document\n- **Table nodes**: 39 total tables across all pages\n- **Cell nodes**: 896 total cells across all tables\n- **Relationship**: `Page -[:CONTAINS_TABLE]-> Table` and `Table -[:HAS_CELL]-> Cell` exist\n\nFrom ACTUAL DATA SAMPLES (PAGE_STRUCTURE):\n- **Page 2 has 4 tables** (table_count: 4)\n- We need the FIRST of these 4 tables\n- Each table contains multiple cells with row_index and col_index properties\n\n## Step 5: Define the Filtering Criteria\n**Filter conditions**:\n1. Match the Document node with the current process_id (standard for all queries)\n2. Match the Page node where `page_num = 2` (specific to this query)\n3. Traverse to Table nodes connected via `[:CONTAINS_TABLE]` relationship\n4. **Select ONLY the FIRST table** (order by table discovery order or table_id, take first result)\n5. Traverse to all Cell nodes connected to that table via `[:HAS_CELL]` relationship\n6. No text filtering needed (we want all cells from the table)\n\n## Step 6: Query Strategy - Step-by-Step Approach\n\n### Part A: Start with Document and Navigate to Page 2\n1. Start with: `MATCH (d:Document {process_id: $process_id})`\n2. Traverse: `(d)-[:HAS_PAGE]->(p:Page)`\n3. Filter: `WHERE p.page_num = 2`\n4. This isolates page 2 from all 10 pages in the document\n\n### Part B: Find the FIRST Table on Page 2\n1. From the filtered page: `(p)-[:CONTAINS_TABLE]->(t:Table)`\n2. Order tables by their natural order (by table_id or discovery order)\n3. **Limit to 1 table** to get only the first table\n4. This retrieves the first Table node connected to page 2\n5. Expected: 1 table (the first of the 4 tables on page 2)\n\n### Part C: Get All Cells from the First Table\n1. From the selected table: `(t)-[:HAS_CELL]->(c:Cell)`\n2. This retrieves all Cell nodes belonging to the first table on page 2\n3. Expected result: Multiple cells (all cells in the first table)\n\n### Part D: Collect Cell Data\nFor each cell found, collect:\n1. `c.text` (the cell content/value)\n2. `c.row_index` (0-based row position in the table)\n3. `c.col_index` (0-based column position in the table)\n4. `c.cell_id` (unique identifier for the cell, if needed)\n5. Any other cell properties available (bbox coordinates if needed for output)\n\n### Part E: Structure the Output\n1. **Return format**: All cells from the first table on page 2\n2. **Ordering**: Order by row_index first (ascending), then by col_index (ascending) to reconstruct table structure\n3. **No aggregation needed**: Return all cells as individual rows\n4. **Table reconstruction**: The row_index and col_index properties allow the consumer to reconstruct the table visually\n\n## Step 7: Handle Edge Cases\n- **If page 2 has no tables**: Return empty result set (valid outcome)\n- **If page 2 doesn't exist**: Return empty result set (valid outcome)\n- **If the first table is empty**: Return empty result set (valid outcome)\n- **Multiple cells per row/column**: All should be returned in order (expected behavior for table data)\n\n## Step 8: Final Output Structure\nReturn:\n- **Column 1**: `row_index` (0-based row number in the table)\n- **Column 2**: `col_index` (0-based column number in the table)\n- **Column 3**: `text` (the cell content/value)\n- **Optional Column 4**: `cell_id` (unique identifier for reference)\n\n**Expected result**: Multiple rows (one per cell in the first table on page 2), ordered by row_index then col_index to show table structure\n\n**Ordering**: \n- Primary sort: `row_index` ascending (top to bottom)\n- Secondary sort: `col_index` ascending (left to right)\n- This allows the output to be read as a table from top-left to bottom-right",
+        "answer": "Query executed successfully!\n\n====================================================================================================\nANSWER:\n====================================================================================================\nRetrieved 20 rows from a 2-column table containing product/material information in German. Column 1 contains field labels (Operator, Charge, Produkt, Material-Nr., etc.) and Column 2 contains corresponding values, with some entries being empty. Key data includ"
+      },
+      "passed": true,
+      "issues": []
+    }
+  ],
+  "summary": {
+    "total_tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "syntax_errors": 0,
+    "node_type_mismatches": 0,
+    "topology_violations": 0
+  }
+}

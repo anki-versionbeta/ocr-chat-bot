@@ -1,0 +1,2188 @@
+from fastapi import FastAPI, HTTPException, Depends, Request, Response, File, UploadFile, Form, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from pydantic import BaseModel
+from typing import Optional, Dict, Any, List
+import uvicorn
+import jwt  # PyJWT package
+from datetime import datetime, timedelta
+import os
+from starlette.middleware.sessions import SessionMiddleware
+from ldap3 import Server, Connection, ALL, NTLM
+import logging
+from dotenv import load_dotenv
+import shutil
+from tempfile import NamedTemporaryFile
+import uuid
+import mimetypes
+import pdfplumber
+import re
+import pandas as pd
+from werkzeug.utils import secure_filename
+import json
+import boto3
+from urllib.parse import unquote, quote
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+from contextlib import asynccontextmanager
+# backend/app.py - Add after line 27
+import aiofiles
+from collections import defaultdict
+import time
+
+# Add progress tracking store
+progress_store: Dict[str, Dict[str, Any]] = {}
+
+# Cancellation token system
+cancellation_tokens: Dict[str, bool] = {}
+active_processes: Dict[str, Dict[str, Any]] = {}
+process_files: Dict[str, List[str]] = {}  # Track files created by each process
+
+def is_process_cancelled(process_id: str) -> bool:
+    """Check if a process has been cancelled"""
+    return cancellation_tokens.get(process_id, False)
+
+def cancel_process_token(process_id: str):
+    """Mark a process as cancelled"""
+    cancellation_tokens[process_id] = True
+    update_progress(process_id, "cancelled", 0, "Process cancelled by user")
+    logger.info(f"🛑 Process {process_id} marked as cancelled")
+
+def register_process(process_id: str, process_type: str):
+    """Register a new active process"""
+    active_processes[process_id] = {
+        "type": process_type,
+        "start_time": time.time(),
+        "stage": "starting",
+        "cancellable": True
+    }
+    process_files[process_id] = []
+
+def add_process_file(process_id: str, file_path: str):
+    """Track a file created by a process"""
+    if process_id in process_files:
+        process_files[process_id].append(file_path)
+
+def cleanup_process_files(process_id: str):
+    """Clean up all files created by a process"""
+    if process_id in process_files:
+        for file_path in reversed(process_files[process_id]):
+            try:
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    logger.info(f"🗑️ Cleaned up file: {file_path}")
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to cleanup file {file_path}: {e}")
+        del process_files[process_id]
+
+def check_cancellation(process_id: str):
+    """Raise exception if process is cancelled"""
+    if is_process_cancelled(process_id):
+        logger.info(f"⏹️ Process {process_id} stopping due to cancellation - cleanup starting")
+        cleanup_process_files(process_id)
+        logger.info(f"⏹️ Process {process_id} cleanup complete - raising cancellation exception")
+        raise Exception(f"Process {process_id} cancelled by user")
+
+def complete_process(process_id: str):
+    """Mark process as completed and cleanup"""
+    if process_id in active_processes:
+        del active_processes[process_id]
+    if process_id in cancellation_tokens:
+        del cancellation_tokens[process_id]
+    # Don't cleanup files on successful completion
+    if process_id in process_files:
+        del process_files[process_id]
+
+def update_progress(process_id: str, stage: str, progress: int, message: str = ""):
+    """Update progress for a given process ID"""
+    if process_id not in progress_store:
+        progress_store[process_id] = {}
+    
+    progress_store[process_id] = {
+        "stage": stage,
+        "progress": progress,
+        "message": message,
+        "timestamp": time.time()
+    }
+    logger.info(f"Progress update - {process_id}: {stage} {progress}% - {message}")
+
+def get_progress(process_id: str) -> Optional[Dict[str, Any]]:
+    """Get progress for a given process ID"""
+    return progress_store.get(process_id)
+
+def cleanup_old_progress():
+    """Clean up progress entries older than 1 hour"""
+    current_time = time.time()
+    to_remove = []
+    for process_id, data in progress_store.items():
+        if current_time - data.get("timestamp", 0) > 3600:  # 1 hour
+            to_remove.append(process_id)
+    for process_id in to_remove:
+        del progress_store[process_id]
+
+# Load environment variables
+load_dotenv()
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+)
+logger = logging.getLogger("ocr-chatbot")
+
+# Create thread pool for CPU-intensive tasks
+executor = ThreadPoolExecutor(max_workers=2)
+
+# Create async wrapper for CPU-intensive tasks
+async def run_cpu_intensive_task(func, *args, **kwargs):
+    """Run CPU-intensive tasks in thread pool to avoid blocking"""
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(executor, func, *args, **kwargs)
+
+# Create FastAPI app
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("Starting up OCR Chatbot API")
+    yield
+    # Shutdown
+    logger.info("Shutting down OCR Chatbot API") 
+    executor.shutdown(wait=True)
+    logger.info("Thread pool executor shut down")
+
+# Create FastAPI app with lifespan
+app = FastAPI(title="OCR Chatbot API", lifespan=lifespan)
+
+# Configure multipart form parsing for large file uploads
+from starlette.formparsers import MultiPartParser
+MultiPartParser.max_file_size = 100 * 1024 * 1024  # 100MB limit
+
+# Add custom middleware to log all requests
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    logger.info(f"Request: {request.method} {request.url.path}")
+    try:
+        response = await call_next(request)
+        logger.info(f"Response: {response.status_code}")
+        return response
+    except Exception as e:
+        logger.error(f"Request error: {str(e)}")
+        raise
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for testing
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Add session middleware
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=REDACTED
+    max_age=int(os.getenv("SESSION_MAX_AGE", "1800")),  # 30 minutes by default
+    session_cookie="session",
+    path="/",
+    same_site="lax",  # Important for cross-origin requests
+    https_only=False,  # Set to True if using HTTPS
+    domain=None,  # Can be set to your domain if needed
+)
+
+# JWT settings
+JWT_SECRET_KEY = REDACTED
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES = REDACTED
+
+# LDAP Configuration
+LDAP_SERVER = os.getenv("LDAP_SERVER", "ldaps://ldap-ad.abbvienet.com:636")
+LDAP_DOMAIN = os.getenv("LDAP_DOMAIN", "abbvienet.com")
+LDAP_SERVICE_USERNAME = os.getenv("LDAP_SERVICE_USERNAME", "SVC-IPLDAP")
+LDAP_SERVICE_PASSWORD = REDACTED
+LDAP_USERS_CONTAINER = os.getenv("LDAP_USERS_CONTAINER", "OU=People,DC=abbvienet,DC=com")
+
+# Models
+class User(BaseModel):
+    username: str
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+# JWT token functions
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    return encoded_jwt
+
+# Authentication function
+def get_current_user(request: Request):
+    if "authenticated" not in request.session or not request.session["authenticated"]:
+        logger.warning("Authentication failed - No valid session")
+        return None
+    return {"username": request.session.get("username"), "email": request.session.get("email")}
+
+# LDAP Authentication
+def authenticate_with_ldap(username: str, password: str):
+    try:
+        # Connect to LDAP server
+        server = Server(LDAP_SERVER, get_info=ALL)
+        conn = Connection(
+            server,
+            user=f"{LDAP_DOMAIN}\\{username}",
+            password=REDACTED
+            authentication=NTLM,
+            auto_bind=True
+        )
+
+        # Search for the user in the LDAP directory
+        search_filter = f"(&(objectclass=user)(sAMAccountName={username}))"
+        conn.search(
+            search_base=LDAP_USERS_CONTAINER,
+            search_filter=search_filter,
+            attributes=['givenName', 'mail']
+        )
+
+        if conn.entries:
+            # User authenticated successfully
+            user_data = {
+                "username": username,
+                "email": conn.entries[0].mail.value if hasattr(conn.entries[0], 'mail') else None
+            }
+            return user_data
+        else:
+            # User not found in LDAP
+            return None
+    except Exception as e:
+        logger.error(f"LDAP Authentication error: {str(e)}")
+        return None
+
+# Routes
+@app.get("/")
+def read_root():
+    return {"message": "OCR Chatbot API"}
+
+@app.get("/ping")
+def ping():
+    """Simple endpoint to test if server is running"""
+    return {"status": "ok", "message": "Server is running"}
+
+@app.get("/routes")
+def list_routes():
+    """List all available routes for debugging"""
+    routes = []
+    for route in app.routes:
+        routes.append({
+            "path": route.path,
+            "name": route.name,
+            "methods": [method for method in route.methods]
+        })
+    return {"routes": routes}
+
+@app.post("/api/login")
+async def login(user: User, request: Request, response: Response):
+    try:
+        # Authenticate with LDAP
+        user_data = authenticate_with_ldap(user.username, user.password)
+        
+        if not user_data:
+            logger.warning(f"Login failed for user: {user.username}")
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "error": "Invalid credentials"}
+            )
+        
+        # Create access token
+        access_token_expires = REDACTED
+        access_token = REDACTED
+            data={"sub": user.username}, expires_delta=access_token_expires
+        )
+        
+        # Set session data
+        request.session["authenticated"] = True
+        request.session["username"] = user.username
+        request.session["email"] = user_data.get("email")
+        
+        logger.info(f"Login successful for user: {user.username}")
+        return {"success": True, "username": user.username, "access_token": access_token, "token_type": "bearer"}
+    
+    except Exception as e:
+        logger.error(f"Login error: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"error": "Internal server error"}
+        )
+
+@app.get("/api/check-auth")
+async def check_auth(request: Request):
+    try:
+        user = get_current_user(request)
+        if user:
+            logger.info(f"Valid session found for user: {user['username']}")
+            return {
+                "authenticated": True, 
+                "username": user["username"],
+                "email": user.get("email", "")
+            }
+        
+        logger.info("No valid session found")
+        return JSONResponse(
+            status_code=401,
+            content={"authenticated": False}
+        )
+    
+    except Exception as e:
+        logger.error(f"Check auth error: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": "Internal server error"}
+        )
+
+@app.post("/api/logout")
+async def logout(request: Request):
+    username = request.session.get("username", "unknown")
+    request.session.clear()
+    logger.info(f"User logged out: {username}")
+    return {"success": True}
+
+@app.get("/api/profile")
+async def get_profile(request: Request):
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse(
+            status_code=401,
+            content={"error": "Unauthorized"}
+        )
+    
+    # Return user profile data from session
+    user_data = {
+        "username": user["username"],
+        "email": user["email"]
+    }
+    logger.info(f"Profile data returned for user: {user['username']}")
+    return user_data
+
+@app.post("/api/chat/upload-coa")
+async def upload_coa_file(file: UploadFile = File(...), request: Request = None):
+    """
+    Handle file upload from chat interaction and process it with textract then GPT
+    """
+    # Temporarily disabled authentication for testing
+    # user = get_current_user(request)
+    # if not user:
+    #     return JSONResponse(
+    #         status_code=401,
+    #         content={"error": "Unauthorized"}
+    #     )
+    
+    try:
+        # Generate a unique process ID for tracking
+        process_id = str(uuid.uuid4())
+        update_progress(process_id, "uploading", 0, "Starting upload...")
+        # Save the original filename without extension for output naming
+        original_filename = os.path.splitext(file.filename)[0]
+        
+        # Create temp directory if it doesn't exist
+        base_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'temp')
+        os.makedirs(base_path, exist_ok=True)
+        
+        # Save the uploaded file with original filename
+        pdf_file_path = os.path.join(base_path, f"{original_filename}.pdf")
+        
+        async with aiofiles.open(pdf_file_path, "wb") as buffer:
+            await buffer.write(await file.read())
+        
+        logger.info(f"Processing PDF file: {file.filename}")
+        
+        # Step 1: Process with Textract to get Excel file
+        from textractservices.textract_single import process_direct_file
+        excel_file_path = process_direct_file(pdf_file_path, base_path)
+        
+        if not excel_file_path:
+            raise Exception("Failed to process the PDF file with Textract")
+        
+        logger.info(f"Textract processing complete. Excel file created at: {excel_file_path}")
+        
+        # Define only the unified Excel output file
+        unified_excel_path = os.path.join(base_path, f"{original_filename}_unified.xlsx")
+        
+        # Step 2 & 3: Process Excel with GPT AND Advanced Validation IN PARALLEL
+        from textractservices.gpt_excel_extractor import GPTCoAExtractor
+        from textractservices.final_with_endotoxins import process_coa_optimized
+        
+        llm_url = "https://api-epic.ir-gateway.abbvienet.com/iliad/api/v1/chat/claude-3.7-sonnet"
+        llm_api_key = REDACTED
+        
+        logger.info("Starting parallel processing: GPT analysis + Advanced validation")
+        
+        # Create tasks that can run in parallel
+        extractor = GPTCoAExtractor(api_key=llm_api_key, api_url=llm_url)
+        
+        # Set up cancellation callback for the extractor
+        extractor.set_cancellation_callback(lambda: check_cancellation(process_id))
+        
+        # Set up progress callback for the extractor
+        extractor.set_progress_callback(lambda progress, message: update_progress(process_id, "analyzing", progress, message))
+        
+        # Define functions for parallel execution
+        def run_gpt_processing():
+            check_cancellation(process_id)
+            # Direct call - the extractor now has cancellation support and progress callbacks
+            df, product_info = extractor.process_excel_with_llm_metadata(excel_file_path, pdf_file_path)
+            
+            check_cancellation(process_id)
+            update_progress(process_id, "analyzing", 59, "Creating unified Excel report...")
+            extractor.create_unified_excel(df, product_info, unified_excel_path)
+            return df, product_info
+        
+        # Run both processes in parallel
+        try:
+            # Checkpoint 5: Before GPT processing
+            check_cancellation(process_id)
+            
+            # First run GPT processing to get enhanced metadata with progress simulation
+            gpt_task = asyncio.create_task(
+                run_cpu_intensive_task(run_gpt_processing)
+            )
+            gpt_progress_task = asyncio.create_task(
+                simulate_progress(process_id, 40, 60, 25, "analyzing", "AI processing with GPT-4")
+            )
+            
+            gpt_result = await gpt_task
+            gpt_progress_task.cancel()  # Stop simulation when done
+            df, product_info = gpt_result
+            
+            # Checkpoint 6: After GPT processing
+            check_cancellation(process_id)
+            update_progress(process_id, "analyzing", 60, "GPT processing complete")
+            logger.info(f"GPT processing complete. Created unified Excel file: {unified_excel_path}")
+            
+            # Checkpoint 7: Before validation
+            check_cancellation(process_id)
+            
+            # Now run advanced validation with enhanced metadata
+            def run_advanced_validation_with_metadata():
+                check_cancellation(process_id)
+                # Validation function uses its own progress callbacks (60-80% range)
+                
+                blocks_json_path = os.path.join(base_path, f"{original_filename}_blocks.json")
+                if os.path.exists(blocks_json_path):
+                    add_process_file(process_id, blocks_json_path)
+                    
+                    check_cancellation(process_id)
+                    # Validation handles its own progress (60-80% range)
+                    
+                    # Direct call - we'll add cancellation support to this function later
+                    result = process_coa_optimized(
+                        pdf_file_path, blocks_json_path, unified_excel_path, base_path, product_info,
+                        progress_callback=lambda progress, message: update_progress(process_id, "analyzing", progress, message)
+                    )
+                    
+                    check_cancellation(process_id)
+                    # Validation already completed to 80%
+                    return result
+                return None
+            
+            # Checkpoint 8: Run validation
+            validation_result = await run_cpu_intensive_task(run_advanced_validation_with_metadata)
+            
+            # Checkpoint 9: After validation
+            check_cancellation(process_id)
+            update_progress(process_id, "analyzing", 90, "Validation complete, finalizing report...")
+            
+            # Handle advanced validation results
+            if validation_result:
+                enhanced_excel_path = validation_result.get('enhanced_excel_path')
+                enhanced_json_path = validation_result.get('enhanced_json_path')
+                validation_status = validation_result.get('validation_status')
+                
+                logger.info(f"Advanced validation completed with status: {validation_status}")
+                
+                # Use enhanced file as the primary output if available
+                if validation_status == 'enhanced' and enhanced_excel_path and os.path.exists(enhanced_excel_path):
+                    primary_excel_path = enhanced_excel_path
+                    logger.info(f"Using enhanced Excel file: {enhanced_excel_path}")
+                else:
+                    primary_excel_path = unified_excel_path
+                    logger.info(f"Using original unified Excel file: {unified_excel_path}")
+            else:
+                logger.warning("Advanced validation skipped - blocks JSON not found")
+                primary_excel_path = unified_excel_path
+                
+        except Exception as e:
+            logger.error(f"Error during parallel processing: {str(e)}")
+            # Fallback to sequential processing
+            logger.info("Falling back to sequential processing...")
+            extractor = GPTCoAExtractor(api_key=llm_api_key, api_url=llm_url)
+            df, product_info = extractor.process_excel_with_llm_metadata(excel_file_path, pdf_file_path)
+            extractor.create_unified_excel(df, product_info, unified_excel_path)
+            
+            # Try advanced validation with enhanced metadata in fallback
+            try:
+                blocks_json_path = os.path.join(base_path, f"{original_filename}_blocks.json")
+                if os.path.exists(blocks_json_path):
+                    validation_result = process_coa_optimized(
+                        pdf_file_path, blocks_json_path, unified_excel_path, base_path, product_info
+                    )
+                    if validation_result and validation_result.get('validation_status') == 'enhanced':
+                        enhanced_excel_path = validation_result.get('enhanced_excel_path')
+                        if enhanced_excel_path and os.path.exists(enhanced_excel_path):
+                            primary_excel_path = enhanced_excel_path
+                        else:
+                            primary_excel_path = unified_excel_path
+                    else:
+                        primary_excel_path = unified_excel_path
+                else:
+                    primary_excel_path = unified_excel_path
+            except Exception as fallback_error:
+                logger.warning(f"Advanced validation failed in fallback: {fallback_error}")
+                primary_excel_path = unified_excel_path
+        
+        # Clean up the intermediate Excel file created by Textract
+        if os.path.exists(excel_file_path) and excel_file_path != unified_excel_path:
+            try:
+                os.remove(excel_file_path)
+                logger.info(f"Cleaned up intermediate Excel file: {excel_file_path}")
+            except Exception as e:
+                logger.warning(f"Could not remove intermediate Excel file: {e}")
+        
+        # Clean up any accidentally created files with old naming patterns (but preserve enhanced files)
+        patterns_to_clean = [
+            f"{original_filename}_data.csv",
+            f"{original_filename}_info.json",
+            f"{original_filename}_results.json",
+            f"{original_filename}.csv",
+            f"{original_filename}.xlsx",
+            f"{original_filename}_temp.csv"
+        ]
+        
+        for pattern in patterns_to_clean:
+            file_to_clean = os.path.join(base_path, pattern)
+            if os.path.exists(file_to_clean):
+                try:
+                    os.remove(file_to_clean)
+                    logger.info(f"Cleaned up extra file: {file_to_clean}")
+                except Exception as e:
+                    logger.warning(f"Could not remove extra file {file_to_clean}: {e}")
+        
+        # Download link is now embedded in the message directly
+        
+        # Create a summary message with extracted information
+        summary_message = f"""## Certificate of Analysis Processing Complete
+
+**Product Information:**
+- Product Name: {product_info.get('product_name', 'Not found')}
+- Batch/Lot Number: {product_info.get('batch_number', 'Not found')}
+- Manufacturer: {product_info.get('manufacturer', 'Not found')}
+
+The document has been processed with advanced validation and parameter variation detection.
+
+📥 [Download Enhanced CoA Report](/download/{quote(os.path.basename(primary_excel_path), safe='')})
+        """
+        
+        # S3 cleanup code removed - no longer using S3 for storage
+        
+        # Combine results to return to frontend
+        result = {
+                "process_id": process_id,
+                "file_name": file.filename,
+                "original_filename": original_filename,
+                "product_info": product_info,
+                "test_data": df.to_dict('records'),
+                "unified_excel_path": unified_excel_path,
+            "enhanced_excel_path": primary_excel_path,
+            "message": summary_message,
+            "success": True
+        }
+        
+        logger.info(f"File processing complete: {file.filename}")
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error processing file: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error processing file: {str(e)}"}
+        )
+    finally:
+        file.file.close()
+
+@app.get("/upload-progress/{process_id}")
+async def get_upload_progress(process_id: str):
+    """Get the current progress of a file upload/processing operation"""
+    progress = get_progress(process_id)
+    if progress:
+        return progress
+    else:
+        return {"stage": "unknown", "progress": 0, "message": "Process not found"}
+
+from fastapi.responses import StreamingResponse
+import json
+import asyncio
+
+@app.get("/upload-progress-stream/{process_id}")
+async def progress_stream(process_id: str):
+    """Stream progress updates using Server-Sent Events"""
+    async def event_generator():
+        last_progress = None
+        consecutive_checks = 0
+        max_checks = 300  # 5 minutes max
+        
+        while consecutive_checks < max_checks:
+            progress = get_progress(process_id)
+            
+            if progress:
+                # Only send if progress changed
+                current_state = f"{progress.get('stage')}:{progress.get('progress')}:{progress.get('message')}"
+                if current_state != last_progress:
+                    yield f"data: {json.dumps(progress)}\n\n"
+                    last_progress = current_state
+                    consecutive_checks = 0  # Reset counter when we have progress
+                
+                # Stop if completed, error, or cancelled
+                if progress.get("stage") in ["completed", "error", "cancelled"]:
+                    break
+            else:
+                # Send initial waiting message
+                if consecutive_checks == 0:
+                    yield f"data: {json.dumps({'stage': 'waiting', 'progress': 0, 'message': 'Waiting for process to start...'})}\n\n"
+            
+            consecutive_checks += 1
+            await asyncio.sleep(0.5)  # Check every 500ms
+        
+        # Send timeout message if we exit the loop
+        if consecutive_checks >= max_checks:
+            yield f"data: {json.dumps({'stage': 'error', 'progress': 0, 'message': 'Progress tracking timeout'})}\n\n"
+    
+    return StreamingResponse(
+        event_generator(), 
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"  # Disable Nginx buffering
+        }
+    )
+
+# Store for processing results
+results_store = {}
+
+@app.get("/coa-result/{process_id}")
+async def get_coa_result(process_id: str):
+    """Get the final results of COA processing"""
+    result = results_store.get(process_id)
+    if result:
+        return result
+    else:
+        return JSONResponse(
+            status_code=404,
+            content={"error": "Results not found or still processing"}
+        )
+
+@app.get("/hbr-result/{process_id}")
+async def get_hbr_result(process_id: str):
+    """Get the final results of HBR processing"""
+    result = results_store.get(process_id)
+    if result:
+        return result
+    else:
+        return JSONResponse(
+            status_code=404,
+            content={"error": "HBR results not found or still processing"}
+        )
+
+@app.post("/cancel-process/{process_id}")
+async def cancel_process_endpoint(process_id: str):
+    """Cancel a running process"""
+    logger.info(f"🛑 Cancel request received for process: {process_id}")
+    
+    if process_id not in active_processes:
+        return JSONResponse(
+            status_code=404,
+            content={"success": False, "error": "Process not found or already completed"}
+        )
+    
+    try:
+        cancel_process_token(process_id)
+        return JSONResponse(
+            content={
+                "success": True,
+                "message": "Process cancellation requested",
+                "process_id": process_id
+            }
+        )
+    except Exception as e:
+        logger.error(f"❌ Error cancelling process {process_id}: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Failed to cancel: {str(e)}"}
+        )
+
+@app.get("/active-processes")
+async def get_active_processes():
+    """Get list of all active processes"""
+    return {
+        "active_processes": {
+            pid: {
+                **info,
+                "duration": time.time() - info["start_time"],
+                "current_progress": progress_store.get(pid, {})
+            }
+            for pid, info in active_processes.items()
+        }
+    }
+
+@app.get("/process-status/{process_id}")
+async def get_process_status(process_id: str):
+    """Get status of a specific process"""
+    if process_id in active_processes:
+        info = active_processes[process_id]
+        return {
+            "status": "active",
+            "process_info": info,
+            "progress": progress_store.get(process_id, {}),
+            "duration": time.time() - info["start_time"],
+            "cancellable": info.get("cancellable", True)
+        }
+    elif process_id in results_store:
+        return {
+            "status": "completed",
+            "results": results_store[process_id]
+        }
+    else:
+        return JSONResponse(
+            status_code=404,
+            content={"status": "not_found", "error": "Process not found"}
+        )
+
+@app.post("/upload-coa")
+async def public_upload_coa_file(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
+    """
+    Public endpoint to handle file upload from chat interaction without requiring authentication
+    This simplifies testing and development
+    """
+    try:
+        # Generate a unique process ID for tracking
+        process_id = str(uuid.uuid4())
+        
+        # Initialize progress
+        update_progress(process_id, "uploading", 0, "Starting upload...")
+        
+        # Save the original filename without extension for output naming
+        original_filename = os.path.splitext(file.filename)[0]
+        
+        # Create temp directory if it doesn't exist
+        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp')
+        os.makedirs(base_path, exist_ok=True)
+        
+        # Save the uploaded file with original filename
+        pdf_file_path = os.path.join(base_path, f"{original_filename}.pdf")
+        
+        update_progress(process_id, "uploading", 30, "Processing file...")
+        
+        # Read entire file into memory at once (much faster for typical PDF sizes)
+        file_content = await file.read()
+        
+        # Write to disk in one operation (faster than chunked writing)
+        with open(pdf_file_path, "wb") as f:
+            f.write(file_content)
+        
+        update_progress(process_id, "uploading", 50, "File uploaded successfully")
+        logger.info(f"Processing PDF file: {file.filename}")
+        
+        # Start background processing
+        background_tasks.add_task(
+            process_coa_in_background,
+            pdf_file_path,
+            base_path,
+            process_id,
+            original_filename
+        )
+        
+        # Return immediately with process_id
+        return JSONResponse(
+            content={
+                "message": "Document upload started successfully",
+                "process_id": process_id,
+                "status": "processing"
+            },
+            status_code=202
+        )
+        
+    except Exception as e:
+        logger.error(f"Error during upload: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error during upload: {str(e)}"}
+        )
+    finally:
+        file.file.close()
+
+
+async def simulate_progress(process_id: str, start: int, end: int, duration: int, stage: str, base_message: str):
+    """Enhanced progress simulation with varied messages"""
+    
+    # Different messages for different stages
+    extracting_messages = [
+        "Initializing document analysis",
+        "Detecting tables and forms", 
+        "Extracting text regions",
+        "Processing document layout",
+        "Analyzing page content",
+        "Finalizing extraction"
+    ]
+    
+    analyzing_messages = [
+        "Identifying test parameters",
+        "Extracting specifications",
+        "Processing test hierarchies", 
+        "Validating results",
+        "Cross-referencing data",
+        "Creating final report"
+    ]
+    
+    # Pick message list based on stage
+    messages = extracting_messages if stage == "extracting" else analyzing_messages
+    
+    steps = 20
+    step_duration = duration / steps
+    step_increment = (end - start) / steps
+    
+    for i in range(steps):
+        if is_process_cancelled(process_id):
+            return
+            
+        current_progress = start + (step_increment * i)
+        
+        # Pick message based on progress through this stage
+        msg_index = min(int(i * len(messages) / steps), len(messages) - 1)
+        message = f"{base_message} - {messages[msg_index]}"
+        
+        update_progress(process_id, stage, int(current_progress), message)
+        await asyncio.sleep(step_duration)
+
+
+async def process_coa_in_background(pdf_file_path: str, base_path: str, process_id: str, original_filename: str):
+    """Background task to process COA document with cancellation support"""
+    try:
+        # Register this process
+        register_process(process_id, "coa_processing")
+        add_process_file(process_id, pdf_file_path)
+        
+        # Checkpoint 1: Before Textract
+        check_cancellation(process_id)
+        update_progress(process_id, "extracting", 0, "Starting OCR extraction with AWS Textract...")
+        
+        from textractservices.textract_single import process_direct_file
+        
+        update_progress(process_id, "extracting", 5, "Initializing Textract processor...")
+        check_cancellation(process_id)
+        
+        # Checkpoint 2: Before Textract processing
+        update_progress(process_id, "extracting", 10, "Starting document processing...")
+        
+        # Run Textract and progress simulation in parallel
+        textract_task = asyncio.create_task(
+            run_cpu_intensive_task(process_direct_file, pdf_file_path, base_path)
+        )
+        progress_task = asyncio.create_task(
+            simulate_progress(process_id, 10, 40, 30, "extracting", "Processing document with OCR")
+        )
+        
+        # Wait for Textract to complete
+        excel_file_path = await textract_task
+        progress_task.cancel()  # Stop simulation when done
+        
+        if not excel_file_path:
+            raise Exception("Failed to process the PDF file with Textract")
+        
+        add_process_file(process_id, excel_file_path)
+        
+        # Checkpoint 3: After Textract
+        check_cancellation(process_id)
+        update_progress(process_id, "extracting", 40, "OCR extraction complete")
+        logger.info(f"Textract processing complete. Excel file created at: {excel_file_path}")
+        
+        # Define output files
+        unified_excel_path = os.path.join(base_path, f"{original_filename}_unified.xlsx")
+        add_process_file(process_id, unified_excel_path)
+        
+        # Checkpoint 4: Before GPT processing
+        check_cancellation(process_id)
+        
+        # Step 2 & 3: Process Excel with GPT AND Advanced Validation IN PARALLEL
+        from textractservices.gpt_excel_extractor import GPTCoAExtractor
+        from textractservices.final_with_endotoxins import process_coa_optimized
+        
+        llm_url = "https://api-epic.ir-gateway.abbvienet.com/iliad/api/v1/chat/claude-3.7-sonnet"
+        llm_api_key = REDACTED
+        
+        logger.info("Starting parallel processing: GPT analysis + Advanced validation")
+        update_progress(process_id, "analyzing", 0, "Starting AI analysis...")
+        
+        # Create tasks that can run in parallel
+        extractor = GPTCoAExtractor(api_key=llm_api_key, api_url=llm_url)
+        
+        # Set up cancellation callback for the extractor
+        extractor.set_cancellation_callback(lambda: check_cancellation(process_id))
+        
+        # Set up progress callback for the extractor
+        extractor.set_progress_callback(lambda progress, message: update_progress(process_id, "analyzing", progress, message))
+        
+        # Define functions for parallel execution
+        def run_gpt_processing():
+            check_cancellation(process_id)
+            # Direct call - the extractor now has cancellation support and progress callbacks
+            df, product_info = extractor.process_excel_with_llm_metadata(excel_file_path, pdf_file_path)
+            
+            check_cancellation(process_id)
+            update_progress(process_id, "analyzing", 59, "Creating unified Excel report...")
+            extractor.create_unified_excel(df, product_info, unified_excel_path)
+            return df, product_info
+        
+        # Run both processes in parallel
+        try:
+            # Checkpoint 5: Before GPT processing
+            check_cancellation(process_id)
+            
+            # First run GPT processing to get enhanced metadata with progress simulation
+            gpt_task = asyncio.create_task(
+                run_cpu_intensive_task(run_gpt_processing)
+            )
+            gpt_progress_task = asyncio.create_task(
+                simulate_progress(process_id, 40, 60, 25, "analyzing", "AI processing with GPT-4")
+            )
+            
+            gpt_result = await gpt_task
+            gpt_progress_task.cancel()  # Stop simulation when done
+            df, product_info = gpt_result
+            
+            # Checkpoint 6: After GPT processing
+            check_cancellation(process_id)
+            update_progress(process_id, "analyzing", 60, "GPT processing complete")
+            logger.info(f"GPT processing complete. Created unified Excel file: {unified_excel_path}")
+            
+            # Checkpoint 7: Before validation
+            check_cancellation(process_id)
+            
+            # Now run advanced validation with enhanced metadata
+            def run_advanced_validation_with_metadata():
+                check_cancellation(process_id)
+                # Validation function uses its own progress callbacks (60-80% range)
+                
+                blocks_json_path = os.path.join(base_path, f"{original_filename}_blocks.json")
+                if os.path.exists(blocks_json_path):
+                    add_process_file(process_id, blocks_json_path)
+                    
+                    check_cancellation(process_id)
+                    # Validation handles its own progress (60-80% range)
+                    
+                    # Direct call - we'll add cancellation support to this function later
+                    result = process_coa_optimized(
+                        pdf_file_path, blocks_json_path, unified_excel_path, base_path, product_info,
+                        progress_callback=lambda progress, message: update_progress(process_id, "analyzing", progress, message)
+                    )
+                    
+                    check_cancellation(process_id)
+                    # Validation already completed to 80%
+                    return result
+                return None
+            
+            # Run validation without simulation (uses its own progress callbacks)
+            validation_result = await run_cpu_intensive_task(run_advanced_validation_with_metadata)
+            
+            # Validation is complete (already updated to 80% by the function)
+            
+            # Handle advanced validation results
+            if validation_result:
+                enhanced_excel_path = validation_result.get('enhanced_excel_path')
+                enhanced_json_path = validation_result.get('enhanced_json_path')
+                validation_status = validation_result.get('validation_status')
+                
+                logger.info(f"Advanced validation completed with status: {validation_status}")
+                
+                # Use enhanced file as the primary output if available
+                if validation_status == 'enhanced' and enhanced_excel_path and os.path.exists(enhanced_excel_path):
+                    primary_excel_path = enhanced_excel_path
+                    logger.info(f"Using enhanced Excel file: {enhanced_excel_path}")
+                else:
+                    primary_excel_path = unified_excel_path
+                    logger.info(f"Using original unified Excel file: {unified_excel_path}")
+            else:
+                logger.warning("Advanced validation skipped - blocks JSON not found")
+                primary_excel_path = unified_excel_path
+                
+        except Exception as e:
+            logger.error(f"Error during parallel processing: {str(e)}")
+            # Fallback to sequential processing
+            logger.info("Falling back to sequential processing...")
+            primary_excel_path = unified_excel_path
+        
+        # Clean up the intermediate Excel file created by Textract
+            if os.path.exists(excel_file_path) and excel_file_path != unified_excel_path:
+                try:
+                    os.remove(excel_file_path)
+                    logger.info(f"Cleaned up intermediate Excel file: {excel_file_path}")
+                except Exception as e:
+                    logger.warning(f"Could not remove intermediate Excel file: {e}")
+            
+            # Clean up any accidentally created files with old naming patterns (but preserve enhanced files)
+            patterns_to_clean = [
+                f"{original_filename}_data.csv",
+                f"{original_filename}_info.json",
+                f"{original_filename}_results.json",
+                f"{original_filename}.csv",
+                f"{original_filename}.xlsx",
+                f"{original_filename}_temp.csv"
+            ]
+            
+            for pattern in patterns_to_clean:
+                file_to_clean = os.path.join(base_path, pattern)
+                if os.path.exists(file_to_clean):
+                    try:
+                        os.remove(file_to_clean)
+                        logger.info(f"Cleaned up extra file: {file_to_clean}")
+                    except Exception as e:
+                        logger.warning(f"Could not remove extra file {file_to_clean}: {e}")
+            
+
+            
+        # Store the results for later retrieval
+        if 'primary_excel_path' in locals():
+            # Final checkpoint before completion
+            check_cancellation(process_id)
+            
+            # Create download links with proper URL encoding
+            filename = os.path.basename(primary_excel_path)
+            encoded_filename = quote(filename, safe='')
+            download_links = {
+                "Download Enhanced CoA Report": f"/download/{encoded_filename}"
+            }
+            
+            # Store results
+            results_store[process_id] = {
+                "process_id": process_id,
+                "file_name": f"{original_filename}.pdf",
+                "original_filename": original_filename,
+                "message": f"## Certificate of Analysis Processing Complete\n\nThe document has been processed successfully.\n\n📥 [Download Enhanced Results]({list(download_links.values())[0]})",
+                "success": True
+            }
+        
+        # Final progress simulation to 100%
+        final_progress_task = asyncio.create_task(
+            simulate_progress(process_id, 81, 100, 3, "analyzing", "Finalizing results")
+        )
+        await final_progress_task
+        
+        # Mark as completed
+        update_progress(process_id, "completed", 100, "Processing complete!")
+        complete_process(process_id)
+        
+        logger.info(f"Background processing complete for: {original_filename}")
+        
+    except Exception as e:
+        # Check if this was a cancellation
+        if "cancelled by user" in str(e).lower():
+            logger.info(f"⏹️ Process {process_id} was cancelled by user")
+            update_progress(process_id, "cancelled", 0, "Process cancelled by user")
+        else:
+            logger.error(f"❌ Error in background processing: {str(e)}")
+            update_progress(process_id, "error", 0, f"Processing failed: {str(e)}")
+            # Cleanup files on error
+            cleanup_process_files(process_id)
+        
+        # Store error result (only if not cancelled)
+        if "cancelled by user" not in str(e).lower():
+            results_store[process_id] = {
+                "process_id": process_id,
+                "success": False,
+                "error": str(e),
+                "message": f"Processing failed: {str(e)}"
+            }
+        
+        # Always complete the process record
+        complete_process(process_id)
+
+async def process_hbr_in_background(pdf_file_path: str, excel_file_path: str, hbr_results_path: str, process_id: str, original_filename: str, pdf_path_file: str):
+    """Background task to process HBR document with multi-agent system"""
+    try:
+        # Register this process
+        register_process(process_id, "hbr_processing")
+        add_process_file(process_id, pdf_file_path)
+        add_process_file(process_id, excel_file_path)
+        
+        # Check cancellation
+        check_cancellation(process_id)
+        
+        from textractservices.hbr_multiagent_api import hbr_multiagent_api
+        
+        logger.info("Initializing HBR multi-agent processing")
+        
+        # Continue processing smoothly from uploading (no jarring reset to 0%)
+        update_progress(process_id, "processing", 5, "Starting multi-agent HBR extraction...")
+        
+        # Create a session for multi-agent processing
+        session_id = hbr_multiagent_api.create_session(pdf_file_path, excel_file_path)
+        session = hbr_multiagent_api.get_session(session_id)
+        
+        # Set progress callback
+        session.set_progress_callback(lambda progress, message: update_progress(process_id, "processing", progress, message))
+        
+        # Process the documents - pass hbr_results_path as output_dir
+        logger.info(f"Processing HBR documents with multi-agent system: {pdf_file_path}, {excel_file_path}")
+        results = await hbr_multiagent_api.process_documents(session_id, hbr_results_path)
+        
+        if not results["success"]:
+            raise Exception(results.get("error", "Multi-agent processing failed"))
+        
+        # Generate download link
+        excel_filename = os.path.basename(results["excel_file_path"])
+        
+        # Check if the file exists in the expected location
+        if not os.path.exists(results["excel_file_path"]):
+            logger.error(f"Excel file not found at expected path: {results['excel_file_path']}")
+            
+            # Try to find the file in the hbr_results directory
+            for root, dirs, files in os.walk(hbr_results_path):
+                for file in files:
+                    if file.endswith(".xlsx"):
+                        logger.info(f"Found alternative Excel file: {file}")
+                        excel_filename = file
+                        results["excel_file_path"] = os.path.join(root, file)
+                        break
+        
+        # Download link is now embedded in the message directly
+        
+        # Log the download link for debugging
+        logger.info(f"Created download link: /download/{excel_filename}")
+        
+        # Create a simple summary message
+        summary = results["processing_summary"]
+        summary_message = f"## HBR Results\n\nPlease upload your HBR document first.\n\n📥 [Download Results Excel](/download/{excel_filename})"
+        
+        # Clean up the temporary file
+        if os.path.exists(pdf_path_file):
+            os.remove(pdf_path_file)
+        
+        # Store results for later retrieval
+        response_data = {
+            "success": True,
+            "process_id": process_id,
+            "session_id": session_id,
+            "message": summary_message,
+            "results": results["results"],
+            "missing_parameters": results["missing_parameters"],
+            "processing_summary": summary,
+            "feedback_available": len(results["missing_parameters"]) > 0
+        }
+        
+        # Store in results_store for /hbr-result endpoint
+        results_store[process_id] = response_data
+        
+        # Mark process as completed
+        update_progress(process_id, "completed", 100, "HBR processing complete!")
+        
+    except Exception as e:
+        logger.error(f"Error during HBR processing: {str(e)}")
+        # Store error result
+        error_data = {
+            "success": False,
+            "process_id": process_id,
+            "error": f"Error processing HBR files: {str(e)}"
+        }
+        results_store[process_id] = error_data
+        update_progress(process_id, "error", 0, f"Processing failed: {str(e)}")
+    finally:
+        # Always complete the process record
+        complete_process(process_id)
+
+@app.post("/test-upload")
+async def test_upload(file: UploadFile = File(...)):
+    """
+    Simple test endpoint for file uploads with minimal processing
+    """
+    try:
+        # Just return basic file info without processing
+        return {
+            "success": True,
+            "filename": file.filename,
+            "content_type": file.content_type,
+            "size": file.size,
+            "message": "File received successfully"
+        }
+    except Exception as e:
+        logger.error(f"Test upload error: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Test upload error: {str(e)}"}
+        )
+
+@app.post("/upload-hbr-pdf")
+async def upload_hbr_pdf(file: UploadFile = File(...)):
+    """
+    Public endpoint to handle HBR PDF file upload
+    """
+    try:
+        # Generate a unique process ID for tracking
+        process_id = str(uuid.uuid4())
+        
+        # Initial progress
+        update_progress(process_id, "uploading", 0, "Starting HBR PDF upload...")
+        
+        # Save the original filename without extension for output naming
+        original_filename = os.path.splitext(file.filename)[0]
+        
+        # Create temp directory if it doesn't exist
+        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp')
+        os.makedirs(base_path, exist_ok=True)
+        
+        update_progress(process_id, "uploading", 20, "Processing PDF file...")
+        
+        # Read entire file into memory at once (faster)
+        file_content = await file.read()
+        
+        # Write to disk in one operation
+        pdf_file_path = os.path.join(base_path, f"{original_filename}.pdf")
+        with open(pdf_file_path, "wb") as f:
+            f.write(file_content)
+        
+        update_progress(process_id, "uploading", 80, "PDF file saved successfully")
+        logger.info(f"Saved HBR PDF file: {file.filename}")
+        
+        # Store the PDF path in a session variable for later processing with Excel config
+        # We'll use a simple file-based storage for this
+        storage_path = os.path.join(base_path, f"{process_id}_pdf_path.txt")
+        with open(storage_path, "w") as f:
+            f.write(pdf_file_path)
+        
+        update_progress(process_id, "completed", 100, "PDF upload complete")
+        
+        # Create a simple message with download link
+        detailed_message = f"""📄 PDF uploaded: {file.filename}
+
+Now upload your Target List Excel file with two columns: Parameter and Page.
+
+📋 Need the template? [Download HBR Target List Template](/api/download-sample-template)
+
+<hbr_process_id>{process_id}</hbr_process_id>"""
+
+        return {
+            "success": True,
+            "message": detailed_message,
+            "process_id": process_id,
+            "pdf_file": original_filename
+        }
+        
+    except Exception as e:
+        logger.error(f"Error processing HBR PDF file: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error processing file: {str(e)}"}
+        )
+    finally:
+        file.file.close()
+
+@app.post("/upload-hbr-excel")
+async def upload_hbr_excel(file: UploadFile = File(...), process_id: str = Form(...)):
+    """
+    Public endpoint to handle HBR Excel configuration file upload and process with previously uploaded PDF
+    """
+    try:
+        # Save the original filename without extension for output naming
+        original_filename = os.path.splitext(file.filename)[0]
+        
+        # Create temp directory if it doesn't exist
+        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp')
+        os.makedirs(base_path, exist_ok=True)
+        
+        # Read entire file into memory at once (faster)
+        file_content = await file.read()
+        
+        # Write Excel file in one operation
+        excel_file_path = os.path.join(base_path, f"{original_filename}.xlsx")
+        with open(excel_file_path, "wb") as f:
+            f.write(file_content)
+        
+        logger.info(f"Saved HBR Excel file: {file.filename}")
+        
+        # Get the PDF path from the stored file
+        pdf_path_file = os.path.join(base_path, f"{process_id}_pdf_path.txt")
+        if not os.path.exists(pdf_path_file):
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "PDF file not found. Please upload the PDF file first."}
+            )
+        
+        with open(pdf_path_file, "r") as f:
+            pdf_file_path = f.read().strip()
+        
+        if not os.path.exists(pdf_file_path):
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "PDF file not found on server. Please upload the PDF file again."}            )
+        
+        # Process the HBR files using the TextractProcessor from hbr_python.py
+        try:
+            from textractservices.hbr_python import TextractProcessor
+            
+            # Create the TextractProcessor (it handles session creation internally)
+            logger.info("Initializing TextractProcessor for HBR processing")
+            processor = TextractProcessor()
+            
+            # Process the PDF with the Excel configuration
+            logger.info(f"Processing HBR PDF with Excel configuration: {pdf_file_path}, {excel_file_path}")
+            results = processor.process_pdf(pdf_file_path, excel_file_path)
+            
+            # Generate output paths for download - use a simple name without spaces
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            results_filename = f"hbr_results_{timestamp}.xlsx"
+            results_excel_path = os.path.join(base_path, results_filename)
+            
+            # Use pandas to save the results directly in the temp directory
+            results_df = pd.DataFrame(results)
+            results_df.to_excel(results_excel_path, index=False)
+            logger.info(f"Saved HBR results to: {results_excel_path}")
+            
+            # Verify the file exists before creating the download link
+            if not os.path.exists(results_excel_path):
+                logger.error(f"Results file was not created at expected path: {results_excel_path}")
+                return JSONResponse(
+                    status_code=500,
+                    content={"success": False, "error": "Failed to create results file"}
+                )
+                
+            # Download link is now embedded in the message directly
+            
+            # Log the download link for debugging
+            logger.info(f"Created download link: /download/{results_filename}")
+            
+            # Create a simple summary message
+            summary_message = f"## HBR Results\n\nPlease upload your HBR document first.\n\n📥 [Download Results Excel](/download/{results_filename})"
+            
+            # Clean up the temporary file
+            if os.path.exists(pdf_path_file):
+                os.remove(pdf_path_file)
+            
+            return {
+                "success": True,
+                "process_id": process_id,
+                "message": summary_message,
+                "results": results
+            }
+            
+        except Exception as processing_error:
+            logger.error(f"Error during HBR processing: {str(processing_error)}")
+            return JSONResponse(
+                status_code=500,
+                content={"success": False, "error": f"Error processing HBR files: {str(processing_error)}"}
+            )
+        
+    except Exception as e:
+        logger.error(f"Error processing HBR Excel file: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error processing file: {str(e)}"}
+        )
+    finally:
+        file.file.close()
+
+@app.get("/download/{file_name:path}")
+async def download_file(file_name: str):
+    """
+    Endpoint to download files from the temp directory
+    """
+    try:
+        # URL decode the file name
+        decoded_file_name = unquote(file_name)
+        logger.info(f"Download request for file: {decoded_file_name}")
+        
+        # Check if file exists in the temp directory
+        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp')
+        file_path = os.path.join(base_path, decoded_file_name)
+        logger.info(f"Looking for file at: {file_path}")
+        
+        # If not found directly, check the hbr_results directory first (most likely location)
+        if not os.path.exists(file_path):
+            hbr_results_path = os.path.join(base_path, 'hbr_results')
+            hbr_file_path = os.path.join(hbr_results_path, decoded_file_name)
+            logger.info(f"Checking HBR results directory: {hbr_file_path}")
+            
+            if os.path.exists(hbr_file_path):
+                file_path = hbr_file_path
+                logger.info(f"Found file in HBR results directory: {file_path}")
+        
+        # If still not found, search all subdirectories
+        if not os.path.exists(file_path):
+            logger.info(f"File not found at {file_path}, searching in all subdirectories...")
+            found = False
+            for root, dirs, files in os.walk(base_path):
+                for file in files:
+                    if file == decoded_file_name:
+                        file_path = os.path.join(root, file)
+                        logger.info(f"Found file at: {file_path}")
+                        found = True
+                        break
+                if found:
+                    break
+        
+        # List all files in temp directory for debugging
+        logger.info("Files in temp directory:")
+        for root, dirs, files in os.walk(base_path):
+            for file in files:
+                if file.endswith('.xlsx'):  # Only log Excel files to reduce noise
+                    logger.info(f"  {os.path.join(root, file)}")
+        
+        if not os.path.exists(file_path):
+            logger.error(f"File not found: {file_path}")
+            raise HTTPException(status_code=404, detail=f"File not found: {decoded_file_name}")
+        
+        # Determine content type based on file extension
+        content_type, _ = mimetypes.guess_type(file_path)
+        if not content_type:
+            if decoded_file_name.endswith('.xlsx'):
+                content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            elif decoded_file_name.endswith('.csv'):
+                content_type = 'text/csv'
+            elif decoded_file_name.endswith('.json'):
+                content_type = 'application/json'
+            else:
+                content_type = 'application/octet-stream'
+        
+        # Return the file with CORS headers
+        logger.info(f"Serving file: {file_path} with content type: {content_type}")
+        response = FileResponse(
+            path=file_path, 
+            filename=os.path.basename(decoded_file_name),
+            media_type=content_type
+        )
+        
+        # Add CORS headers
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+        
+        return response
+    
+    except Exception as e:
+        logger.error(f"Error serving file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error serving file: {str(e)}")
+
+@app.get("/api/download-sample-template")
+async def download_sample_template():
+    """
+    Endpoint to download a sample HBR target list template
+    """
+    logger.info("HBR template download requested - using UPDATED version with reference image")
+    try:
+        import openpyxl
+        from openpyxl.styles import Font, PatternFill, Alignment
+        from openpyxl.drawing.image import Image as XLImage
+        from datetime import datetime
+        
+        # Create a temporary file in the temp directory
+        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp')
+        os.makedirs(base_path, exist_ok=True)
+        
+        # Create timestamp for unique filename
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        template_path = os.path.join(base_path, f"hbr_target_list_template_{timestamp}.xlsx")
+        
+
+        
+        # Create a new Excel workbook
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "HBR Target List"
+        
+        # Define styles
+        header_font = Font(bold=True, color="FFFFFF")
+        header_fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
+        center_alignment = Alignment(horizontal="center", vertical="center")
+        
+        # Add headers - back to original 3 columns
+        headers = ["Parameter", "Search_Pages", "Comments"]
+        for col, header in enumerate(headers, 1):
+            cell = ws.cell(row=1, column=col, value=header)
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = center_alignment
+        
+        # Add sample data with example parameters based on your image
+        sample_data = [
+            ["Bulk Density by USP <616> Method 3", "2,3", "Look in 'Additional Information' section"],
+            ["Tapped Density by USP <616> Method 3", "2,3", "Check specification criteria table"], 
+            ["Carr Index", "2,3", "Calculate from bulk and tapped density"],
+            ["Hausner Ratio", "2,3", "Found in specification column"],
+            ["Loss on Drying", "2,3", "Look for moisture content value"],
+            ["Date of Analysis", "2,3", "Check document header or footer"],
+            ["Date of Bottling", "2,3", "Manufacturing information section"]
+        ]
+        
+        # Add sample data to worksheet
+        for row, data in enumerate(sample_data, 2):
+            for col, value in enumerate(data, 1):
+                ws.cell(row=row, column=col, value=value)
+        
+        # Add your reference image to the right of the data
+        try:
+            # Path to your reference image
+            assets_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets')
+            reference_image_path = os.path.join(assets_path, 'image.png')
+            
+            if os.path.exists(reference_image_path):
+                logger.info(f"Reference image found at: {reference_image_path}")
+                # Insert the reference image
+                xl_image = XLImage(reference_image_path)
+                
+                # Resize image to be much larger and very prominent
+                xl_image.width = 800   # Width in pixels (increased from 600)
+                xl_image.height = 600  # Height in pixels (increased from 450)
+                
+                # Position image starting at column E (5th column), row 2
+                xl_image.anchor = "E2"
+                ws.add_image(xl_image)
+                logger.info("Reference image successfully added to Excel template")
+                
+                # Add a title above the image
+                ws.cell(row=1, column=5, value="Document Reference Example").font = header_font
+                ws.cell(row=1, column=5).fill = header_fill
+                ws.cell(row=1, column=5).alignment = center_alignment
+                
+                # Extend column widths for much larger image
+                ws.column_dimensions['E'].width = 100  # Much wider for large image
+                ws.column_dimensions['F'].width = 100  # Extra space for image overflow
+                ws.column_dimensions['G'].width = 100  # Additional space for image
+                ws.column_dimensions['H'].width = 20   # Buffer space
+                
+            else:
+                logger.error(f"Reference image NOT found at: {reference_image_path}")
+                # If image doesn't exist, add a note
+                ws.cell(row=1, column=5, value="Reference Image Not Found")
+                
+        except Exception as e:
+            logger.warning(f"Could not add reference image: {e}")
+            # Add fallback text
+            ws.cell(row=1, column=5, value="Reference Image")
+        
+        # Add instructions in separate rows
+        instructions_start_row = len(sample_data) + 4
+        instructions = [
+            "",
+            "INSTRUCTIONS:",
+            "1. Replace the sample data above with your actual parameters from your document.",
+            "2. Update the Search_Pages column with page numbers where each parameter appears.",
+            "3. Add helpful comments to guide the extraction process.",
+            "4. Use the reference image on the right to understand document structure.",
+            "5. You can add more rows as needed for additional parameters."
+        ]
+        
+        for i, instruction in enumerate(instructions):
+            ws.cell(row=instructions_start_row + i, column=1, value=instruction)
+        
+        # Adjust column widths for clean layout
+        ws.column_dimensions['A'].width = 35  # Parameter name
+        ws.column_dimensions['B'].width = 15  # Search pages
+        ws.column_dimensions['C'].width = 40  # Comments
+        
+        # Save the workbook
+        wb.save(template_path)
+        
+        # Create a custom response that cleans up temporary files
+        async def cleanup_files():
+            """Clean up temporary files after serving"""
+            try:
+                # Clean up template file after a delay
+                import asyncio
+                await asyncio.sleep(5)  # Wait 5 seconds before cleanup
+                if os.path.exists(template_path):
+                    os.remove(template_path)
+            except Exception as cleanup_error:
+                logger.warning(f"Cleanup warning: {cleanup_error}")
+        
+        # Schedule cleanup task
+        import asyncio
+        asyncio.create_task(cleanup_files())
+        
+        # Return the file with appropriate headers
+        return FileResponse(
+            path=template_path,
+            filename="hbr_target_list_template.xlsx",
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={
+                "Content-Disposition": "attachment; filename=hbr_target_list_template.xlsx",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        )
+        
+    except Exception as e:
+        logger.error(f"Error generating sample template: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to generate sample template: {str(e)}"}
+        )
+
+# Multi-Agent HBR endpoints
+@app.post("/upload-hbr-multiagent")
+async def upload_hbr_multiagent(background_tasks: BackgroundTasks, file: UploadFile = File(...), hbr_pdf_process_id: str = Form(...)):
+    """
+    Process HBR files using the advanced multi-agent system with Claude
+    """
+    # Generate a new process ID for the Excel processing
+    process_id = str(uuid.uuid4())
+    try:
+        # Save the original filename without extension for output naming
+        original_filename = os.path.splitext(file.filename)[0]
+        
+        # Create temp directory if it doesn't exist
+        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp')
+        os.makedirs(base_path, exist_ok=True)
+        
+        # Create HBR results directory if it doesn't exist
+        hbr_results_path = os.path.join(base_path, 'hbr_results')
+        os.makedirs(hbr_results_path, exist_ok=True)
+        
+        # Read entire file into memory at once (faster)
+        file_content = await file.read()
+        
+        # Write Excel file in one operation
+        excel_file_path = os.path.join(base_path, f"{original_filename}.xlsx")
+        with open(excel_file_path, "wb") as f:
+            f.write(file_content)
+        
+        logger.info(f"Saved HBR Excel file for multi-agent processing: {file.filename}")
+        
+        # Get the PDF path from the stored file using the PDF process ID
+        pdf_path_file = os.path.join(base_path, f"{hbr_pdf_process_id}_pdf_path.txt")
+        if not os.path.exists(pdf_path_file):
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "PDF file not found. Please upload the PDF file first."}
+            )
+        
+        with open(pdf_path_file, "r") as f:
+            pdf_file_path = f.read().strip()
+        
+        if not os.path.exists(pdf_file_path):
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "PDF file not found on server. Please upload the PDF file again."}
+            )
+        
+        # Initial progress update
+        update_progress(process_id, "uploading", 0, "Starting HBR Excel upload...")
+        update_progress(process_id, "uploading", 30, "Excel file uploaded successfully")
+        update_progress(process_id, "uploading", 50, "Preparing for processing...")
+        update_progress(process_id, "uploading", 70, "Initializing multi-agent system...")
+        update_progress(process_id, "uploading", 90, "Ready to start processing...")
+        
+        # Start background processing
+        background_tasks.add_task(
+            process_hbr_in_background,
+            pdf_file_path,
+            excel_file_path,
+            hbr_results_path,
+            process_id,
+            original_filename,
+            pdf_path_file
+        )
+        
+        # Return immediately with process_id
+        return JSONResponse(
+            content={
+                "message": "HBR Excel upload started successfully",
+                "process_id": process_id,
+                "success": True,
+                "status": "processing_started"
+            }
+        )
+        
+    except Exception as e:
+        logger.error(f"Error processing HBR Excel file: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error processing file: {str(e)}"}
+        )
+    finally:
+        file.file.close()
+
+@app.post("/hbr-feedback")
+async def hbr_feedback(request: Request):
+    """
+    Handle user feedback for missing HBR parameters
+    """
+    try:
+        data = await request.json()
+        
+        # Extract required fields
+        session_id = data.get("session_id")
+        missing_parameter = data.get("missing_parameter")
+        user_message = data.get("user_message")
+        pages_already_checked = data.get("pages_already_checked", [])
+        
+        if not session_id or not missing_parameter or not user_message:
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "Missing required fields: session_id, missing_parameter, user_message"}
+            )
+        
+        logger.info(f"Processing feedback for session {session_id}, parameter: {missing_parameter}")
+        
+        # Process feedback using multi-agent API
+        from textractservices.hbr_multiagent_api import hbr_multiagent_api
+        
+        feedback_result = await hbr_multiagent_api.handle_feedback(
+            session_id=session_id,
+            missing_parameter=missing_parameter,
+            user_message=user_message,
+            pages_already_checked=pages_already_checked
+        )
+        
+        if not feedback_result["success"]:
+            return JSONResponse(
+                status_code=400,
+                content=feedback_result
+            )
+        
+        # Format the response for the frontend
+        assistant_response = feedback_result["assistant_response"]
+        
+        response_message = f"""🤖 **Assistant Recommendation:**
+
+{assistant_response.get('assistant_message', 'I can help you find that parameter.')}
+
+**Recommended Pages to Check:** {', '.join(map(str, assistant_response.get('recommended_pages', [])))}
+
+**Search Strategy:** {assistant_response.get('reasoning', 'Check the recommended pages carefully.')}
+
+**Search Hints:**
+{chr(10).join(f'• {hint}' for hint in assistant_response.get('search_hints', []))}
+
+{f'**Questions to Consider:**{chr(10)}{chr(10).join(f"• {q}" for q in assistant_response.get("clarifying_questions", []))}' if assistant_response.get('clarifying_questions') else ''}
+
+Would you like me to search the recommended pages now, or do you have a specific hint about where to look?"""
+        
+        return {
+            "success": True,
+            "session_id": session_id,
+            "parameter": missing_parameter,
+            "message": response_message,
+            "assistant_response": assistant_response,
+            "recommended_pages": assistant_response.get("recommended_pages", [])
+        }
+        
+    except Exception as e:
+        logger.error(f"Error processing HBR feedback: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error processing feedback: {str(e)}"}
+        )
+
+@app.post("/hbr-reprocess")
+async def hbr_reprocess(request: Request):
+    """
+    Reprocess a parameter with user's specific hint
+    """
+    try:
+        data = await request.json()
+        
+        # Extract required fields
+        session_id = data.get("session_id")
+        parameter = data.get("parameter")
+        user_hint = data.get("user_hint")
+        recommended_pages = data.get("recommended_pages", [])
+        
+        if not session_id or not parameter or not user_hint:
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "Missing required fields: session_id, parameter, user_hint"}
+            )
+        
+        logger.info(f"Reprocessing parameter {parameter} for session {session_id} with hint: {user_hint}")
+        
+        # Reprocess using multi-agent API
+        from textractservices.hbr_multiagent_api import hbr_multiagent_api
+        
+        reprocess_result = await hbr_multiagent_api.reprocess_with_hint(
+            session_id=session_id,
+            parameter=parameter,
+            user_hint=user_hint,
+            recommended_pages=recommended_pages
+        )
+        
+        if not reprocess_result["success"]:
+            return JSONResponse(
+                status_code=400,
+                content=reprocess_result
+            )
+        
+        # Format the response
+        if reprocess_result["found"]:
+            result_data = reprocess_result["results"][0]
+            response_message = f"""✅ **Parameter Found!**
+
+**{parameter}**: {result_data['value']} {result_data.get('unit', '')}
+**Page**: {result_data['page']}
+**Confidence**: {result_data.get('confidence', 'Unknown')}
+**Location**: {result_data.get('location_found', 'Found on page')}
+
+The parameter has been successfully extracted and added to your results!"""
+        else:
+            response_message = f"""❌ **Parameter Not Found**
+
+The parameter **{parameter}** was not found on the recommended pages even with your hint.
+
+You might try:
+• Checking if the parameter has a different name in the document
+• Looking for abbreviations or alternative terms
+• Verifying the page numbers are correct
+• Providing more specific location hints (e.g., "in the table header", "bottom right corner")"""
+        
+        return {
+            "success": True,
+            "session_id": session_id,
+            "parameter": parameter,
+            "found": reprocess_result["found"],
+            "message": response_message,
+            "results": reprocess_result.get("results", [])
+        }
+        
+    except Exception as e:
+        logger.error(f"Error reprocessing HBR parameter: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error reprocessing parameter: {str(e)}"}
+        )
+
+@app.post("/hbr-parameter-feedback")
+async def hbr_parameter_feedback(request: Request):
+    """
+    Handle user feedback about specific parameter extraction results
+    """
+    try:
+        data = await request.json()
+        
+        # Extract required fields
+        session_id = data.get("session_id")
+        parameter = data.get("parameter")
+        issue_type = data.get("issue_type")  # 'missing' or 'incorrect'
+        expected_page = data.get("expected_page")
+        current_value = data.get("current_value")
+        hint = data.get("hint")
+        
+        if not session_id or not parameter or not issue_type or not expected_page:
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "Missing required fields: session_id, parameter, issue_type, expected_page"}
+            )
+        
+        logger.info(f"Processing parameter feedback for session {session_id}, parameter: {parameter}")
+        
+        # Get session info from multi-agent API
+        from textractservices.hbr_multiagent_api import hbr_multiagent_api
+        from textractservices.hbr_multiagent import process_user_feedback
+        
+        session = hbr_multiagent_api.get_session(session_id)
+        if not session:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "error": f"Session {session_id} not found"}
+            )
+        
+        # Process the feedback using the new function
+        feedback_result = await run_cpu_intensive_task(
+            process_user_feedback,
+            session.pdf_path,
+            session.excel_path,
+            parameter,
+            issue_type,
+            expected_page,
+            current_value,
+            hint,
+            session.state  # Pass the previous state
+        )
+        
+        if feedback_result["status"] == "success" and feedback_result.get("updated_excel_path"):
+            # Get the updated filename
+            updated_filename = os.path.basename(feedback_result["updated_excel_path"])
+            
+            response_message = f"""✅ **Parameter Updated Successfully!**
+
+**Parameter**: {parameter}
+**Page**: {expected_page}
+**Issue Type**: {issue_type}
+**Result**: The parameter has been re-extracted based on your feedback.
+
+You can download the updated results below."""
+            
+            return {
+                "success": True,
+                "session_id": session_id,
+                "parameter": parameter,
+                "message": response_message,
+                "download_links": {
+                    "Updated Results Excel": f"/download/{updated_filename}"
+                },
+                "feedback_result": feedback_result["feedback_processed"]
+            }
+        else:
+            response_message = f"""❌ **Parameter Not Found**
+
+Even with your hint, the parameter **{parameter}** could not be found on page {expected_page}.
+
+Please verify:
+• The page number is correct
+• The parameter name matches exactly
+• Try providing more specific hints about the location"""
+            
+            return {
+                "success": False,
+                "session_id": session_id,
+                "parameter": parameter,
+                "message": response_message,
+                "feedback_result": feedback_result.get("feedback_processed", {})
+            }
+        
+    except Exception as e:
+        logger.error(f"Error processing parameter feedback: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error processing feedback: {str(e)}"}
+        )
+
+@app.get("/hbr-session/{session_id}")
+async def get_hbr_session(session_id: str):
+    """
+    Get information about an HBR multi-agent session
+    """
+    try:
+        from textractservices.hbr_multiagent_api import hbr_multiagent_api
+        
+        session_info = hbr_multiagent_api.get_session_info(session_id)
+        
+        if not session_info:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "error": f"Session {session_id} not found"}
+            )
+        
+        return {
+            "success": True,
+            "session_info": session_info
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting HBR session info: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error getting session info: {str(e)}"}
+        )
+
+@app.post("/hbr-chat-feedback")
+async def hbr_chat_feedback(request: Request):
+    """
+    Process natural language feedback from chat about parameter extraction
+    """
+    try:
+        data = await request.json()
+        
+        # Extract required fields
+        session_id = data.get("session_id")
+        user_message = data.get("message")
+        
+        if not session_id or not user_message:
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "error": "Missing required fields: session_id, message"}
+            )
+        
+        logger.info(f"Processing chat feedback for session {session_id}: {user_message}")
+        
+        # Import the required functions here
+        from textractservices.hbr_multiagent import call_claude_agent, safe_json_parse, process_user_feedback
+        
+        # Use Claude to extract structured information from the natural language message
+        extraction_task = f"""Extract parameter feedback information from this user message:
+
+User message: "{user_message}"
+
+Analyze the message and extract:
+1. Parameter name (what parameter they're talking about)
+2. Page number (where it should be found)
+3. Issue type (is it missing or incorrect?)
+4. Current value (if they mention what was extracted incorrectly)
+5. Hint/location (any guidance about where to find it)
+
+Return ONLY valid JSON:
+{{
+    "parameter": "extracted parameter name",
+    "page": <page number as integer>,
+    "issue_type": "missing" or "incorrect",
+    "current_value": "current value if mentioned, else null",
+    "hint": "any location hints or guidance provided"
+}}
+
+If you can't extract certain information, use reasonable defaults:
+- If no page mentioned, use null
+- If issue type unclear, assume "missing"
+- If no hint, extract any location-related information"""
+        
+        # Call Claude to parse the message
+        response = call_claude_agent(
+            "Feedback Parser",
+            extraction_task,
+            {"user_message": user_message}
+        )
+        
+        # Parse Claude's response using safe_json_parse
+        feedback_info = safe_json_parse(response, {
+            "parameter": "Unknown",
+            "page": None,
+            "issue_type": "missing",
+            "current_value": None,
+            "hint": user_message
+        })
+        
+        # Validate we have minimum required info
+        if not feedback_info.get("parameter") or feedback_info["parameter"] == "Unknown":
+            return {
+                "success": False,
+                "message": "I couldn't understand which parameter you're referring to. Please mention the specific parameter name.",
+                "needs_clarification": True
+            }
+        
+        if not feedback_info.get("page"):
+            return {
+                "success": False,
+                "message": f"I understand you're having an issue with '{feedback_info['parameter']}', but I need to know which page to check. What page should it be on?",
+                "needs_clarification": True,
+                "partial_info": feedback_info
+            }
+        
+        # Get session info
+        from textractservices.hbr_multiagent_api import hbr_multiagent_api
+        
+        session = hbr_multiagent_api.get_session(session_id)
+        if not session:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "error": f"Session {session_id} not found"}
+            )
+        
+        logger.info(f"Processing feedback for parameter: {feedback_info['parameter']}, page: {feedback_info['page']}")
+        
+        # Step 1: Process the feedback to get recommendations
+        feedback_result = await run_cpu_intensive_task(
+            process_user_feedback,
+            session.pdf_path,
+            session.excel_path,
+            feedback_info["parameter"],
+            feedback_info["issue_type"],
+            int(feedback_info["page"]),
+            feedback_info.get("current_value"),
+            feedback_info.get("hint", ""),
+            session.state if hasattr(session, 'state') else None
+        )
+        
+        # Check if feedback analysis was successful
+        if feedback_result["status"] != "success":
+            return JSONResponse(
+                status_code=500,
+                content={"success": False, "error": "Failed to process feedback"}
+            )
+        
+        # Step 2: AUTOMATICALLY TRIGGER REPROCESSING
+        feedback_data = feedback_result["feedback_processed"]
+        recommendations = feedback_data.get("recommendations", {})
+        pages_to_check = recommendations.get("pages_to_check", [int(feedback_info["page"])])
+        
+        logger.info(f"Automatically triggering reprocessing for '{feedback_info['parameter']}' on pages {pages_to_check}")
+        
+        # Call the reprocessing function
+        reprocess_result = await hbr_multiagent_api.reprocess_with_hint(
+            session_id=session_id,
+            parameter=feedback_info["parameter"],
+            user_hint=feedback_info.get("hint", ""),
+            recommended_pages=pages_to_check
+        )
+        
+        # Check reprocessing results
+        if reprocess_result["success"] and reprocess_result["found"]:
+            # Parameter was found!
+            result_data = reprocess_result["results"][0]
+            
+            response_message = f"""✅ **Found it!** I successfully extracted the parameter from page {result_data['page']}:
+
+**{feedback_info['parameter']}**: {result_data['value']} {result_data.get('unit', '')}
+
+{f"**Location**: {result_data.get('location_found', '')}" if result_data.get('location_found') else ""}
+{f"**Confidence**: {result_data.get('confidence', 'High')}" if result_data.get('confidence') else ""}
+
+The parameter has been added to your results."""
+            
+            return {
+                "success": True,
+                "message": response_message,
+                "extracted_info": feedback_info,
+                "found": True,
+                "extracted_value": {
+                    "parameter": result_data.get("parameter"),
+                    "value": result_data.get("value"),
+                    "unit": result_data.get("unit", ""),
+                    "page": result_data.get("page"),
+                    "location": result_data.get("location_found", "")
+                }
+            }
+        else:
+            # Parameter still not found
+            response_message = f"""❌ I searched pages {', '.join(map(str, pages_to_check))} for **{feedback_info['parameter']}** but couldn't find it.
+
+{feedback_data.get('assistant_message', '')}
+
+Could you provide more specific details about:
+- The exact location on the page (e.g., "in the table at the bottom")
+- Any nearby text or headers
+- The format of the value you're expecting
+
+Or try telling me exactly what the value should be if you can see it."""
+            
+            return {
+                "success": False,
+                "message": response_message,
+                "extracted_info": feedback_info,
+                "found": False,
+                "pages_checked": pages_to_check
+            }
+        
+    except Exception as e:
+        logger.error(f"Error processing chat feedback: {str(e)}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "error": f"Error processing feedback: {str(e)}"}
+        )
+
+if __name__ == "__main__":
+    # Get server config from environment
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "5000"))
+    debug = os.getenv("DEBUG", "False").lower() == "true"
+    
+    # Increase timeouts for long-running requests
+    uvicorn.run("app:app", host=host, port=port, reload=debug, timeout_keep_alive=300, timeout_graceful_shutdown=300) 

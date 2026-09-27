@@ -1,0 +1,3915 @@
+{
+  "extraction_results": [
+    {
+      "task_name": "Charges",
+      "columns": [
+        "Step Number",
+        "Material Name",
+        "Material Number",
+        "Batch Number",
+        "Target Charge",
+        "Actual Charge",
+        "Units"
+      ],
+      "rows": [
+        {
+          "data": {
+            "Step Number": "208",
+            "Material Name": "15mM Histidine, pH 5.5",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": "305",
+            "Units": "Kg"
+          },
+          "page": 51
+        },
+        {
+          "data": {
+            "Step Number": "211",
+            "Material Name": "200 L BAG FOR XCELLEREX",
+            "Material Number": "20033009",
+            "Batch Number": "1000636597",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 52
+        },
+        {
+          "data": {
+            "Step Number": "213",
+            "Material Name": "Sartopore 2 0.2 µm Size 0 Tubeset",
+            "Material Number": "20012412",
+            "Batch Number": "1001467882",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 53
+        },
+        {
+          "data": {
+            "Step Number": "219",
+            "Material Name": "Step 177 400 mM Arginine, 100mM Phosphate Solution",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 56
+        },
+        {
+          "data": {
+            "Step Number": "224",
+            "Material Name": "Step 177 400 mM Arginine, 100mM Phosphate Solution",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": "328",
+            "Units": "Kg"
+          },
+          "page": 59
+        },
+        {
+          "data": {
+            "Step Number": "225",
+            "Material Name": "Step 144 15mM Histidine, pH 5.5",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 60
+        },
+        {
+          "data": {
+            "Step Number": "226",
+            "Material Name": "Step 144 15mM Histidine, pH 5.5",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": "302",
+            "Units": "Kg"
+          },
+          "page": 60
+        },
+        {
+          "data": {
+            "Step Number": "231",
+            "Material Name": "Sartopore 2 0.2 µm Size 0 Tubeset",
+            "Material Number": "20012412",
+            "Batch Number": "1001467882",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 62
+        },
+        {
+          "data": {
+            "Step Number": "237",
+            "Material Name": "Step 102 Sterile Purified Water",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": "98",
+            "Actual Charge": null,
+            "Units": "Kg"
+          },
+          "page": 65
+        },
+        {
+          "data": {
+            "Step Number": "238",
+            "Material Name": "Sodium Hydroxide Solution, 50% Caustic S",
+            "Material Number": "20032634",
+            "Batch Number": "1000913778",
+            "Target Charge": "5.2 +- 0.5",
+            "Actual Charge": "5.3",
+            "Units": "Kg"
+          },
+          "page": 65
+        },
+        {
+          "data": {
+            "Step Number": "242",
+            "Material Name": "Methanol, Tank",
+            "Material Number": "20068601",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 66
+        },
+        {
+          "data": {
+            "Step Number": "249",
+            "Material Name": "Polysorbate 80, NF/EP/JP for Par Use",
+            "Material Number": "10032298",
+            "Batch Number": "1001452798",
+            "Target Charge": "100.0 +- 2.0",
+            "Actual Charge": "100.6",
+            "Units": "G"
+          },
+          "page": 67
+        },
+        {
+          "data": {
+            "Step Number": "250",
+            "Material Name": "Step 102 Sterile Purified Water",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": "89.1 +- 0.5",
+            "Actual Charge": "89.1",
+            "Units": "Kg"
+          },
+          "page": 68
+        },
+        {
+          "data": {
+            "Step Number": "251",
+            "Material Name": "Sucrose Low Endotoxin, Multi-Compendial",
+            "Material Number": "20000791",
+            "Batch Number": "1001169785",
+            "Target Charge": "16600 +- 50",
+            "Actual Charge": "16600",
+            "Units": "G"
+          },
+          "page": 68
+        },
+        {
+          "data": {
+            "Step Number": "252",
+            "Material Name": "L-Histidine, USP/EP",
+            "Material Number": "10047833",
+            "Batch Number": "1002222107",
+            "Target Charge": "48.7 +- 0.5",
+            "Actual Charge": "48.7",
+            "Units": "G"
+          },
+          "page": 68
+        },
+        {
+          "data": {
+            "Step Number": "253",
+            "Material Name": "L-Histidine, MonoHCl, Monohydrate",
+            "Material Number": "10084640",
+            "Batch Number": "1000555375",
+            "Target Charge": "248.6 +- 2.0",
+            "Actual Charge": "249.0",
+            "Units": "G"
+          },
+          "page": 69
+        },
+        {
+          "data": {
+            "Step Number": "257",
+            "Material Name": "Millipak 100 Filter Set",
+            "Material Number": "20033013",
+            "Batch Number": "1002806305",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 70
+        },
+        {
+          "data": {
+            "Step Number": "257",
+            "Material Name": "BOTTLE, PETG, 1000mL, Sterile",
+            "Material Number": "20032947",
+            "Batch Number": "1000374012",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 70
+        },
+        {
+          "data": {
+            "Step Number": "259",
+            "Material Name": "100 L BAG, GAMMA IRRADIATED",
+            "Material Number": "20032946",
+            "Batch Number": "1000583251",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 70
+        },
+        {
+          "data": {
+            "Step Number": "261",
+            "Material Name": "BOTTLE, PETG, 5 ML STERILE",
+            "Material Number": "20033011",
+            "Batch Number": "1000541936",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 71
+        },
+        {
+          "data": {
+            "Step Number": "266",
+            "Material Name": "Step 144 15mM Histidine, pH 5.5",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "11.40 +- 0.10",
+            "Actual Charge": "11.40",
+            "Units": "Kg"
+          },
+          "page": 72
+        },
+        {
+          "data": {
+            "Step Number": "269",
+            "Material Name": "Step 144 15mM Histidine, pH 5.5",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "+- 0.10",
+            "Actual Charge": null,
+            "Units": "Kg"
+          },
+          "page": 73
+        },
+        {
+          "data": {
+            "Step Number": "272",
+            "Material Name": "Step 144 15mM Histidine, pH 5.5",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "+- 0.10",
+            "Actual Charge": null,
+            "Units": "Kg"
+          },
+          "page": 74
+        },
+        {
+          "data": {
+            "Step Number": "278",
+            "Material Name": "Step 260 Vehicle Solution",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": "59.46 +- 0.10",
+            "Actual Charge": "59.46",
+            "Units": "Kg"
+          },
+          "page": 75
+        },
+        {
+          "data": {
+            "Step Number": "135",
+            "Material Name": "Treated DMA",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "1095 +- 10",
+            "Actual Charge": "1095.8",
+            "Units": "g"
+          },
+          "page": 26
+        },
+        {
+          "data": {
+            "Step Number": "138",
+            "Material Name": "14\" x 3/16\" ID StaPure Pump Tubing",
+            "Material Number": "20074341",
+            "Batch Number": "1001150387",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 27
+        },
+        {
+          "data": {
+            "Step Number": "140",
+            "Material Name": "Treated DMA",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "100 +- 1",
+            "Actual Charge": "100",
+            "Units": "g"
+          },
+          "page": 28
+        },
+        {
+          "data": {
+            "Step Number": "144",
+            "Material Name": "Treated DMA",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "9565 +- 10",
+            "Actual Charge": "9565",
+            "Units": "g"
+          },
+          "page": 30
+        },
+        {
+          "data": {
+            "Step Number": "145",
+            "Material Name": "Treated DMA",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "200 +- 10",
+            "Actual Charge": "202",
+            "Units": "g"
+          },
+          "page": 30
+        },
+        {
+          "data": {
+            "Step Number": "146",
+            "Material Name": "Containers of A-1770637.0 Drug Linker Process A2",
+            "Material Number": "20079281",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 31
+        },
+        {
+          "data": {
+            "Step Number": "147",
+            "Material Name": "14\" x 3/16\" ID StaPure Pump Tubing",
+            "Material Number": "20074341",
+            "Batch Number": "1001150387",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 32
+        },
+        {
+          "data": {
+            "Step Number": "149",
+            "Material Name": "A-1770637.0 Drug Linker Process A2",
+            "Material Number": "20079281",
+            "Batch Number": "1000625021",
+            "Target Charge": "169.23 +- 0.10",
+            "Actual Charge": "169.23",
+            "Units": "g"
+          },
+          "page": 33
+        },
+        {
+          "data": {
+            "Step Number": "157",
+            "Material Name": "Methanol, Tank",
+            "Material Number": "20068601",
+            "Batch Number": "1-15-25",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 36
+        },
+        {
+          "data": {
+            "Step Number": "158",
+            "Material Name": "BOTTLE, PETG, 1000 ML, STERILE",
+            "Material Number": "20032947",
+            "Batch Number": "1000374012",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 36
+        },
+        {
+          "data": {
+            "Step Number": "158",
+            "Material Name": "N-Acetyl-L-Cysteine, USP",
+            "Material Number": "20027796",
+            "Batch Number": "1002045003",
+            "Target Charge": "8.2 +- 0.2",
+            "Actual Charge": "8.2",
+            "Units": "g"
+          },
+          "page": 36
+        },
+        {
+          "data": {
+            "Step Number": "159",
+            "Material Name": "Step 188 PBRE Buffer",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "530 +- 5",
+            "Actual Charge": "530",
+            "Units": "g"
+          },
+          "page": 37
+        },
+        {
+          "data": {
+            "Step Number": "161",
+            "Material Name": "Stericup Filter Units, 1L",
+            "Material Number": "20067276",
+            "Batch Number": "1000843340",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 37
+        },
+        {
+          "data": {
+            "Step Number": "163",
+            "Material Name": "BOTTLE, PETG, 1000 ML, STERILE",
+            "Material Number": "20032947",
+            "Batch Number": "1000374012",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 38
+        },
+        {
+          "data": {
+            "Step Number": "163",
+            "Material Name": "Step 161 Quench Solution",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": "440 +- 5",
+            "Actual Charge": "470",
+            "Units": "g"
+          },
+          "page": 38
+        },
+        {
+          "data": {
+            "Step Number": "170",
+            "Material Name": "100 L Bag, Gamma Irradiated",
+            "Material Number": "20036946",
+            "Batch Number": "1000583351",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 39
+        },
+        {
+          "data": {
+            "Step Number": "170",
+            "Material Name": "Sartopore 2 0.2 µm Size 0 Tubeset",
+            "Material Number": "20012412",
+            "Batch Number": "1001467882",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 39
+        },
+        {
+          "data": {
+            "Step Number": "173",
+            "Material Name": "100 L Bag, Gamma Irradiated",
+            "Material Number": "20036946",
+            "Batch Number": "1000583351",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 40
+        },
+        {
+          "data": {
+            "Step Number": "176",
+            "Material Name": "Step 191 PBRE Buffer",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": "5.0 +- 0.5",
+            "Actual Charge": "5.0",
+            "Units": "KG"
+          },
+          "page": 40
+        },
+        {
+          "data": {
+            "Step Number": "180",
+            "Material Name": "MOBIUS GOLD 100L PF PWR MIXER BAG",
+            "Material Number": "20084799",
+            "Batch Number": "1002412322",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 41
+        },
+        {
+          "data": {
+            "Step Number": "182",
+            "Material Name": "AKTA Readyflux Flow Kit",
+            "Material Number": "20063355",
+            "Batch Number": "1002508617",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 41
+        },
+        {
+          "data": {
+            "Step Number": "188",
+            "Material Name": "PELLICON 3 CASSETTE ULTRACEL 30KD",
+            "Material Number": "20007336",
+            "Batch Number": "1001884084",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 44
+        },
+        {
+          "data": {
+            "Step Number": "188",
+            "Material Name": "PELLICON 3 CASSETTE ULTRACEL 30KD",
+            "Material Number": "20007336",
+            "Batch Number": "1001904084",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 44
+        },
+        {
+          "data": {
+            "Step Number": "188",
+            "Material Name": "PELLICON 3 CASSETTE ULTRACEL 30KD",
+            "Material Number": "20007336",
+            "Batch Number": "1002275070",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 44
+        },
+        {
+          "data": {
+            "Step Number": "188",
+            "Material Name": "PELLICON 3 CASSETTE ULTRACEL 30KD",
+            "Material Number": "20007336",
+            "Batch Number": "1002579010",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 44
+        },
+        {
+          "data": {
+            "Step Number": "188",
+            "Material Name": "Pellicon Manifold Adapter Plate",
+            "Material Number": "20033018",
+            "Batch Number": "1000862982",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 44
+        },
+        {
+          "data": {
+            "Step Number": "195",
+            "Material Name": "1G ft x 0.5\" ID Silicone Tubeset",
+            "Material Number": "20033028",
+            "Batch Number": "1003002607",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 46
+        },
+        {
+          "data": {
+            "Step Number": "195",
+            "Material Name": "1G ft x 0.5\" ID Silicone Tubeset",
+            "Material Number": "20033028",
+            "Batch Number": "1003002608",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 46
+        },
+        {
+          "data": {
+            "Step Number": "197",
+            "Material Name": "BOTTLE, PETG, 125 ML, STERILE",
+            "Material Number": "20032944",
+            "Batch Number": "1000441925",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 46
+        },
+        {
+          "data": {
+            "Step Number": "201",
+            "Material Name": "100mM Phosphate Solution",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 47
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Material Name": "Step 174 400 mM Arginine, 100mM Phosphate Solution",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": "168",
+            "Units": "Kg"
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Material Name": "Step 174 400 mM Arginine, 100mM Phosphate Solution",
+            "Material Number": "PO1000726605-A",
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": "159",
+            "Units": "Kg"
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": "102",
+            "Material Name": "Sterile Purified Water, 200L",
+            "Material Number": "20033580",
+            "Batch Number": "1000628449",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 12
+        },
+        {
+          "data": {
+            "Step Number": "102",
+            "Material Name": "16 ft. x 0.5\" ID Silicone Tubeset",
+            "Material Number": "20033028",
+            "Batch Number": "1003003603",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 12
+        },
+        {
+          "data": {
+            "Step Number": "102",
+            "Material Name": "16 ft. x 0.5\" ID Silicone Tubeset",
+            "Material Number": "20033028",
+            "Batch Number": "N/A",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 12
+        },
+        {
+          "data": {
+            "Step Number": "103",
+            "Material Name": "16 ft. x 0.5\" ID Silicone Tubeset",
+            "Material Number": "20033028",
+            "Batch Number": "1003003603",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 13
+        },
+        {
+          "data": {
+            "Step Number": "103",
+            "Material Name": "8 ft x 0.5\" ID Silicone Tubeset",
+            "Material Number": "20032990",
+            "Batch Number": "1002380596",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 13
+        },
+        {
+          "data": {
+            "Step Number": "103",
+            "Material Name": "PharMed SIZE 35, 96\" TUBESET",
+            "Material Number": "20033026",
+            "Batch Number": "1001085935",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 14
+        },
+        {
+          "data": {
+            "Step Number": "110",
+            "Material Name": "MOBIUS GOLD 100L PF PWR MIXER BAG",
+            "Material Number": "20084799",
+            "Batch Number": "1002412322",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 16
+        },
+        {
+          "data": {
+            "Step Number": "116",
+            "Material Name": "CARBOY, 20L STERILE PET",
+            "Material Number": "20002422",
+            "Batch Number": "1000496088",
+            "Target Charge": "15.0 +- 0.5",
+            "Actual Charge": "15.0",
+            "Units": "Kg"
+          },
+          "page": 18
+        },
+        {
+          "data": {
+            "Step Number": "117",
+            "Material Name": "Sodium Hydroxide Solution, 50% Caustic S",
+            "Material Number": "20032634",
+            "Batch Number": "1000919278",
+            "Target Charge": "600 +- 100",
+            "Actual Charge": "600",
+            "Units": "g"
+          },
+          "page": 19
+        },
+        {
+          "data": {
+            "Step Number": "118",
+            "Material Name": "10 L REUSABLE GLASS STORAGE BOTTLE",
+            "Material Number": "20028284",
+            "Batch Number": "201690726",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 19
+        },
+        {
+          "data": {
+            "Step Number": "119",
+            "Material Name": "ACETONITRILE (DRUMS)",
+            "Material Number": "20033221",
+            "Batch Number": "1001528040",
+            "Target Charge": "2.7 +- 0.2",
+            "Actual Charge": "2.7",
+            "Units": "Kg"
+          },
+          "page": 19
+        },
+        {
+          "data": {
+            "Step Number": "120",
+            "Material Name": "BLEACH FOR NON-PRODUCT USE",
+            "Material Number": "20033543",
+            "Batch Number": "1002381335",
+            "Target Charge": "2.6 +- 0.2",
+            "Actual Charge": "2.6",
+            "Units": "Kg"
+          },
+          "page": 20
+        },
+        {
+          "data": {
+            "Step Number": "121",
+            "Material Name": "USP Purified Water",
+            "Material Number": "10021445",
+            "Batch Number": "12-10-25",
+            "Target Charge": "1.2 +- 0.2",
+            "Actual Charge": "1.2",
+            "Units": "Kg"
+          },
+          "page": 20
+        },
+        {
+          "data": {
+            "Step Number": "122",
+            "Material Name": "ISOPROPYL ALCOHOL, ANHYDROUS",
+            "Material Number": "20033488",
+            "Batch Number": "1002755801",
+            "Target Charge": "2.6 +- 0.2",
+            "Actual Charge": "2.6",
+            "Units": "Kg"
+          },
+          "page": 20
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": "61500 +- 500",
+            "Actual Charge": "1628",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1653",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1663",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1632",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1651",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1655",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1635",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1641",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1625",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1615",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1620",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1634",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1643",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1630",
+            "Units": "G"
+          },
+          "page": 21
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1630",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1627",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1639",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1636",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1640",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1632",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1656",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1618",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1633",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1649",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1635",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1637",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1645",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1629",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "125",
+            "Material Name": "Telisotuzumab (ABT-700) mAb Intermediate",
+            "Material Number": "20013304",
+            "Batch Number": "1001910020",
+            "Target Charge": null,
+            "Actual Charge": "1631",
+            "Units": "G"
+          },
+          "page": 22
+        },
+        {
+          "data": {
+            "Step Number": "128",
+            "Material Name": "Step 191 PBRE Buffer from PO1000726605-A",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": "21.3 +- 1.0",
+            "Actual Charge": "21.3",
+            "Units": "KG"
+          },
+          "page": 23
+        },
+        {
+          "data": {
+            "Step Number": "134",
+            "Material Name": "3-(Diphenylphosphino)propionic Acid",
+            "Material Number": "20066855",
+            "Batch Number": "1000519293",
+            "Target Charge": "16.71 +- 0.10",
+            "Actual Charge": "16.71",
+            "Units": "g"
+          },
+          "page": 25
+        },
+        {
+          "data": {
+            "Step Number": "281",
+            "Material Name": "Step 260 Vehicle Solution",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": "24.56 +- 0.10",
+            "Actual Charge": "24.07",
+            "Units": "KG"
+          },
+          "page": 76
+        },
+        {
+          "data": {
+            "Step Number": "284",
+            "Material Name": "Step 260 Vehicle Solution",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": "+- 0.10",
+            "Actual Charge": null,
+            "Units": "Kg"
+          },
+          "page": 77
+        },
+        {
+          "data": {
+            "Step Number": "296",
+            "Material Name": "SARTORIUS 0.22um STERILE FILTER MMPX&DAC",
+            "Material Number": "20074621",
+            "Batch Number": "1001502841",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 80
+        },
+        {
+          "data": {
+            "Step Number": "296",
+            "Material Name": "Filling Bell Tubeset, Irradiated",
+            "Material Number": "20032984",
+            "Batch Number": "1001040711",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 80
+        },
+        {
+          "data": {
+            "Step Number": "298",
+            "Material Name": "BOTTLE, PETG, 500 ML, STERILE",
+            "Material Number": "20032946",
+            "Batch Number": "1000441928",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 81
+        },
+        {
+          "data": {
+            "Step Number": "302",
+            "Material Name": "Ster samp. Bag, 100 oz, Flat-Wire Closur",
+            "Material Number": "20033031",
+            "Batch Number": "1000705852",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "304",
+            "Material Name": "Bottle, PETG, 2L, Sterile",
+            "Material Number": "20032999",
+            "Batch Number": "1005034305",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 84
+        },
+        {
+          "data": {
+            "Step Number": "304",
+            "Material Name": "Vial, 4.5/5 mL, Cryo",
+            "Material Number": "20033005",
+            "Batch Number": "1001543259",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 84
+        },
+        {
+          "data": {
+            "Step Number": "312",
+            "Material Name": "ABBV-400, ADC, Process II",
+            "Material Number": "20082738",
+            "Batch Number": "1002964924",
+            "Target Charge": null,
+            "Actual Charge": "1,584.000",
+            "Units": "G"
+          },
+          "page": 89
+        },
+        {
+          "data": {
+            "Step Number": "318",
+            "Material Name": "USP Purified Water",
+            "Material Number": "10021445",
+            "Batch Number": "1-17-25",
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 91
+        },
+        {
+          "data": {
+            "Step Number": "318",
+            "Material Name": "Step 117 0.5 M NaOH Solution",
+            "Material Number": null,
+            "Batch Number": null,
+            "Target Charge": null,
+            "Actual Charge": null,
+            "Units": null
+          },
+          "page": 91
+        }
+      ],
+      "row_count": 112
+    },
+    {
+      "task_name": "Samples",
+      "columns": [
+        "Step Number",
+        "Sample Number",
+        "B_and_P"
+      ],
+      "rows": [
+        {
+          "data": {
+            "Step Number": "208",
+            "Sample Number": "360B",
+            "B_and_P": null
+          },
+          "page": 51
+        },
+        {
+          "data": {
+            "Step Number": "208",
+            "Sample Number": "361B",
+            "B_and_P": null
+          },
+          "page": 51
+        },
+        {
+          "data": {
+            "Step Number": "208",
+            "Sample Number": "362B",
+            "B_and_P": null
+          },
+          "page": 51
+        },
+        {
+          "data": {
+            "Step Number": "210",
+            "Sample Number": "365B",
+            "B_and_P": null
+          },
+          "page": 52
+        },
+        {
+          "data": {
+            "Step Number": "215",
+            "Sample Number": "370B",
+            "B_and_P": "51608 20"
+          },
+          "page": 54
+        },
+        {
+          "data": {
+            "Step Number": "216",
+            "Sample Number": "375B",
+            "B_and_P": null
+          },
+          "page": 55
+        },
+        {
+          "data": {
+            "Step Number": "224",
+            "Sample Number": "380B",
+            "B_and_P": null
+          },
+          "page": 59
+        },
+        {
+          "data": {
+            "Step Number": "224",
+            "Sample Number": "381B",
+            "B_and_P": null
+          },
+          "page": 59
+        },
+        {
+          "data": {
+            "Step Number": "224",
+            "Sample Number": "382B",
+            "B_and_P": null
+          },
+          "page": 59
+        },
+        {
+          "data": {
+            "Step Number": "224",
+            "Sample Number": "383B",
+            "B_and_P": null
+          },
+          "page": 59
+        },
+        {
+          "data": {
+            "Step Number": "224",
+            "Sample Number": "384B",
+            "B_and_P": null
+          },
+          "page": 59
+        },
+        {
+          "data": {
+            "Step Number": "226",
+            "Sample Number": "385B",
+            "B_and_P": null
+          },
+          "page": 61
+        },
+        {
+          "data": {
+            "Step Number": "226",
+            "Sample Number": "386B",
+            "B_and_P": null
+          },
+          "page": 61
+        },
+        {
+          "data": {
+            "Step Number": "226",
+            "Sample Number": "387B",
+            "B_and_P": null
+          },
+          "page": 61
+        },
+        {
+          "data": {
+            "Step Number": "226",
+            "Sample Number": "388B",
+            "B_and_P": null
+          },
+          "page": 61
+        },
+        {
+          "data": {
+            "Step Number": "226",
+            "Sample Number": "389B",
+            "B_and_P": null
+          },
+          "page": 61
+        },
+        {
+          "data": {
+            "Step Number": "228",
+            "Sample Number": "390B",
+            "B_and_P": null
+          },
+          "page": 61
+        },
+        {
+          "data": {
+            "Step Number": "233",
+            "Sample Number": "391B",
+            "B_and_P": "5161103"
+          },
+          "page": 63
+        },
+        {
+          "data": {
+            "Step Number": "234",
+            "Sample Number": "395B",
+            "B_and_P": null
+          },
+          "page": 64
+        },
+        {
+          "data": {
+            "Step Number": "247",
+            "Sample Number": null,
+            "B_and_P": "ABBV-4579-118"
+          },
+          "page": 67
+        },
+        {
+          "data": {
+            "Step Number": "261",
+            "Sample Number": "115B",
+            "B_and_P": "ABBV-4599-126"
+          },
+          "page": 71
+        },
+        {
+          "data": {
+            "Step Number": "268",
+            "Sample Number": "400B",
+            "B_and_P": "5160902"
+          },
+          "page": 72
+        },
+        {
+          "data": {
+            "Step Number": "271",
+            "Sample Number": "410B",
+            "B_and_P": null
+          },
+          "page": 73
+        },
+        {
+          "data": {
+            "Step Number": "274",
+            "Sample Number": "420B",
+            "B_and_P": null
+          },
+          "page": 74
+        },
+        {
+          "data": {
+            "Step Number": "276",
+            "Sample Number": "425B",
+            "B_and_P": null
+          },
+          "page": 74
+        },
+        {
+          "data": {
+            "Step Number": "276",
+            "Sample Number": "426B",
+            "B_and_P": null
+          },
+          "page": 74
+        },
+        {
+          "data": {
+            "Step Number": "143",
+            "Sample Number": "310B",
+            "B_and_P": "ABBV-4599-131"
+          },
+          "page": 29
+        },
+        {
+          "data": {
+            "Step Number": "143",
+            "Sample Number": "311B",
+            "B_and_P": null
+          },
+          "page": 29
+        },
+        {
+          "data": {
+            "Step Number": "143",
+            "Sample Number": "312B",
+            "B_and_P": null
+          },
+          "page": 29
+        },
+        {
+          "data": {
+            "Step Number": "143",
+            "Sample Number": "313B",
+            "B_and_P": null
+          },
+          "page": 29
+        },
+        {
+          "data": {
+            "Step Number": "143",
+            "Sample Number": "314B",
+            "B_and_P": null
+          },
+          "page": 29
+        },
+        {
+          "data": {
+            "Step Number": "156",
+            "Sample Number": "325B",
+            "B_and_P": "5136949"
+          },
+          "page": 35
+        },
+        {
+          "data": {
+            "Step Number": "156",
+            "Sample Number": "326B",
+            "B_and_P": null
+          },
+          "page": 35
+        },
+        {
+          "data": {
+            "Step Number": "156",
+            "Sample Number": "327B",
+            "B_and_P": null
+          },
+          "page": 35
+        },
+        {
+          "data": {
+            "Step Number": "156",
+            "Sample Number": "328B",
+            "B_and_P": null
+          },
+          "page": 35
+        },
+        {
+          "data": {
+            "Step Number": "156",
+            "Sample Number": "329B",
+            "B_and_P": null
+          },
+          "page": 35
+        },
+        {
+          "data": {
+            "Step Number": "197",
+            "Sample Number": "340B",
+            "B_and_P": "ABBV-4599-133"
+          },
+          "page": 46
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Sample Number": "350B",
+            "B_and_P": null
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Sample Number": "351B",
+            "B_and_P": null
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Sample Number": "352B",
+            "B_and_P": null
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Sample Number": "353B",
+            "B_and_P": null
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Sample Number": "354B",
+            "B_and_P": null
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": "129",
+            "Sample Number": "200B",
+            "B_and_P": "5152136"
+          },
+          "page": 24
+        },
+        {
+          "data": {
+            "Step Number": "280",
+            "Sample Number": "430B",
+            "B_and_P": "SJL2181"
+          },
+          "page": 76
+        },
+        {
+          "data": {
+            "Step Number": "283",
+            "Sample Number": "440B",
+            "B_and_P": "SJL2263"
+          },
+          "page": 76
+        },
+        {
+          "data": {
+            "Step Number": "286",
+            "Sample Number": "450B",
+            "B_and_P": null
+          },
+          "page": 77
+        },
+        {
+          "data": {
+            "Step Number": "299",
+            "Sample Number": "S10B",
+            "B_and_P": null
+          },
+          "page": 81
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "BIOBURDEN",
+            "B_and_P": "1001443492"
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "ENDOTOXIN",
+            "B_and_P": "1001443492"
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "BIOENDORET",
+            "B_and_P": "1001443492"
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "RELEASE",
+            "B_and_P": "1001443492"
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "RETAINS",
+            "B_and_P": "1001443492"
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "STABIL",
+            "B_and_P": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "XCHARACT",
+            "B_and_P": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Sample Number": "NONROUT",
+            "B_and_P": null
+          },
+          "page": 83
+        }
+      ],
+      "row_count": 55
+    },
+    {
+      "task_name": "Timed Steps",
+      "columns": [
+        "Step Number",
+        "Instruction",
+        "Start Time",
+        "Stop Time"
+      ],
+      "rows": [
+        {
+          "data": {
+            "Step Number": "215",
+            "Instruction": "Mix the contents of the Step 214 Filtered Product Solution bag for NLT 40 minutes.",
+            "Start Time": "1205",
+            "Stop Time": "1248"
+          },
+          "page": 54
+        },
+        {
+          "data": {
+            "Step Number": "218",
+            "Instruction": "Adjust the jacket temperature of the 100L Mobius Mixer to 20 +- 5 degC.",
+            "Start Time": "1714",
+            "Stop Time": null
+          },
+          "page": 56
+        },
+        {
+          "data": {
+            "Step Number": "233",
+            "Instruction": "Mix the contents of the Step 214 Filtered Product Solution bag for NLT 40 minutes.",
+            "Start Time": "0825",
+            "Stop Time": "0909"
+          },
+          "page": 63
+        },
+        {
+          "data": {
+            "Step Number": "241",
+            "Instruction": "Mix the contents of the 100 L Jacketed Reactor for NLT 45 minutes.",
+            "Start Time": "1335",
+            "Stop Time": "1420"
+          },
+          "page": 66
+        },
+        {
+          "data": {
+            "Step Number": "267",
+            "Instruction": "Mix the contents of the Xcellerex System for NLT 40 minutes.",
+            "Start Time": "1051",
+            "Stop Time": "1131"
+          },
+          "page": 72
+        },
+        {
+          "data": {
+            "Step Number": "270",
+            "Instruction": "Mix the contents of the Xcellerex system for NLT 40 minutes.",
+            "Start Time": null,
+            "Stop Time": null
+          },
+          "page": 73
+        },
+        {
+          "data": {
+            "Step Number": "279",
+            "Instruction": "Mix the contents of the Xcellerex System for NLT 40 minutes.",
+            "Start Time": "1429",
+            "Stop Time": "1521"
+          },
+          "page": 75
+        },
+        {
+          "data": {
+            "Step Number": "139",
+            "Instruction": "Recharge 'Step 137 Reductant Solution' to the 100L Mobius Mixer.",
+            "Start Time": "0207",
+            "Stop Time": "0304"
+          },
+          "page": 27
+        },
+        {
+          "data": {
+            "Step Number": "142",
+            "Instruction": "Adjust the internal temperature of the 100L Mobius Mixer to 4 +- 4degC.",
+            "Start Time": null,
+            "Stop Time": "0314"
+          },
+          "page": 28
+        },
+        {
+          "data": {
+            "Step Number": "143",
+            "Instruction": "Mix the contents of the 100L Mobius Mixer at an internal temperature of 4 +- 4degC for NLT 12 hours.",
+            "Start Time": "0314",
+            "Stop Time": "1854"
+          },
+          "page": 29
+        },
+        {
+          "data": {
+            "Step Number": "149",
+            "Instruction": "Approximate Charge Time (FIO)",
+            "Start Time": null,
+            "Stop Time": "1620"
+          },
+          "page": 33
+        },
+        {
+          "data": {
+            "Step Number": "152",
+            "Instruction": "Transfer contents of \"Step 149 Drug Linker Solution\" to 100L Mobius Mixer.",
+            "Start Time": "2100",
+            "Stop Time": "0013"
+          },
+          "page": 34
+        },
+        {
+          "data": {
+            "Step Number": "154",
+            "Instruction": "Transfer contents of \"Step 149 Drug Linker Solution\" to 100L Mobius Mixer.",
+            "Start Time": "0016",
+            "Stop Time": "0025"
+          },
+          "page": 34
+        },
+        {
+          "data": {
+            "Step Number": "155",
+            "Instruction": "Adjust internal temperature of the 100L Mobius Mixer to 20 +- 5degC.",
+            "Start Time": null,
+            "Stop Time": "0026"
+          },
+          "page": 34
+        },
+        {
+          "data": {
+            "Step Number": "156",
+            "Instruction": "Mix the contents of the 100L Mobius Mixer at approximately 150RPM.",
+            "Start Time": "0027",
+            "Stop Time": "0340"
+          },
+          "page": 35
+        },
+        {
+          "data": {
+            "Step Number": "159",
+            "Instruction": "Charge Time (FIO)",
+            "Start Time": null,
+            "Stop Time": "0832"
+          },
+          "page": 37
+        },
+        {
+          "data": {
+            "Step Number": "164",
+            "Instruction": "Charge all of the 'Step 163 Quench Solution' to the 100L Mobius Mixer.",
+            "Start Time": "1345",
+            "Stop Time": "1346"
+          },
+          "page": 38
+        },
+        {
+          "data": {
+            "Step Number": "165",
+            "Instruction": "Adjust the internal temperature of the 100L Mobius Mixer to 20 +- 5degC.",
+            "Start Time": null,
+            "Stop Time": "1348"
+          },
+          "page": 38
+        },
+        {
+          "data": {
+            "Step Number": "166",
+            "Instruction": "Mix contents of 100L Mobius Mixer for NLT 2 hours at 20 +- 5degC.",
+            "Start Time": "1348",
+            "Stop Time": "1550"
+          },
+          "page": 38
+        },
+        {
+          "data": {
+            "Step Number": "168",
+            "Instruction": "Adjust the contents of the 100L Mobius Mixer to 4 +- 4degC.",
+            "Start Time": null,
+            "Stop Time": null
+          },
+          "page": 39
+        },
+        {
+          "data": {
+            "Step Number": "169",
+            "Instruction": "Adjust the contents of the 100L Mobius Mixer to 20 +- 5degC.",
+            "Start Time": null,
+            "Stop Time": "1552"
+          },
+          "page": 39
+        },
+        {
+          "data": {
+            "Step Number": "171",
+            "Instruction": "Transfer approximately 50kg of the contents of the 100L Mobius Mixer to the 100 L Bag.",
+            "Start Time": "1611",
+            "Stop Time": "1622"
+          },
+          "page": 39
+        },
+        {
+          "data": {
+            "Step Number": "174",
+            "Instruction": "Transfer the remaining contents of the 100L Mobius Mixer to the 100L Bag.",
+            "Start Time": "1623",
+            "Stop Time": "1647"
+          },
+          "page": 40
+        },
+        {
+          "data": {
+            "Step Number": "200",
+            "Instruction": "Adjust the jacket temperature of the 100L Mobius Mixer to 20 +- 5degC.",
+            "Start Time": null,
+            "Stop Time": "2207"
+          },
+          "page": 47
+        },
+        {
+          "data": {
+            "Step Number": "107",
+            "Instruction": "Sanitize the following items in the sanitization bath. Allow items to soak for NLT 45 minutes.",
+            "Start Time": null,
+            "Stop Time": null
+          },
+          "page": 15
+        },
+        {
+          "data": {
+            "Step Number": "129",
+            "Instruction": "Mix the contents of the 100 L Mobius Mixer at approximately 150 RPM for approximately 15 minutes.",
+            "Start Time": "1625",
+            "Stop Time": null
+          },
+          "page": 24
+        },
+        {
+          "data": {
+            "Step Number": "134",
+            "Instruction": "Approximate Charge Time (FIO)",
+            "Start Time": "2352",
+            "Stop Time": null
+          },
+          "page": 25
+        },
+        {
+          "data": {
+            "Step Number": "282",
+            "Instruction": "Mix the contents of the Xcellerex System for NLT 40 minutes.",
+            "Start Time": "16:53",
+            "Stop Time": "17:34"
+          },
+          "page": 76
+        },
+        {
+          "data": {
+            "Step Number": "285",
+            "Instruction": "Mix the contents of the Xcellerex System for NLT 40 minutes.",
+            "Start Time": null,
+            "Stop Time": null
+          },
+          "page": 77
+        },
+        {
+          "data": {
+            "Step Number": "297",
+            "Instruction": "Turn on Particle Counter, select location BSC, start sampling and record start time.",
+            "Start Time": "08:35",
+            "Stop Time": null
+          },
+          "page": 80
+        },
+        {
+          "data": {
+            "Step Number": "299",
+            "Instruction": "Transfer (1) 500 mL sample... Record start time of sample dispensing.",
+            "Start Time": "08:37",
+            "Stop Time": null
+          },
+          "page": 81
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling BIOBURDEN",
+            "Start Time": "08:39",
+            "Stop Time": null
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling ENDOTOXIN",
+            "Start Time": "08:39",
+            "Stop Time": null
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling BIOENDORET",
+            "Start Time": "08:40",
+            "Stop Time": null
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling RELEASE",
+            "Start Time": "08:41",
+            "Stop Time": null
+          },
+          "page": 82
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling RETAINS",
+            "Start Time": "08:43",
+            "Stop Time": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling STABIL",
+            "Start Time": null,
+            "Stop Time": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling XCHARACT",
+            "Start Time": null,
+            "Stop Time": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Instruction": "Sampling NONROUT",
+            "Start Time": null,
+            "Stop Time": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "303",
+            "Instruction": "Send BIOBURDEN, ENDOTOXIN, and BIOENDORET samples to TL 17 within 24 Hours",
+            "Start Time": "13:48",
+            "Stop Time": null
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "305",
+            "Instruction": "Transfer the remaining contents of the Xcellerex System into the 2 L sterile bottles.",
+            "Start Time": "08:46",
+            "Stop Time": "12:14"
+          },
+          "page": 84
+        },
+        {
+          "data": {
+            "Step Number": "309",
+            "Instruction": "Check particle counter printout and ensure stop time of last particulate sample is later",
+            "Start Time": null,
+            "Stop Time": "12:17"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "313",
+            "Instruction": "Perform initial freezing of product bottles and their corresponding satellite samples",
+            "Start Time": "20:00",
+            "Stop Time": null
+          },
+          "page": 90
+        },
+        {
+          "data": {
+            "Step Number": "314",
+            "Instruction": "Perform initial freezing of Samples from Sampling Document.",
+            "Start Time": "20:00",
+            "Stop Time": null
+          },
+          "page": 90
+        },
+        {
+          "data": {
+            "Step Number": "316",
+            "Instruction": "Transfer product bottles, corresponding satellite samples, and samples from Sampling Document",
+            "Start Time": "04:53",
+            "Stop Time": null
+          },
+          "page": 90
+        }
+      ],
+      "row_count": 45
+    },
+    {
+      "task_name": "Weights",
+      "columns": [
+        "Step Number",
+        "Gross",
+        "Tare",
+        "Net",
+        "Units"
+      ],
+      "rows": [
+        {
+          "data": {
+            "Step Number": "209",
+            "Gross": null,
+            "Tare": null,
+            "Net": "24.8",
+            "Units": "Kg"
+          },
+          "page": 52
+        },
+        {
+          "data": {
+            "Step Number": "214",
+            "Gross": "305.3",
+            "Tare": "269.8",
+            "Net": "35.5",
+            "Units": "Kg"
+          },
+          "page": 54
+        },
+        {
+          "data": {
+            "Step Number": "216",
+            "Gross": "232.48",
+            "Tare": "18.04",
+            "Net": "214.44",
+            "Units": "Kg"
+          },
+          "page": 55
+        },
+        {
+          "data": {
+            "Step Number": "216",
+            "Gross": "238.36",
+            "Tare": "18.04",
+            "Net": "220.32",
+            "Units": "Kg"
+          },
+          "page": 55
+        },
+        {
+          "data": {
+            "Step Number": "216",
+            "Gross": "215.50",
+            "Tare": "18.14",
+            "Net": "197.36",
+            "Units": "Kg"
+          },
+          "page": 55
+        },
+        {
+          "data": {
+            "Step Number": "216",
+            "Gross": "43.86",
+            "Tare": "18.04",
+            "Net": "25.82",
+            "Units": "Kg"
+          },
+          "page": 55
+        },
+        {
+          "data": {
+            "Step Number": "227",
+            "Gross": null,
+            "Tare": null,
+            "Net": "25.56",
+            "Units": "Kg"
+          },
+          "page": 61
+        },
+        {
+          "data": {
+            "Step Number": "232",
+            "Gross": "337.8",
+            "Tare": "269.8",
+            "Net": "68.0",
+            "Units": "Kg"
+          },
+          "page": 63
+        },
+        {
+          "data": {
+            "Step Number": "234",
+            "Gross": "222.60",
+            "Tare": "43.36",
+            "Net": "179.24",
+            "Units": "Kg"
+          },
+          "page": 64
+        },
+        {
+          "data": {
+            "Step Number": "234",
+            "Gross": "231.38",
+            "Tare": "22.28",
+            "Net": "209.10",
+            "Units": "Kg"
+          },
+          "page": 64
+        },
+        {
+          "data": {
+            "Step Number": "234",
+            "Gross": "216.78",
+            "Tare": "22.92",
+            "Net": "193.86",
+            "Units": "Kg"
+          },
+          "page": 64
+        },
+        {
+          "data": {
+            "Step Number": "234",
+            "Gross": "91.46",
+            "Tare": "22.34",
+            "Net": "69.12",
+            "Units": "Kg"
+          },
+          "page": 64
+        },
+        {
+          "data": {
+            "Step Number": "172",
+            "Gross": "85.00",
+            "Tare": "24.76",
+            "Net": "50.24",
+            "Units": "KG"
+          },
+          "page": 40
+        },
+        {
+          "data": {
+            "Step Number": "178",
+            "Gross": "83.16",
+            "Tare": "34.48",
+            "Net": "48.68",
+            "Units": "kg"
+          },
+          "page": 41
+        },
+        {
+          "data": {
+            "Step Number": "290",
+            "Gross": "431.1",
+            "Tare": "269.8",
+            "Net": "161.3",
+            "Units": "Kg"
+          },
+          "page": 78
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1941",
+            "Tare": "357",
+            "Net": "1584",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1958",
+            "Tare": "356",
+            "Net": "1602",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1911",
+            "Tare": "357",
+            "Net": "1554",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1988",
+            "Tare": "357",
+            "Net": "1631",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1962",
+            "Tare": "356",
+            "Net": "1606",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1984",
+            "Tare": "357",
+            "Net": "1627",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1952",
+            "Tare": "357",
+            "Net": "1595",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1978",
+            "Tare": "357",
+            "Net": "1621",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1971",
+            "Tare": "357",
+            "Net": "1614",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1960",
+            "Tare": "357",
+            "Net": "1603",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1970",
+            "Tare": "356",
+            "Net": "1614",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1949",
+            "Tare": "357",
+            "Net": "1592",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1967",
+            "Tare": "357",
+            "Net": "1610",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1953",
+            "Tare": "357",
+            "Net": "1596",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1964",
+            "Tare": "357",
+            "Net": "1607",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1974",
+            "Tare": "356",
+            "Net": "1618",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1963",
+            "Tare": "357",
+            "Net": "1606",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1981",
+            "Tare": "357",
+            "Net": "1624",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1941",
+            "Tare": "356",
+            "Net": "1585",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1931",
+            "Tare": "357",
+            "Net": "1574",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1948",
+            "Tare": "357",
+            "Net": "1591",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1930",
+            "Tare": "357",
+            "Net": "1573",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1961",
+            "Tare": "357",
+            "Net": "1604",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1959",
+            "Tare": "357",
+            "Net": "1602",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1962",
+            "Tare": "357",
+            "Net": "1605",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1965",
+            "Tare": "357",
+            "Net": "1608",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1945",
+            "Tare": "357",
+            "Net": "1588",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1933",
+            "Tare": "357",
+            "Net": "1576",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1936",
+            "Tare": "357",
+            "Net": "1579",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1956",
+            "Tare": "357",
+            "Net": "1599",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1968",
+            "Tare": "357",
+            "Net": "1611",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1994",
+            "Tare": "357",
+            "Net": "1637",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1989",
+            "Tare": "357",
+            "Net": "1632",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1960",
+            "Tare": "358",
+            "Net": "1602",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1954",
+            "Tare": "357",
+            "Net": "1597",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1948",
+            "Tare": "358",
+            "Net": "1590",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1970",
+            "Tare": "357",
+            "Net": "1613",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1944",
+            "Tare": "358",
+            "Net": "1586",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1944",
+            "Tare": "357",
+            "Net": "1587",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1969",
+            "Tare": "357",
+            "Net": "1612",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1950",
+            "Tare": "357",
+            "Net": "1593",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1975",
+            "Tare": "356",
+            "Net": "1619",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1979",
+            "Tare": "354",
+            "Net": "1625",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1982",
+            "Tare": "357",
+            "Net": "1625",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1976",
+            "Tare": "357",
+            "Net": "1619",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1956",
+            "Tare": "358",
+            "Net": "1598",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1933",
+            "Tare": "356",
+            "Net": "1577",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1958",
+            "Tare": "357",
+            "Net": "1601",
+            "Units": "G"
+          },
+          "page": 86
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1999",
+            "Tare": "357",
+            "Net": "1642",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1971",
+            "Tare": "358",
+            "Net": "1613",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1960",
+            "Tare": "357",
+            "Net": "1603",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1941",
+            "Tare": "357",
+            "Net": "1584",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1959",
+            "Tare": "357",
+            "Net": "1602",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1929",
+            "Tare": "357",
+            "Net": "1572",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1949",
+            "Tare": "357",
+            "Net": "1592",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1953",
+            "Tare": "357",
+            "Net": "1596",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1933",
+            "Tare": "357",
+            "Net": "1576",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1987",
+            "Tare": "357",
+            "Net": "1630",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1951",
+            "Tare": "357",
+            "Net": "1594",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1969",
+            "Tare": "357",
+            "Net": "1612",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1967",
+            "Tare": "357",
+            "Net": "1610",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1957",
+            "Tare": "357",
+            "Net": "1600",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1944",
+            "Tare": "357",
+            "Net": "1587",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1948",
+            "Tare": "357",
+            "Net": "1591",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1980",
+            "Tare": "359",
+            "Net": "1621",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1978",
+            "Tare": "357",
+            "Net": "1621",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1961",
+            "Tare": "357",
+            "Net": "1604",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1954",
+            "Tare": "357",
+            "Net": "1597",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1946",
+            "Tare": "357",
+            "Net": "1589",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1966",
+            "Tare": "357",
+            "Net": "1609",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1951",
+            "Tare": "353",
+            "Net": "1598",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1960",
+            "Tare": "356",
+            "Net": "1604",
+            "Units": "G"
+          },
+          "page": 87
+        },
+        {
+          "data": {
+            "Step Number": "306",
+            "Gross": "1442",
+            "Tare": "358",
+            "Net": "1084",
+            "Units": "G"
+          },
+          "page": 87
+        }
+      ],
+      "row_count": 88
+    },
+    {
+      "task_name": "Blank Entries",
+      "columns": [
+        "Step Number",
+        "Description"
+      ],
+      "rows": [
+        {
+          "data": {
+            "Step Number": "3B1B",
+            "Description": "Blank table row"
+          },
+          "page": 52
+        },
+        {
+          "data": {
+            "Step Number": "3B2B",
+            "Description": "Blank table row"
+          },
+          "page": 52
+        },
+        {
+          "data": {
+            "Step Number": "3B3B",
+            "Description": "Blank table row"
+          },
+          "page": 52
+        },
+        {
+          "data": {
+            "Step Number": "3B4B",
+            "Description": "Blank table row"
+          },
+          "page": 52
+        },
+        {
+          "data": {
+            "Step Number": "216",
+            "Description": "Blank weight rows"
+          },
+          "page": 55
+        },
+        {
+          "data": {
+            "Step Number": "220",
+            "Description": "Blank entry area"
+          },
+          "page": 57
+        },
+        {
+          "data": {
+            "Step Number": "221",
+            "Description": "Blank entry area"
+          },
+          "page": 57
+        },
+        {
+          "data": {
+            "Step Number": "234",
+            "Description": "Blank weight rows"
+          },
+          "page": 64
+        },
+        {
+          "data": {
+            "Step Number": "237",
+            "Description": "Blank Amt. field"
+          },
+          "page": 65
+        },
+        {
+          "data": {
+            "Step Number": "242",
+            "Description": "Blank Batch No. field"
+          },
+          "page": 66
+        },
+        {
+          "data": {
+            "Step Number": "242",
+            "Description": "Blank Step 328 Waste Amt. field"
+          },
+          "page": 66
+        },
+        {
+          "data": {
+            "Step Number": "258",
+            "Description": "Blank entry area"
+          },
+          "page": 70
+        },
+        {
+          "data": {
+            "Step Number": "260",
+            "Description": "Blank entry area"
+          },
+          "page": 70
+        },
+        {
+          "data": {
+            "Step Number": "269",
+            "Description": "Blank charge fields"
+          },
+          "page": 73
+        },
+        {
+          "data": {
+            "Step Number": "270",
+            "Description": "Blank Start/Stop time fields"
+          },
+          "page": 73
+        },
+        {
+          "data": {
+            "Step Number": "271",
+            "Description": "Blank B&P and By/Date fields"
+          },
+          "page": 73
+        },
+        {
+          "data": {
+            "Step Number": "272",
+            "Description": "Blank charge fields"
+          },
+          "page": 74
+        },
+        {
+          "data": {
+            "Step Number": "273",
+            "Description": "Blank Start/Stop time fields"
+          },
+          "page": 74
+        },
+        {
+          "data": {
+            "Step Number": "274",
+            "Description": "Blank B&P and By/Date fields"
+          },
+          "page": 74
+        },
+        {
+          "data": {
+            "Step Number": "143",
+            "Description": "Sample 311B-314B results"
+          },
+          "page": 29
+        },
+        {
+          "data": {
+            "Step Number": "149",
+            "Description": "Approximate Charge Time (FIO) Date"
+          },
+          "page": 33
+        },
+        {
+          "data": {
+            "Step Number": "156",
+            "Description": "Sample 326B-329B results"
+          },
+          "page": 35
+        },
+        {
+          "data": {
+            "Step Number": "159",
+            "Description": "Charge Time (FIO) Date"
+          },
+          "page": 37
+        },
+        {
+          "data": {
+            "Step Number": "166",
+            "Description": "Pull Sample 330B Temp Probe"
+          },
+          "page": 38
+        },
+        {
+          "data": {
+            "Step Number": "166",
+            "Description": "Pull Sample 331B Temp Probe"
+          },
+          "page": 38
+        },
+        {
+          "data": {
+            "Step Number": "168",
+            "Description": "Time temperature reached"
+          },
+          "page": 39
+        },
+        {
+          "data": {
+            "Step Number": "168",
+            "Description": "Temp probe"
+          },
+          "page": 39
+        },
+        {
+          "data": {
+            "Step Number": "185",
+            "Description": "Comments field"
+          },
+          "page": 43
+        },
+        {
+          "data": {
+            "Step Number": "190",
+            "Description": "Valve alignment verification"
+          },
+          "page": 45
+        },
+        {
+          "data": {
+            "Step Number": "191",
+            "Description": "Valve alignment verification"
+          },
+          "page": 45
+        },
+        {
+          "data": {
+            "Step Number": "204",
+            "Description": "Various variable fields"
+          },
+          "page": 49
+        },
+        {
+          "data": {
+            "Step Number": "206",
+            "Description": "Sample 350B-354B B&P fields"
+          },
+          "page": 50
+        },
+        {
+          "data": {
+            "Step Number": null,
+            "Description": "Blank non-routine sample entry"
+          },
+          "page": 6
+        },
+        {
+          "data": {
+            "Step Number": null,
+            "Description": "Blank non-routine sample entry"
+          },
+          "page": 7
+        },
+        {
+          "data": {
+            "Step Number": null,
+            "Description": "Blank DM Log entry"
+          },
+          "page": 9
+        },
+        {
+          "data": {
+            "Step Number": null,
+            "Description": "Blank BRE Log entry"
+          },
+          "page": 10
+        },
+        {
+          "data": {
+            "Step Number": "102",
+            "Description": "Blank material/batch entry for Drum #5"
+          },
+          "page": 12
+        },
+        {
+          "data": {
+            "Step Number": "103",
+            "Description": "Blank batch entry for 16 ft tubeset No. 2"
+          },
+          "page": 13
+        },
+        {
+          "data": {
+            "Step Number": "103",
+            "Description": "Blank batch entry for 8 ft tubeset No. 2"
+          },
+          "page": 13
+        },
+        {
+          "data": {
+            "Step Number": "103",
+            "Description": "Blank batch entry for PharMed tubeset No. 2"
+          },
+          "page": 14
+        },
+        {
+          "data": {
+            "Step Number": "104",
+            "Description": "Blank Amt (Kg) and Scale for water charge"
+          },
+          "page": 14
+        },
+        {
+          "data": {
+            "Step Number": "105",
+            "Description": "Blank Batch No, Amt (g), Scale for NaOH charge"
+          },
+          "page": 14
+        },
+        {
+          "data": {
+            "Step Number": "107",
+            "Description": "Blank Start/Stop time for sanitization"
+          },
+          "page": 15
+        },
+        {
+          "data": {
+            "Step Number": "108",
+            "Description": "Blank Conductivity Meter and Conductivity value"
+          },
+          "page": 15
+        },
+        {
+          "data": {
+            "Step Number": "109",
+            "Description": "Blank Batch No. and Amt (L) for Methanol rinse"
+          },
+          "page": 16
+        },
+        {
+          "data": {
+            "Step Number": "116",
+            "Description": "Blank charge entry for Container #2"
+          },
+          "page": 18
+        },
+        {
+          "data": {
+            "Step Number": "117",
+            "Description": "Blank charge entry for Container #2"
+          },
+          "page": 19
+        },
+        {
+          "data": {
+            "Step Number": "123",
+            "Description": "Blank signature/date box"
+          },
+          "page": 20
+        },
+        {
+          "data": {
+            "Step Number": "284",
+            "Description": "Charge amount and related fields are blank."
+          },
+          "page": 77
+        },
+        {
+          "data": {
+            "Step Number": "285",
+            "Description": "Start and Stop time fields are blank."
+          },
+          "page": 77
+        },
+        {
+          "data": {
+            "Step Number": "286",
+            "Description": "B&P, By/Date, and approval fields are blank."
+          },
+          "page": 77
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Description": "STABIL sample fields are blank."
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Description": "XCHARACT sample fields are blank."
+          },
+          "page": 83
+        },
+        {
+          "data": {
+            "Step Number": "300",
+            "Description": "NONROUT sample fields are blank."
+          },
+          "page": 83
+        }
+      ],
+      "row_count": 54
+    }
+  ],
+  "verification_results": [
+    {
+      "task_name": "Batch Number Consistency",
+      "status": "pass",
+      "findings": []
+    },
+    {
+      "task_name": "Process Order Consistency",
+      "status": "fail",
+      "findings": [
+        {
+          "issue": "Inconsistent process order number found.",
+          "page": 1,
+          "details": "Process order '1000535067' was found, which does not match the main process order '1000726605-B'."
+        },
+        {
+          "issue": "Inconsistent process order number found.",
+          "page": 2,
+          "details": "Process order 'PO1000726605-A' was found, which does not match the main process order '1000726605-B'."
+        },
+        {
+          "issue": "Inconsistent process order number found.",
+          "page": 23,
+          "details": "Process order 'PO1000726605-A' was found, which does not match the main process order '1000726605-B'."
+        }
+      ]
+    },
+    {
+      "task_name": "Column Completeness",
+      "status": "fail",
+      "findings": [
+        {
+          "issue": "Fourth column is a single large box, not individual entry lines for sub-points.",
+          "page": 11,
+          "details": "Step: 101"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 11,
+          "details": "Step: 102"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 13,
+          "details": "Step: 103"
+        },
+        {
+          "issue": "Weigh row for 'Step 102 Sterile Purified Water' is missing a 'Scale' entry.",
+          "page": 14,
+          "details": "Step: 104"
+        },
+        {
+          "issue": "Weigh row for 'Sodium Hydroxide Solution, 50% Caustic S' is missing a 'Scale' entry.",
+          "page": 14,
+          "details": "Step: 105"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 14,
+          "details": "Step: 106"
+        },
+        {
+          "issue": "Fourth column is missing an entry line.",
+          "page": 15,
+          "details": "Step: 108"
+        },
+        {
+          "issue": "Fourth column is missing an entry line.",
+          "page": 16,
+          "details": "Step: 109"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 16,
+          "details": "Step: 111"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 16,
+          "details": "Step: 112"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 17,
+          "details": "Step: 113"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 17,
+          "details": "Step: 114"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 17,
+          "details": "Step: 115"
+        },
+        {
+          "issue": "Fourth column for 'Wipe a portable temperature probe...' is a single large box, not an entry line.",
+          "page": 17,
+          "details": "Step: un-numbered"
+        },
+        {
+          "issue": "Fourth column for 'Install a pass-through fitting...' is a single large box, not an entry line.",
+          "page": 17,
+          "details": "Step: un-numbered"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 18,
+          "details": "Step: 117"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 20,
+          "details": "Step: 123"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 21,
+          "details": "Step: 124"
+        },
+        {
+          "issue": "Weigh row for 'Telisotuzumab (ABT-700) mAb Intermediate' is missing a 'Scale' entry on the page where the step begins.",
+          "page": 21,
+          "details": "Step: 125"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 23,
+          "details": "Step: 126"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 23,
+          "details": "Step: 127"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 24,
+          "details": "Step: 130"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 24,
+          "details": "Step: 131"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 25,
+          "details": "Step: 132"
+        },
+        {
+          "issue": "Fourth column is a single large box, not an entry line.",
+          "page": 25,
+          "details": "Step: 133"
+        },
+        {
+          "issue": "Weigh table rows (Gross, Tare, Net) lack a signature/date column.",
+          "page": 55,
+          "details": "Step: 216"
+        },
+        {
+          "issue": "The 'Step 330 Waste Amt' row is missing a signature/date entry line.",
+          "page": 55,
+          "details": "Step: 216"
+        },
+        {
+          "issue": "Weigh table (Gross, Step 211 Tare, Net) lacks a signature/date column.",
+          "page": 63,
+          "details": "Step: 232"
+        },
+        {
+          "issue": "Weigh table rows (Gross, Tare, Net) lack a signature/date column.",
+          "page": 64,
+          "details": "Step: 234"
+        },
+        {
+          "issue": "The 'Step 330 Waste Amt' row is missing a signature/date entry line.",
+          "page": 64,
+          "details": "Step: 234"
+        },
+        {
+          "issue": "Weigh row is missing a Scale ID entry.",
+          "page": 77,
+          "details": "Step: 284"
+        },
+        {
+          "issue": "Fourth column is missing entry line for initials/date.",
+          "page": 77,
+          "details": "Step: 284"
+        },
+        {
+          "issue": "NLT step is missing Start and Stop time entries.",
+          "page": 77,
+          "details": "Step: 285"
+        },
+        {
+          "issue": "Fourth column is missing entry line for initials/date.",
+          "page": 77,
+          "details": "Step: 285"
+        },
+        {
+          "issue": "Fourth column is missing entry line for initials/date.",
+          "page": 77,
+          "details": "Step: 286"
+        },
+        {
+          "issue": "Sample type 'STABIL' is missing a Start time entry.",
+          "page": 83,
+          "details": "Step: 300"
+        }
+      ]
+    },
+    {
+      "task_name": "Material Number Cross-Reference",
+      "status": "fail",
+      "findings": [
+        {
+          "issue": "Material number from a step instruction does not appear in any Materials Needed table.",
+          "page": 19,
+          "details": "Material number '20028284' was found in a step instruction but not in a materials table."
+        },
+        {
+          "issue": "Material number from a step instruction does not appear in any Materials Needed table.",
+          "page": 36,
+          "details": "Material number '20027796' was found in a step instruction but not in a materials table."
+        },
+        {
+          "issue": "Material number from a step instruction does not appear in any Materials Needed table.",
+          "page": 39,
+          "details": "Material number '20036946' was found in a step instruction but not in a materials table."
+        }
+      ]
+    },
+    {
+      "task_name": "Materials Table Cross-Reference",
+      "status": "fail",
+      "findings": [
+        {
+          "issue": "Material number from a Materials Needed table is not used elsewhere in the record.",
+          "page": 2,
+          "details": "Material number '10047832' is not used in any step or other context."
+        },
+        {
+          "issue": "Material number from a Materials Needed table is not used elsewhere in the record.",
+          "page": 2,
+          "details": "Material number '20033012' is not used in any step or other context."
+        },
+        {
+          "issue": "Material number from a Materials Needed table is not used elsewhere in the record.",
+          "page": 2,
+          "details": "Material number '20033603' is not used in any step or other context."
+        },
+        {
+          "issue": "Material number from a Materials Needed table is not used elsewhere in the record.",
+          "page": 2,
+          "details": "Material number '20036948' is not used in any step or other context."
+        },
+        {
+          "issue": "Material number from a Materials Needed table is not used elsewhere in the record.",
+          "page": 2,
+          "details": "Material number '20066856' is not used in any step or other context."
+        },
+        {
+          "issue": "Material number from a Materials Needed table is not used elsewhere in the record.",
+          "page": 2,
+          "details": "Material number '20081640' is not used in any step or other context."
+        }
+      ]
+    },
+    {
+      "task_name": "Equipment Cross-Reference",
+      "status": "fail",
+      "findings": [
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'LC876120' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment '10800714' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment '10764622' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'Sanitization Bath' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'Bio Safety Cabinet' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment '10764621' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'LV025918' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'Particle Counter' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'LV933673' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'Dissolved Oxygen Meter' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment 'pH Meter' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 4,
+          "details": "Equipment '10805674' is not used in any step or other context."
+        },
+        {
+          "issue": "Equipment from the Equipment table is not used elsewhere in the record.",
+          "page": 52,
+          "details": "Equipment 'Equip LC718089' is not used in any step or other context."
+        }
+      ]
+    },
+    {
+      "task_name": "Start Stop Time Format",
+      "status": "fail",
+      "findings": [
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 15,
+          "details": "Step 107 contains blank fields for time and date (e.g., 'Start: __ Hrs Date: __')."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 54,
+          "details": "Step 215 contains a placeholder ('HHMM') instead of a time."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 56,
+          "details": "Step 218 contains a placeholder ('HHMM') instead of a time."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 63,
+          "details": "Step 233 contains a placeholder ('HHMM') instead of a time."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 66,
+          "details": "Step 241 contains a placeholder ('HHMM') instead of a time."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 72,
+          "details": "Step 267 contains a placeholder ('HHMM') instead of a time."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 73,
+          "details": "Step 270 contains a placeholder ('HHMM') instead of a time."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 75,
+          "details": "Step 279 contains a placeholder ('HHMM') instead of a time."
+        },
+        {
+          "issue": "NLT/NMT step is missing required Start and Stop entry lines.",
+          "page": 77,
+          "details": "Step 285 is an NLT/NMT step but has blank Start and Stop time entry lines."
+        },
+        {
+          "issue": "Incomplete time entry format.",
+          "page": 83,
+          "details": "Step 300 for sample type 'STABIL' contains blank fields for time and date."
+        }
+      ]
+    }
+  ],
+  "pages_analyzed": 99,
+  "total_pages": 99,
+  "model_used": "gemini-2.5-pro",
+  "batches_used": 9,
+  "errors": []
+}
