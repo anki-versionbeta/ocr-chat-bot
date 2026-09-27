@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 20px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Animation utility classes */
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.5s ease-out forwards;
+}
+
+.animate-pulse-custom {
+  animation: pulse 2s infinite;
+}
+
+.animate-progress {
+  animation: progress 1s ease-out forwards;
+}
+
+/* Custom styles for download links */
+.message-download-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  margin: 0.5rem 0;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 0.5rem;
+  color: white !important;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+
+.message-download-link:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.message-download-link:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message-download-unified {
+  background-color: #0284c7;
+  color: white !important;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 4px 6px rgba(2, 132, 199, 0.25);
+}
+
+.message-download-unified:hover {
+  background-color: #0369a1;
+  box-shadow: 0 6px 8px rgba(2, 132, 199, 0.3);
+}
+
+/* Add specific styling for file type icons before download links */
+.message-download-link[href*=".xlsx"]::before,
+.message-download-link[href*=".csv"]::before,
+.message-download-link[href*=".json"]::before,
+.message-download-link::before {
+  content: "📄";
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.message-download-link[href*=".xlsx"]::before {
+  content: "📊"; /* Spreadsheet icon */
+}
+
+.message-download-unified::before {
+  content: "📈"; /* Chart icon for unified Excel */
+  font-size: 1.25rem;
+  left: 0.6rem;
+}
+
+.message-download-link[href*=".csv"]::before {
+  content: "📋"; /* List icon */
+}
+
+.message-download-link[href*=".json"]::before {
+  content: "🔍"; /* Magnifying glass icon */
+}
+
+/* Add a download section header styling */
+.download-section-header {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin: 1.5rem 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Direct download buttons */
+.direct-download-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  margin: 0.75rem 0.25rem;
+  background-color: #4f46e5;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
+  position: relative;
+  z-index: 10;
+}
+
+.direct-download-button:hover {
+  background-color: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(79, 70, 229, 0.3);
+}
+
+.direct-download-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+/* Special styles for download links in messages */
+.whitespace-pre-wrap a[href*="/download"],
+.whitespace-pre-wrap a[href*=".xlsx"],
+.whitespace-pre-wrap a[href*=".csv"],
+.whitespace-pre-wrap a[href*=".json"] {
+  display: inline-block;
+  margin: 0.5rem 0;
+  padding: 0.75rem 1.25rem;
+  background-color: #2563eb;
+  color: white !important;
+  text-decoration: none !important;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 50;
+}
+
+.whitespace-pre-wrap a[href*="/download"]:hover,
+.whitespace-pre-wrap a[href*=".xlsx"]:hover,
+.whitespace-pre-wrap a[href*=".csv"]:hover,
+.whitespace-pre-wrap a[href*=".json"]:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
