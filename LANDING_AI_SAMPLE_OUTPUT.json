@@ -1,0 +1,541 @@
+{
+  "markdown": "<a id='b5ae6bdd-2f96-4c62-9b23-15da72b795b9'></a>\n\n<table id=\"0-1\">\n<tr><td id=\"0-2\" rowspan=\"3\">abbvie (logo)</td><td id=\"0-3\">Document Type</td><td id=\"0-4\">Department - Site</td><td id=\"0-5\">Governing Procedure(s)</td><td id=\"0-6\">Form Number</td><td id=\"0-7\">Version No.</td></tr>\n<tr><td id=\"0-8\">Form</td><td id=\"0-9\">PQA - Global</td><td id=\"0-a\">QMR03-04-006</td><td id=\"0-b\">QMR03-04-006-F01</td><td id=\"0-c\">3.0</td></tr>\n<tr><td id=\"0-d\">Title</td><td id=\"0-e\" colspan=\"4\">Product Shipment Authorization Form</td></tr>\n</table>\n\n<a id='ecc69ad6-26b2-4af4-86a2-1d5e23586cfd'></a>\n\nThis executed Shipment Authorization Form serves as authorization from Allergan (an AbbVie Company) to ship the material listed below.\n\n<a id='b5dd280e-80e2-4dcf-a5e3-c7704671ab12'></a>\n\n<table id=\"0-f\">\n<tr><td id=\"0-g\">Product Category</td><td id=\"0-h\">Material Type</td><td id=\"0-i\">Responsible Quality Group</td></tr>\n<tr><td id=\"0-j\">Pharmaceutical</td><td id=\"0-k\">Goods: Finished Goods</td><td id=\"0-l\">Third Party Quality (TPQ)</td></tr>\n</table>\n\n<a id='9828360c-6827-48bb-9903-3163899b197f'></a>\n\n<table id=\"0-m\">\n<tr><td id=\"0-n\" rowspan=\"2\">Product Name</td><td id=\"0-o\" rowspan=\"2\">Material (e.g., P/N, NDC #)</td><td id=\"0-p\" rowspan=\"2\">Batch, Lot, or S/N</td><td id=\"0-q\" colspan=\"2\">Dates</td><td id=\"0-r\" colspan=\"2\">Qty Shipped</td></tr>\n<tr><td id=\"0-s\">Exp.</td><td id=\"0-t\">DoM</td><td id=\"0-u\">#</td><td id=\"0-v\">UoM</td></tr>\n<tr><td id=\"0-w\" rowspan=\"2\">Deoxycholic Acid Injection (ATX-101) / 10mg/ml, 2ml Vials</td><td id=\"0-x\" rowspan=\"2\">96309DB</td><td id=\"0-y\" rowspan=\"2\">HL4689</td><td id=\"0-z\" rowspan=\"2\">2025/11</td><td id=\"0-A\" rowspan=\"2\">15Jun2023</td><td id=\"0-B\" rowspan=\"2\">13,378 (26,756 vials)</td><td id=\"0-C\" rowspan=\"2\">EAC</td></tr>\n</table>\n\n<a id='d345735e-78ed-4991-8e90-ac9e126e70c4'></a>\n\n<table id=\"0-D\">\n<tr><td id=\"0-E\" colspan=\"2\">Pharmaceutical Products</td><td id=\"0-F\">☑ N/A</td></tr>\n<tr><td id=\"0-G\">Description</td><td id=\"0-H\" colspan=\"2\">Date</td></tr>\n<tr><td id=\"0-I\">Bulk Hold Retest</td><td id=\"0-J\" colspan=\"2\">N/A</td></tr>\n<tr><td id=\"0-K\">API Addition</td><td id=\"0-L\" colspan=\"2\">N/A</td></tr>\n<tr><td id=\"0-M\">Vial Fill</td><td id=\"0-N\" colspan=\"2\">N/A</td></tr>\n</table>\n\n<a id='fafb5150-5756-405a-9024-7941407c179b'></a>\n\n<table id=\"0-O\">\n<tr><td id=\"0-P\">Special Instructions or Comments</td><td id=\"0-Q\">N/A</td></tr>\n<tr><td id=\"0-R\" colspan=\"2\">N/A</td></tr>\n</table>\n\n<a id='03707104-45de-4913-b417-1cf2c7d46bc5'></a>\n\n## Contract Facility\n(Ship From)\n\nName Hospira, Inc.\n\nAddress/Partial Address\n1776 N. Centennial Dr. McPherson, KS\n67460, USA\n\n<a id='53700869-3375-4753-b11f-a3d7e90ce862'></a>\n\n**Receiving Facility**\n(Ship To)\n\nName: K&N, Lewisville\n\nAddress/Partial Address: 1800 Waters ridge Dr # 100, Lewisville,\nTX75057, United States\n\n<a id='1016cf3a-31e4-437b-878b-a7cfeaea10e9'></a>\n\nAttached Documents\n\noption Batch Record: [ ]\noption CofA: [x]\noption CofC: [x]\noption N/A: [ ]\noption Other: [ ]\n\n<a id='09020a85-31bf-44ec-99cc-9dc865926076'></a>\n\n<table><thead><tr><th>List TPM Events/NCRs/CAPAs/Deviations/Reworks</th></tr></thead><tbody><tr><td>QE-054586, QE-060606, QE-062160</td></tr></tbody></table>\n\n<a id='3fa7a3b9-326f-4ee7-bc0c-dd8f885884f4'></a>\n\nThe below signature provides authorization for the Contract Facility to ship the described material to the Receiving Facility.\n\n<a id='a34a7d2b-46e3-4752-a93b-261307ee76f8'></a>\n\n<table id=\"0-S\">\n<tr><td id=\"0-T\" rowspan=\"3\">Shipment Authorization</td><td id=\"0-U\">Name, Signature, & Date (If not using electronic signature, manually print name/sign/date.)</td><td id=\"0-V\">Title</td></tr>\n<tr><td id=\"0-W\">Berrak Ekren Electronically signed by: Berrak Ekren Reason: Prepared By Date: Jan 9, 2024 12:29 GMT 09-Jan-2024</td><td id=\"0-X\">Quality Specialist</td></tr>\n<tr><td id=\"0-Y\">Michael Collins Electronically signed by: Michael Collins Reason: Approver Date: Jan 9, 2024 12:31 GMT 09-Jan-2024</td><td id=\"0-Z\">Director, Pharma External Quality</td></tr>\n</table>\n\n<a id='1fd16af0-cc68-4f46-9457-fa35d8c7ff78'></a>\n\nPage 1 of 1",
+  "chunks": [
+    {
+      "markdown": "<a id='b5ae6bdd-2f96-4c62-9b23-15da72b795b9'></a>\n\n<table id=\"0-1\">\n<tr><td id=\"0-2\" rowspan=\"3\">abbvie (logo)</td><td id=\"0-3\">Document Type</td><td id=\"0-4\">Department - Site</td><td id=\"0-5\">Governing Procedure(s)</td><td id=\"0-6\">Form Number</td><td id=\"0-7\">Version No.</td></tr>\n<tr><td id=\"0-8\">Form</td><td id=\"0-9\">PQA - Global</td><td id=\"0-a\">QMR03-04-006</td><td id=\"0-b\">QMR03-04-006-F01</td><td id=\"0-c\">3.0</td></tr>\n<tr><td id=\"0-d\">Title</td><td id=\"0-e\" colspan=\"4\">Product Shipment Authorization Form</td></tr>\n</table>",
+      "type": "table",
+      "id": "b5ae6bdd-2f96-4c62-9b23-15da72b795b9",
+      "grounding": {
+        "box": {
+          "left": 0.0838296115398407,
+          "top": 0.04175157845020294,
+          "right": 0.9110537767410278,
+          "bottom": 0.11955341696739197
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='ecc69ad6-26b2-4af4-86a2-1d5e23586cfd'></a>\n\nThis executed Shipment Authorization Form serves as authorization from Allergan (an AbbVie Company) to ship the material listed below.",
+      "type": "text",
+      "id": "ecc69ad6-26b2-4af4-86a2-1d5e23586cfd",
+      "grounding": {
+        "box": {
+          "left": 0.08240249752998352,
+          "top": 0.14016859233379364,
+          "right": 0.9113848209381104,
+          "bottom": 0.17690898478031158
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='b5dd280e-80e2-4dcf-a5e3-c7704671ab12'></a>\n\n<table id=\"0-f\">\n<tr><td id=\"0-g\">Product Category</td><td id=\"0-h\">Material Type</td><td id=\"0-i\">Responsible Quality Group</td></tr>\n<tr><td id=\"0-j\">Pharmaceutical</td><td id=\"0-k\">Goods: Finished Goods</td><td id=\"0-l\">Third Party Quality (TPQ)</td></tr>\n</table>",
+      "type": "table",
+      "id": "b5dd280e-80e2-4dcf-a5e3-c7704671ab12",
+      "grounding": {
+        "box": {
+          "left": 0.08289599418640137,
+          "top": 0.18861278891563416,
+          "right": 0.9106513857841492,
+          "bottom": 0.24490270018577576
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='9828360c-6827-48bb-9903-3163899b197f'></a>\n\n<table id=\"0-m\">\n<tr><td id=\"0-n\" rowspan=\"2\">Product Name</td><td id=\"0-o\" rowspan=\"2\">Material (e.g., P/N, NDC #)</td><td id=\"0-p\" rowspan=\"2\">Batch, Lot, or S/N</td><td id=\"0-q\" colspan=\"2\">Dates</td><td id=\"0-r\" colspan=\"2\">Qty Shipped</td></tr>\n<tr><td id=\"0-s\">Exp.</td><td id=\"0-t\">DoM</td><td id=\"0-u\">#</td><td id=\"0-v\">UoM</td></tr>\n<tr><td id=\"0-w\" rowspan=\"2\">Deoxycholic Acid Injection (ATX-101) / 10mg/ml, 2ml Vials</td><td id=\"0-x\" rowspan=\"2\">96309DB</td><td id=\"0-y\" rowspan=\"2\">HL4689</td><td id=\"0-z\" rowspan=\"2\">2025/11</td><td id=\"0-A\" rowspan=\"2\">15Jun2023</td><td id=\"0-B\" rowspan=\"2\">13,378 (26,756 vials)</td><td id=\"0-C\" rowspan=\"2\">EAC</td></tr>\n</table>",
+      "type": "table",
+      "id": "9828360c-6827-48bb-9903-3163899b197f",
+      "grounding": {
+        "box": {
+          "left": 0.08279716968536377,
+          "top": 0.25696632266044617,
+          "right": 0.9105662107467651,
+          "bottom": 0.36390599608421326
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='d345735e-78ed-4991-8e90-ac9e126e70c4'></a>\n\n<table id=\"0-D\">\n<tr><td id=\"0-E\" colspan=\"2\">Pharmaceutical Products</td><td id=\"0-F\">☑ N/A</td></tr>\n<tr><td id=\"0-G\">Description</td><td id=\"0-H\" colspan=\"2\">Date</td></tr>\n<tr><td id=\"0-I\">Bulk Hold Retest</td><td id=\"0-J\" colspan=\"2\">N/A</td></tr>\n<tr><td id=\"0-K\">API Addition</td><td id=\"0-L\" colspan=\"2\">N/A</td></tr>\n<tr><td id=\"0-M\">Vial Fill</td><td id=\"0-N\" colspan=\"2\">N/A</td></tr>\n</table>",
+      "type": "table",
+      "id": "d345735e-78ed-4991-8e90-ac9e126e70c4",
+      "grounding": {
+        "box": {
+          "left": 0.08284871280193329,
+          "top": 0.37536776065826416,
+          "right": 0.3664812445640564,
+          "bottom": 0.49645382165908813
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='fafb5150-5756-405a-9024-7941407c179b'></a>\n\n<table id=\"0-O\">\n<tr><td id=\"0-P\">Special Instructions or Comments</td><td id=\"0-Q\">N/A</td></tr>\n<tr><td id=\"0-R\" colspan=\"2\">N/A</td></tr>\n</table>",
+      "type": "table",
+      "id": "fafb5150-5756-405a-9024-7941407c179b",
+      "grounding": {
+        "box": {
+          "left": 0.4064558744430542,
+          "top": 0.37552979588508606,
+          "right": 0.9106723070144653,
+          "bottom": 0.4961126148700714
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='03707104-45de-4913-b417-1cf2c7d46bc5'></a>\n\n## Contract Facility\n(Ship From)\n\nName Hospira, Inc.\n\nAddress/Partial Address\n1776 N. Centennial Dr. McPherson, KS\n67460, USA",
+      "type": "text",
+      "id": "03707104-45de-4913-b417-1cf2c7d46bc5",
+      "grounding": {
+        "box": {
+          "left": 0.08331049978733063,
+          "top": 0.507453441619873,
+          "right": 0.37305116653442383,
+          "bottom": 0.6656179428100586
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='53700869-3375-4753-b11f-a3d7e90ce862'></a>\n\n**Receiving Facility**\n(Ship To)\n\nName: K&N, Lewisville\n\nAddress/Partial Address: 1800 Waters ridge Dr # 100, Lewisville,\nTX75057, United States",
+      "type": "text",
+      "id": "53700869-3375-4753-b11f-a3d7e90ce862",
+      "grounding": {
+        "box": {
+          "left": 0.3838713765144348,
+          "top": 0.5076983571052551,
+          "right": 0.6741110682487488,
+          "bottom": 0.6657673716545105
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='1016cf3a-31e4-437b-878b-a7cfeaea10e9'></a>\n\nAttached Documents\n\noption Batch Record: [ ]\noption CofA: [x]\noption CofC: [x]\noption N/A: [ ]\noption Other: [ ]",
+      "type": "text",
+      "id": "1016cf3a-31e4-437b-878b-a7cfeaea10e9",
+      "grounding": {
+        "box": {
+          "left": 0.6865522861480713,
+          "top": 0.508428156375885,
+          "right": 0.9100624322891235,
+          "bottom": 0.6655498147010803
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='09020a85-31bf-44ec-99cc-9dc865926076'></a>\n\n<table><thead><tr><th>List TPM Events/NCRs/CAPAs/Deviations/Reworks</th></tr></thead><tbody><tr><td>QE-054586, QE-060606, QE-062160</td></tr></tbody></table>",
+      "type": "table",
+      "id": "09020a85-31bf-44ec-99cc-9dc865926076",
+      "grounding": {
+        "box": {
+          "left": 0.0833389163017273,
+          "top": 0.6785650849342346,
+          "right": 0.9102357625961304,
+          "bottom": 0.7693178057670593
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='3fa7a3b9-326f-4ee7-bc0c-dd8f885884f4'></a>\n\nThe below signature provides authorization for the Contract Facility to ship the described material to the Receiving Facility.",
+      "type": "text",
+      "id": "3fa7a3b9-326f-4ee7-bc0c-dd8f885884f4",
+      "grounding": {
+        "box": {
+          "left": 0.083547443151474,
+          "top": 0.7816956639289856,
+          "right": 0.9040209054946899,
+          "bottom": 0.8012282252311707
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='a34a7d2b-46e3-4752-a93b-261307ee76f8'></a>\n\n<table id=\"0-S\">\n<tr><td id=\"0-T\" rowspan=\"3\">Shipment Authorization</td><td id=\"0-U\">Name, Signature, & Date (If not using electronic signature, manually print name/sign/date.)</td><td id=\"0-V\">Title</td></tr>\n<tr><td id=\"0-W\">Berrak Ekren Electronically signed by: Berrak Ekren Reason: Prepared By Date: Jan 9, 2024 12:29 GMT 09-Jan-2024</td><td id=\"0-X\">Quality Specialist</td></tr>\n<tr><td id=\"0-Y\">Michael Collins Electronically signed by: Michael Collins Reason: Approver Date: Jan 9, 2024 12:31 GMT 09-Jan-2024</td><td id=\"0-Z\">Director, Pharma External Quality</td></tr>\n</table>",
+      "type": "table",
+      "id": "a34a7d2b-46e3-4752-a93b-261307ee76f8",
+      "grounding": {
+        "box": {
+          "left": 0.08349171280860901,
+          "top": 0.8025403022766113,
+          "right": 0.909503698348999,
+          "bottom": 0.9135118722915649
+        },
+        "page": 0
+      }
+    },
+    {
+      "markdown": "<a id='1fd16af0-cc68-4f46-9457-fa35d8c7ff78'></a>\n\nPage 1 of 1",
+      "type": "marginalia",
+      "id": "1fd16af0-cc68-4f46-9457-fa35d8c7ff78",
+      "grounding": {
+        "box": {
+          "left": 0.8287919759750366,
+          "top": 0.9434126615524292,
+          "right": 0.9101142883300781,
+          "bottom": 0.9607710838317871
+        },
+        "page": 0
+      }
+    }
+  ],
+  "splits": [
+    {
+      "class_": "page",
+      "identifier": "page_0",
+      "pages": [0],
+      "markdown": "<a id='b5ae6bdd-2f96-4c62-9b23-15da72b795b9'></a>\n\n<table id=\"0-1\">...</table>\n\n...(full page markdown)...",
+      "chunks": [
+        "b5ae6bdd-2f96-4c62-9b23-15da72b795b9",
+        "ecc69ad6-26b2-4af4-86a2-1d5e23586cfd",
+        "b5dd280e-80e2-4dcf-a5e3-c7704671ab12",
+        "9828360c-6827-48bb-9903-3163899b197f",
+        "d345735e-78ed-4991-8e90-ac9e126e70c4",
+        "fafb5150-5756-405a-9024-7941407c179b",
+        "03707104-45de-4913-b417-1cf2c7d46bc5",
+        "53700869-3375-4753-b11f-a3d7e90ce862",
+        "1016cf3a-31e4-437b-878b-a7cfeaea10e9",
+        "09020a85-31bf-44ec-99cc-9dc865926076",
+        "3fa7a3b9-326f-4ee7-bc0c-dd8f885884f4",
+        "a34a7d2b-46e3-4752-a93b-261307ee76f8",
+        "1fd16af0-cc68-4f46-9457-fa35d8c7ff78"
+      ]
+    }
+  ],
+  "grounding": {
+    "b5ae6bdd-2f96-4c62-9b23-15da72b795b9": {
+      "box": {
+        "left": 0.0838296115398407,
+        "top": 0.04175157845020294,
+        "right": 0.9110537767410278,
+        "bottom": 0.11955341696739197
+      },
+      "page": 0,
+      "type": "chunkTable"
+    },
+    "0-1": {
+      "box": {
+        "left": 0.08859191241437404,
+        "top": 0.04579346252392452,
+        "right": 0.9046571585297656,
+        "bottom": 0.1157577034805497
+      },
+      "page": 0,
+      "type": "table"
+    },
+    "0-2": {
+      "box": {
+        "left": 0.08859191241437404,
+        "top": 0.04579346252392452,
+        "right": 0.3088561436004511,
+        "bottom": 0.1157577034805497
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-3": {
+      "box": {
+        "left": 0.19860980105884218,
+        "top": 0.04579346252392452,
+        "right": 0.3088561436004511,
+        "bottom": 0.06132135480070877
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-4": {
+      "box": {
+        "left": 0.3088561436004511,
+        "top": 0.04579346252392452,
+        "right": 0.4754425332636698,
+        "bottom": 0.06132135480070877
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-5": {
+      "box": {
+        "left": 0.4754425332636698,
+        "top": 0.04579346252392452,
+        "right": 0.6422966073861502,
+        "bottom": 0.06132135480070877
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-6": {
+      "box": {
+        "left": 0.6422966073861502,
+        "top": 0.04579346252392452,
+        "right": 0.8089253759023318,
+        "bottom": 0.06132135480070877
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-7": {
+      "box": {
+        "left": 0.8089253759023318,
+        "top": 0.04579346252392452,
+        "right": 0.9046994141167222,
+        "bottom": 0.06132135480070877
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-8": {
+      "box": {
+        "left": 0.19860980105884218,
+        "top": 0.06132135480070877,
+        "right": 0.3088561436004511,
+        "bottom": 0.07731177327283678
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-9": {
+      "box": {
+        "left": 0.3088561436004511,
+        "top": 0.06132135480070877,
+        "right": 0.4754425332636698,
+        "bottom": 0.07731177327283678
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-a": {
+      "box": {
+        "left": 0.4754425332636698,
+        "top": 0.06132135480070877,
+        "right": 0.6422966073861502,
+        "bottom": 0.07731177327283678
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-b": {
+      "box": {
+        "left": 0.6422966073861502,
+        "top": 0.06132135480070877,
+        "right": 0.8089253759023318,
+        "bottom": 0.07731177327283678
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-c": {
+      "box": {
+        "left": 0.8089253759023318,
+        "top": 0.06132135480070877,
+        "right": 0.9046994141167222,
+        "bottom": 0.07731177327283678
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-d": {
+      "box": {
+        "left": 0.19860980105884218,
+        "top": 0.07731177327283678,
+        "right": 0.3088561436004511,
+        "bottom": 0.1157577034805497
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-e": {
+      "box": {
+        "left": 0.3088561436004511,
+        "top": 0.07731177327283678,
+        "right": 0.9046994141167222,
+        "bottom": 0.1157577034805497
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "ecc69ad6-26b2-4af4-86a2-1d5e23586cfd": {
+      "box": {
+        "left": 0.08240249752998352,
+        "top": 0.14016859233379364,
+        "right": 0.9113848209381104,
+        "bottom": 0.17690898478031158
+      },
+      "page": 0,
+      "type": "chunkText"
+    },
+    "b5dd280e-80e2-4dcf-a5e3-c7704671ab12": {
+      "box": {
+        "left": 0.08289599418640137,
+        "top": 0.18861278891563416,
+        "right": 0.9106513857841492,
+        "bottom": 0.24490270018577576
+      },
+      "page": 0,
+      "type": "chunkTable"
+    },
+    "0-f": {
+      "box": {
+        "left": 0.08889897788595216,
+        "top": 0.19361875534191597,
+        "right": 0.9051640060750543,
+        "bottom": 0.24060275590456115
+      },
+      "page": 0,
+      "type": "table"
+    },
+    "0-g": {
+      "box": {
+        "left": 0.08889897788595216,
+        "top": 0.19361875534191597,
+        "right": 0.2726254779478161,
+        "bottom": 0.2146237579754171
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-h": {
+      "box": {
+        "left": 0.2726254779478161,
+        "top": 0.19361875534191597,
+        "right": 0.6254142604720094,
+        "bottom": 0.2146237579754171
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-i": {
+      "box": {
+        "left": 0.6254142604720094,
+        "top": 0.19361875534191597,
+        "right": 0.9050632577441249,
+        "bottom": 0.2146237579754171
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-j": {
+      "box": {
+        "left": 0.08889897788595216,
+        "top": 0.2146237579754171,
+        "right": 0.2726254779478161,
+        "bottom": 0.24060275590456115
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-k": {
+      "box": {
+        "left": 0.2726254779478161,
+        "top": 0.2146237579754171,
+        "right": 0.6254142604720094,
+        "bottom": 0.24060275590456115
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "0-l": {
+      "box": {
+        "left": 0.6254142604720094,
+        "top": 0.2146237579754171,
+        "right": 0.9050632577441249,
+        "bottom": 0.24060275590456115
+      },
+      "page": 0,
+      "type": "tableCell"
+    },
+    "9828360c-6827-48bb-9903-3163899b197f": {
+      "box": {
+        "left": 0.08279716968536377,
+        "top": 0.25696632266044617,
+        "right": 0.9105662107467651,
+        "bottom": 0.36390599608421326
+      },
+      "page": 0,
+      "type": "chunkTable"
+    },
+    "03707104-45de-4913-b417-1cf2c7d46bc5": {
+      "box": {
+        "left": 0.08331049978733063,
+        "top": 0.507453441619873,
+        "right": 0.37305116653442383,
+        "bottom": 0.6656179428100586
+      },
+      "page": 0,
+      "type": "chunkText"
+    },
+    "53700869-3375-4753-b11f-a3d7e90ce862": {
+      "box": {
+        "left": 0.3838713765144348,
+        "top": 0.5076983571052551,
+        "right": 0.6741110682487488,
+        "bottom": 0.6657673716545105
+      },
+      "page": 0,
+      "type": "chunkText"
+    },
+    "1016cf3a-31e4-437b-878b-a7cfeaea10e9": {
+      "box": {
+        "left": 0.6865522861480713,
+        "top": 0.508428156375885,
+        "right": 0.9100624322891235,
+        "bottom": 0.6655498147010803
+      },
+      "page": 0,
+      "type": "chunkText"
+    },
+    "09020a85-31bf-44ec-99cc-9dc865926076": {
+      "box": {
+        "left": 0.0833389163017273,
+        "top": 0.6785650849342346,
+        "right": 0.9102357625961304,
+        "bottom": 0.7693178057670593
+      },
+      "page": 0,
+      "type": "chunkTable"
+    },
+    "3fa7a3b9-326f-4ee7-bc0c-dd8f885884f4": {
+      "box": {
+        "left": 0.083547443151474,
+        "top": 0.7816956639289856,
+        "right": 0.9040209054946899,
+        "bottom": 0.8012282252311707
+      },
+      "page": 0,
+      "type": "chunkText"
+    },
+    "a34a7d2b-46e3-4752-a93b-261307ee76f8": {
+      "box": {
+        "left": 0.08349171280860901,
+        "top": 0.8025403022766113,
+        "right": 0.909503698348999,
+        "bottom": 0.9135118722915649
+      },
+      "page": 0,
+      "type": "chunkTable"
+    },
+    "1fd16af0-cc68-4f46-9457-fa35d8c7ff78": {
+      "box": {
+        "left": 0.8287919759750366,
+        "top": 0.9434126615524292,
+        "right": 0.9101142883300781,
+        "bottom": 0.9607710838317871
+      },
+      "page": 0,
+      "type": "chunkMarginalia"
+    }
+  },
+  "metadata": {
+    "filename": "SAF (HL4689)-to.pdf",
+    "org_id": null,
+    "page_count": 1,
+    "duration_ms": 38578,
+    "credit_usage": 3,
+    "job_id": "u9v9xygg20w3tapdjea3kq43m",
+    "version": "dpt-2-20250919"
+  }
+}

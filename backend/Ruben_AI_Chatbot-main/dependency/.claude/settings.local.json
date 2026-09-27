@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/BAPATAR/Downloads/Ruben_AI_Chatbot-main/Ruben_AI_Chatbot-main/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

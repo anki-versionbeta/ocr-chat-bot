@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  weaviate:
+    image: semitechnologies/weaviate:1.24.1
+    container_name: weaviate
+    ports:
+      - "8080:8080"
+    environment:
+      - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+      - DEFAULT_VECTORIZER_MODULE=none
+    volumes:
+      - /data/weaviate:/var/lib/weaviate
+    restart: always
+
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/ocr@4567
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_memory_heap_initial__size=2G
+      - NEO4J_dbms_memory_heap_max__size=4G
+      - NEO4J_dbms_memory_pagecache_size=1G
+    volumes:
+      - /data/neo4j/data:/data
+      - /data/neo4j/logs:/logs
+      - /data/neo4j/plugins:/plugins
+    restart: always

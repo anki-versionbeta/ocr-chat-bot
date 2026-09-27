@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(del \"C:\\Users\\BAPATAR\\Downloads\\ocr-chatbot\\backend\\test_claude_fix.py\" \"C:\\Users\\BAPATAR\\Downloads\\ocr-chatbot\\backend\\test_iliad_search.py\" \"C:\\Users\\BAPATAR\\Downloads\\ocr-chatbot\\backend\\test_imports.py\" \"C:\\Users\\BAPATAR\\Downloads\\ocr-chatbot\\backend\\test_process_search.py\" \"C:\\Users\\BAPATAR\\Downloads\\ocr-chatbot\\backend\\test_rag_fix.py\" \"C:\\Users\\BAPATAR\\Downloads\\ocr-chatbot\\backend\\test_rephraser.py\" \"C:\\Users\\BAPATAR\\Downloads\\ocr-chatbot\\backend\\auth_token_service.py\")",
+      "Bash(du:*)",
+      "Bash(ls -lh .next/static/chunks/*.js)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
