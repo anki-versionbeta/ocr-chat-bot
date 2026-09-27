@@ -1,0 +1,308 @@
+{
+  "process_id": "f96d6d53-8257-4d3c-86b1-279f0e3ad069",
+  "timestamp": "2026-02-20T12:08:34.199836",
+  "summary": {
+    "total_tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "issues": []
+  },
+  "test_results": [
+    {
+      "test_id": 1,
+      "query": "Get all Ges.-Mittel. values as a table with page number and all threshold columns",
+      "description": "Tests row extraction with page numbers and multiple columns",
+      "success": true,
+      "duration_seconds": 33.771395,
+      "result_count": 8,
+      "iterations_used": 1,
+      "validations": [
+        {
+          "test_id": 1,
+          "check": "has_tabular_structure",
+          "passed": true,
+          "issues": []
+        },
+        {
+          "test_id": 1,
+          "check": "multi_page_aggregation",
+          "passed": true,
+          "issues": [],
+          "page_analysis": {
+            "total_rows": 8,
+            "unique_pages": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            "page_count": 8,
+            "rows_per_page": {
+              "2": 1,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1,
+              "7": 1,
+              "8": 1,
+              "9": 1
+            }
+          }
+        },
+        {
+          "test_id": 1,
+          "check": "no_null_value_issues",
+          "passed": true,
+          "issues": [],
+          "null_analysis": {
+            "Page": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                2,
+                3,
+                4,
+                5,
+                6
+              ]
+            },
+            "2.0 \u00b5m": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                "133,7",
+                "294,7",
+                "278,7",
+                "341,7",
+                "458,3"
+              ]
+            },
+            "5.0 \u00b5m": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                "22,7",
+                "46,3",
+                "33,7",
+                "42,0",
+                "72,0"
+              ]
+            },
+            "10.0 \u00b5m": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                "1,7",
+                "5,7",
+                "1,0",
+                "3,7",
+                "3,0"
+              ]
+            },
+            "15.0 \u00b5m": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                "0,3",
+                "2,3",
+                "0,7",
+                "2,0",
+                "0,3"
+              ]
+            },
+            "25.0 \u00b5m": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                "0,0",
+                "0,7",
+                "0,3",
+                "1,0",
+                "0,0"
+              ]
+            },
+            "40.0 \u00b5m": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                "0,0",
+                "0,7",
+                "0,3",
+                "0,3",
+                "0,0"
+              ]
+            },
+            "50.0 \u00b5m": {
+              "null_count": 0,
+              "total_count": 8,
+              "null_ratio": 0.0,
+              "sample_values": [
+                "0,0",
+                "0,0",
+                "0,0",
+                "0,0",
+                "0,0"
+              ]
+            }
+          }
+        }
+      ],
+      "issues": [],
+      "dataframe_preview": " Page 2.0 \u00b5m 5.0 \u00b5m 10.0 \u00b5m 15.0 \u00b5m 25.0 \u00b5m 40.0 \u00b5m 50.0 \u00b5m\n    2  133,7   22,7     1,7     0,3     0,0     0,0     0,0\n    3  294,7   46,3     5,7     2,3     0,7     0,7     0,0\n    4  278,7   33,7     1,0     0,7     0,3     0,3     0,0\n    5  341,7   42,0     3,7     2,0     1,0     0,3     0,0\n    6  458,3   72,0     3,0     0,3     0,0     0,0     0,0\n    7 1475,0  250,0    15,3     2,7     0,0     0,0     0,0\n    8  802,3   90,0     2,7     0,0     0,0     0,0     0,0\n    9 1106,7  153,3     9,7     2,3     0,0     0,0     0,0",
+      "natural_answer": "Retrieved 8 rows of Ges.-Mittel. values with columns: Page (2-9) and seven threshold columns (2.0 \u00b5m, 5.0 \u00b5m, 10.0 \u00b5m, 15.0 \u00b5m, 25.0 \u00b5m, 40.0 \u00b5m, 50.0 \u00b5m). Values range from 0.0 to 1475.0 across all thresholds.",
+      "cypher_used": "MATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(ges_cell:Cell)\nWHERE toLower(coalesce(ges_cell.text, '')) CONTAINS 'ges.-mittel.'\n  AND ges_cell.col_index = 1\nWITH p.page_num AS page_num, t.table_id AS table_id, ges_cell.row_index AS ges_row_index\nORDER BY page_num ASC, table_id ASC\n\nMATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(value_cell:Cell)\nWHERE p.page_num = page_nu",
+      "all_validations_passed": true
+    },
+    {
+      "test_id": 2,
+      "query": "Show Ges.-Mittel. row in a dataframe with columns: Page, 2.0um, 5.0um, 10.0um, 15.0um, 25.0um, 40.0um, 50.0um",
+      "description": "Tests explicit column specification for dataframe display",
+      "success": true,
+      "duration_seconds": 51.768102,
+      "result_count": 8,
+      "iterations_used": 1,
+      "validations": [
+        {
+          "test_id": 2,
+          "check": "has_tabular_structure",
+          "passed": true,
+          "issues": []
+        },
+        {
+          "test_id": 2,
+          "check": "column_headers_preserved",
+          "passed": true,
+          "issues": [],
+          "actual_columns": [
+            "Page",
+            "2.0um",
+            "5.0um",
+            "10.0um",
+            "15.0um",
+            "25.0um",
+            "40.0um",
+            "50.0um"
+          ],
+          "expected_columns": [
+            "Page",
+            "2.0um",
+            "5.0um",
+            "10.0um",
+            "15.0um",
+            "25.0um",
+            "40.0um",
+            "50.0um"
+          ]
+        },
+        {
+          "test_id": 2,
+          "check": "data_alignment_correct",
+          "passed": true,
+          "issues": [],
+          "alignment_analysis": {
+            "Page": {
+              "type": "page",
+              "valid": true
+            },
+            "2.0um": {
+              "type": "numeric",
+              "valid": true
+            },
+            "5.0um": {
+              "type": "numeric",
+              "valid": true
+            },
+            "10.0um": {
+              "type": "numeric",
+              "valid": true
+            },
+            "15.0um": {
+              "type": "numeric",
+              "valid": true
+            },
+            "25.0um": {
+              "type": "numeric",
+              "valid": true
+            },
+            "40.0um": {
+              "type": "numeric",
+              "valid": true
+            },
+            "50.0um": {
+              "type": "numeric",
+              "valid": true
+            }
+          }
+        }
+      ],
+      "issues": [],
+      "dataframe_preview": " Page  2.0um 5.0um 10.0um 15.0um 25.0um 40.0um 50.0um\n    2  133,7  22,7    1,7    0,3    0,0    0,0    0,0\n    3  294,7  46,3    5,7    2,3    0,7    0,7    0,0\n    4  278,7  33,7    1,0    0,7    0,3    0,3    0,0\n    5  341,7  42,0    3,7    2,0    1,0    0,3    0,0\n    6  458,3  72,0    3,0    0,3    0,0    0,0    0,0\n    7 1475,0 250,0   15,3    2,7    0,0    0,0    0,0\n    8  802,3  90,0    2,7    0,0    0,0    0,0    0,0\n    9 1106,7 153,3    9,7    2,3    0,0    0,0    0,0",
+      "natural_answer": "Retrieved 8 rows with columns: Page, 2.0um, 5.0um, 10.0um, 15.0um, 25.0um, 40.0um, 50.0um. Data shows measurements across pages 2-9, with 2.0um values ranging from 133.7 to 1475.0 and decreasing values at larger micrometer sizes.",
+      "cypher_used": "MATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(ges_cell:Cell)\nWHERE toLower(coalesce(ges_cell.text, '')) = 'ges.-mittel.'\n  AND ges_cell.col_index = 1\nWITH p.page_num AS page_num, t.table_id AS table_id, ges_cell.row_index AS ges_row_index\nORDER BY page_num ASC, table_id ASC\n\nMATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(value_cell:Cell)\nWHERE p.page_num = page_num\n  AND",
+      "all_validations_passed": true
+    },
+    {
+      "test_id": 3,
+      "query": "Get Ges.-Mittel. row data with all columns from all pages",
+      "description": "Tests generic table export functionality",
+      "success": true,
+      "duration_seconds": 31.302177,
+      "result_count": 8,
+      "iterations_used": 1,
+      "validations": [
+        {
+          "test_id": 3,
+          "check": "has_tabular_structure",
+          "passed": true,
+          "issues": []
+        },
+        {
+          "test_id": 3,
+          "check": "multi_page_aggregation",
+          "passed": true,
+          "issues": [],
+          "page_analysis": {
+            "total_rows": 8,
+            "unique_pages": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            "page_count": 8,
+            "rows_per_page": {
+              "2": 1,
+              "3": 1,
+              "4": 1,
+              "5": 1,
+              "6": 1,
+              "7": 1,
+              "8": 1,
+              "9": 1
+            }
+          }
+        }
+      ],
+      "issues": [],
+      "dataframe_preview": " Page 2.0 \u00b5m 5.0 \u00b5m 10.0 \u00b5m 15.0 \u00b5m 25.0 \u00b5m 40.0 \u00b5m 50.0 \u00b5m\n    2  133,7   22,7     1,7     0,3     0,0     0,0     0,0\n    3  294,7   46,3     5,7     2,3     0,7     0,7     0,0\n    4  278,7   33,7     1,0     0,7     0,3     0,3     0,0\n    5  341,7   42,0     3,7     2,0     1,0     0,3     0,0\n    6  458,3   72,0     3,0     0,3     0,0     0,0     0,0\n    7 1475,0  250,0    15,3     2,7     0,0     0,0     0,0\n    8  802,3   90,0     2,7     0,0     0,0     0,0     0,0\n    9 1106,7  153,3     9,7     2,3     0,0     0,0     0,0",
+      "natural_answer": "Retrieved 8 rows of Ges.-Mittel. data across pages 2-9 with columns: Page, 2.0 \u00b5m, 5.0 \u00b5m, 10.0 \u00b5m, 15.0 \u00b5m, 25.0 \u00b5m, 40.0 \u00b5m, and 50.0 \u00b5m. Values represent measurements in micrometers ranging from 0.0 to 1475.0.",
+      "cypher_used": "MATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(ges_cell:Cell)\nWHERE toLower(coalesce(ges_cell.text, '')) CONTAINS 'ges.-mittel.'\n  AND ges_cell.col_index = 1\nWITH p.page_num AS page_num, t.table_id AS table_id, ges_cell.row_index AS ges_row_index\nORDER BY page_num ASC, table_id ASC\n\nMATCH (d:Document {process_id: $process_id})-[:HAS_PAGE]->(p:Page)-[:CONTAINS_TABLE]->(t:Table)-[:HAS_CELL]->(value_cell:Cell)\nWHERE p.page_num = page_nu",
+      "all_validations_passed": true
+    }
+  ]
+}

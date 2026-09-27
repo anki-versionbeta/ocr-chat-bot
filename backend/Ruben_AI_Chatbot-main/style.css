@@ -1,0 +1,246 @@
+.inline-flex { display: inline-flex; }
+.items-center { align-items: center; }
+.cursor-pointer { cursor: pointer; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.peer:checked ~ span { background-color: #1db77c; }
+.peer:checked ~ span > span { transform: translateX(20px); }
+
+
+.chat-container .welcome-message i {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  color: var(--primary-color);
+  opacity: 0.5;
+}
+
+.p-6 { padding: 1.5rem; }
+
+html { 
+    transform: scale(0.97); 
+
+}
+aside::-webkit-scrollbar {
+  width: 6px;
+}
+aside::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+
+/* Chat messages */
+.chat-message {
+    display: inline-block;
+    max-width: 70%;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 14px;
+    line-height: 1.4;
+    border-radius: 20px;
+    position: relative;
+}
+
+.user-message {
+    background-color: #dcf8c6;
+    margin-left: auto;
+    text-align: right;
+}
+
+.bot-message, .system-message {
+    background-color: #f1f0f0;
+}
+
+/* Add extra spacing between sidebar children */
+.sidebar > * {
+  margin-bottom: 1rem; /* adds vertical space between items */
+}
+
+/* Increase padding inside select, buttons, and text elements */
+#sourceSelect,
+#browse_file,
+#browse_folder,
+#viewFiles,
+#dragDropContainer
+button,
+label p {
+  padding: 0.75rem 1.25rem; /* bigger padding */
+  font-size: 1rem;          /* comfortable font size */
+  line-height: 1.5;         /* more line height */
+}
+
+/* Add more gap inside flex/grid containers */
+.flex.flex-col.gap-4 {
+  gap: 2.5rem; /* increase gap between flex children */
+}
+
+
+#loadingText {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+.fade-out {
+  opacity: 0;
+}
+
+.upload-enabled {
+    background-color: #1db77c;    
+}
+
+.upload-disabled {
+    display: none;
+
+}
+
+
+/* Add a little arrow to each bubble */
+.user-message::after, .bot-message::after, .system-message::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    display: block;
+    top: 10px;
+}
+
+
+
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.typing-indicator .message-content {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  min-width: 64px;
+}
+
+.typing-dot {
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: var(--light-text);
+  border-radius: 50%;
+  animation: typing-animation 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-animation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Input container */
+.input-container {
+  padding: 16px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  background-color: #64748b;
+  height: 30vh;
+}
+
+.input-container .form-control {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  background-color: white;
+  transition: border-color var(--transition-fast);
+}
+
+.input-container .form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.input-container .btn {
+  margin-left: 12px;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  transition: background-color var(--transition-fast);
+}
+
+.input-container .btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.input-container .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* bouncing loader*/
+
+#loader-container {
+  position: absolute; /* or fixed if you want it to overlay entire screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*background-color: rgba(255, 255, 255, 0.6); /* optional: semi-transparent background */
+  z-index: 999;
+}
+
+.bouncing-loader {
+  display: flex;
+  gap: 8px;
+}
+
+.bouncing-loader div {
+  width: 12px;
+  height: 12px;
+  background-color: #1db77c;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.bouncing-loader div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bouncing-loader div:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-15px);
+  }
+}
+

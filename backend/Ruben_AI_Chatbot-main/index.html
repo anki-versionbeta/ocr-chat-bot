@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Audit Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"
+    />
+
+    <!-- Styles -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="h-screen overflow-hidden bg-[#f8fafc] text-gray-800">
+    <div
+      class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
+      style="--select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(100,135,121)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e'); font-family: Lexend, 'Noto Sans', sans-serif;"
+    >
+      <div class="layout-container flex h-full flex-col">
+        <!-- Header -->
+        <header class="flex items-center justify-between border-b border-gray-200 px-10 py-4 bg-white shadow-sm">
+          <div class="flex items-center gap-4 text-[#111715]">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_6_319)">
+                  <path
+                    d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+                <defs>
+                  <clipPath id="clip0_6_319">
+                    <rect width="48" height="48" fill="white"></rect>
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Audit Chatbot</h2>
+          </div>
+          <button class="bg-[#1db77c] text-white px-4 py-2 rounded-lg hover:bg-[#17a96f]" id="clearSession">
+            Clear Session
+          </button>
+        </header>
+
+        <div class="flex flex-1 overflow-hidden min-h-0">
+          <!-- Sidebar -->
+          <aside class="flex flex-col gap-8 border-r border-gray-200 bg-gray-50 min-w-[180px] max-w-[400px] w-full sm:w-[22vw] flex-shrink-0 p-4 sm:p-6 md:p-8 transition-all duration-300 overflow-y-auto max-h-screen">
+<!--           <aside class="flex flex-col gap-8 border-r border-gray-200 bg-gray-50 min-w-[180px] max-w-[400px] w-full sm:w-[22vw] flex-shrink-0 p-4 sm:p-6 md:p-8 transition-all duration-300"> -->
+            <div class="flex flex-1 flex-col justify-start min-h-0">
+              <h3 class="text-lg font-bold leading-tight tracking-[-0.015em] px-2 sm:px-4 pb-2 pt-4">Source</h3>
+              <div class="flex flex-wrap items-end gap-4 sm:gap-6 max-w-full mb-4">
+                <label class="flex flex-col min-w-[120px] sm:min-w-[160px] flex-1">
+                  <select
+                    id="sourceSelect"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111715] focus:outline-0 focus:ring-0 border-none bg-[#f0f4f3] focus:border-none h-12 sm:h-14 placeholder:text-[#648779] p-3 sm:p-4 pr-10 sm:pr-12 text-base font-normal leading-normal bg-no-repeat bg-[length:1rem_auto] bg-[right_1rem_center_image:var(--select-button-svg)]"
+                  >
+                    <option value="">Select a source</option>
+                  </select>
+                </label>
+              </div>
+              <div class="p-2 sm:p-4 flex justify-center">
+                <button class="bg-[#1db77c] text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-[#17a96f] w-full max-w-xs" id="viewFiles">
+                  View Files
+                </button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-2 sm:gap-3 p-2 sm:p-4 ">
+                <!-- Upload Folder/File UI -->
+                <div class="flex flex-col gap-4 sm:gap-6 min-w-0">
+                  <!-- Toggle Button -->
+                  <div class="flex items-center justify-center gap-2 sm:gap-4 mb-2 sm:mb-4">
+                    <span class="text-[#111715] font-medium">File</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" id="toggleType" class="sr-only peer" checked />
+                      <div class="w-9 sm:w-11 h-5 sm:h-6 bg-[#1db77c] peer-focus:outline-none rounded-full transition-all"></div>
+                      <div class="absolute left-1 top-1 bg-white w-3 sm:w-4 h-3 sm:h-4 rounded-full transition-all peer-checked:translate-x-4 sm:peer-checked:translate-x-5"></div>
+                    </label>
+                    <span class="text-[#111715] font-medium">Folder</span>
+                  </div>
+                  <!-- Drag and Drop Box -->
+                  <div id="dragDropContainer">
+                    <div
+                      id="documentFile"
+                      class="flex flex-col items-center justify-center border-2 border-dashed border-[#1db77c] rounded-xl p-4 sm:p-6 bg-[#f0f4f3] cursor-pointer transition-all"
+                      style="display: none;"
+                      ondragover="event.preventDefault();"
+                    >
+                      <span class="w-auto text-center block text-[#648779]">Drag & drop a file here,</span>
+                      <span class="w-auto text-center block text-[#648779]">-or-</span>
+                      <input type="file" id="fileInput" class="hidden" multiple />
+                      <button id="browse_file" class="mt-2 sm:mt-3 px-3 sm:px-4 py-2 bg-[#1db77c] text-white rounded-xl font-medium mx-auto block w-full max-w-xs">Browse Files</button>
+                    </div>
+                    <div
+                      id="documentFolder"
+                      class="flex flex-col items-center justify-center border-2 border-dashed border-[#1db77c] rounded-xl p-4 sm:p-6 bg-[#f0f4f3] cursor-pointer transition-all"
+                      style="display: block;"
+                      ondragover="event.preventDefault();"
+                    >
+                      <span class="w-auto text-center block text-[#648779]">Upload a Folder here</span>
+                      <input type="file" id="folderInput" class="hidden" webkitdirectory directory multiple />
+                      <button id="browse_folder" class="mt-2 sm:mt-3 px-3 sm:px-4 py-2 bg-[#1db77c] text-white rounded-xl font-medium mx-auto block w-full max-w-xs">Browse Folder</button>
+                    </div>
+                  </div>
+                  <!-- Upload Buttons -->
+                  <div class="flex justify-center mt-2 sm:mt-4 gap-2">
+                    <button
+                      id="uploadFolderBtn"
+                      class="px-3 sm:px-4 py-2 text-white rounded-xl font-medium mx-auto block w-full max-w-xs"
+                      type="button"
+                      disabled
+                      style="display: none;"
+                    >
+                      Upload Folder
+                    </button>
+                    <button
+                      id="uploadBtn"
+                      class="px-3 sm:px-4 py-2 text-white rounded-xl font-medium mx-auto block w-full max-w-xs"
+                      type="button"
+                      disabled
+                      style="display: none;"
+                    >
+                      Upload Files
+                    </button>
+                  </div>
+                  <div id="selectedFiles" class="mt-2 px-2 text-[#111715] text-sm space-y-1 overflow-auto max-h-[120px] sm:max-h-[150px]"></div>
+                </div>
+              </div>
+              <!-- Progress Bar -->
+              <div class="flex flex-col items-center justify-center px-2 sm:px-4 py-4 sm:py-6">
+                <div id="uploadProgress" class="w-full max-w-xs sm:max-w-sm bg-gray-200 rounded-full overflow-hidden hidden">
+                  <div
+                    class="h-2 sm:h-3 bg-[#1db77c] transition-all duration-300"
+                    style="width: 0%;"
+                    role="progressbar"
+                  ></div>
+                </div>
+                <div id="loadingText" class="text-xs sm:text-sm text-gray-600 mt-2 italic text-center"></div>
+              </div>
+            </div>
+          </aside>
+          <!-- Main Content -->
+          <section class="flex flex-col flex-1 overflow-hidden">
+            <main class="layout-content-container flex flex-col flex-1 overflow-hidden bg-white shadow-inner">
+              <div id="chatContainer" class="flex flex-col gap-4 flex-1 overflow-y-auto p-4 sm:p-6 space-y-4"></div>
+              <div class="flex items-center px-4 py-3 gap-3 border-t bg-white">
+                <input
+                  type="text"
+                  placeholder="Ask a Question..."
+                  class="form-input flex w-auto min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111715] focus:outline-0 focus:ring-0 border-none bg-[#f0f4f3] h-12 placeholder:text-[#648779] px-4 text-base font-normal leading-normal"
+                  id="messageInput"
+                />
+                <button
+                  class="min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-4 bg-[#1db77c] text-[#111715] text-sm font-medium leading-normal disabled:opacity-50"
+                  id="sendBtn"
+                >
+                  Send
+                </button>
+              </div>
+            </main>
+          </section>
+        </div>
+        <div id="loader-container" style="display: none;"></div>
+        <!-- Modal for source contents -->
+        <div id="sourceModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden pointer-events-none">
+          <div class="bg-white rounded-xl shadow-lg p-8 min-w-[600px] max-w-[900px] w-full pointer-events-auto">
+            <h2 class="text-lg font-bold mb-4 text-[#111715]">Available Contents</h2>
+            <div class="flex items-center mb-2"></div>
+            <div id="documentModal" class="mb-6 text-[#111715] text-base font-medium space-y-2 overflow-y-auto max-h-[50vh]"></div>
+            <button
+              onclick="document.getElementById('sourceModal').classList.add('hidden')"
+              class="mt-2 px-4 py-2 bg-[#1db77c] text-white rounded-xl font-medium"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+      <script src="script.js"></script>
+    </div>
+  </body>
+</html>
